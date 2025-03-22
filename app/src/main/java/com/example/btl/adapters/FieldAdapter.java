@@ -35,7 +35,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Field field = fieldList.get(position);
+        /*Field field = fieldList.get(position);
         holder.fieldName.setText(field.getName());
         holder.fieldAddress.setText(field.getAddress());
         holder.fieldNumber.setText("Số điện thoại: " + field.getNumber());
@@ -60,7 +60,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
             if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
                 context.startActivity(mapIntent);
             }
-        });
+        });*/
     }
 
     @Override
