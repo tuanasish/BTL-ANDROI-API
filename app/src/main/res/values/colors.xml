@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="selected_color">#FF9800</color> <!-- Màu cam khi chọn -->
+    <color name="default_color">#E0E0E0</color> <!-- Màu xám khi chưa chọn -->
+    <color name="purple_500">#340883</color>
+    <color name="between_slot_color">#FFC107</color>
+    <color name="primary">#6200EE</color>
+    <color name="secondary">#03DAC5</color>
+ 
+    <!-- Các màu khác mà bạn muốn sử dụng --><!-- Màu vàng, bạn có thể đổi màu khác nếu muốn -->
+</resources>

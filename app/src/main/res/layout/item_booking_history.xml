@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:elevation="2dp">
+
+    <!-- Danh sách các sân đã đặt -->
+    <TextView
+        android:id="@+id/txtFieldName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sân: "
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txtTimeSlot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Khung giờ: "
+        android:textSize="14sp"
+        android:textColor="@android:color/black"/>
+</LinearLayout>
