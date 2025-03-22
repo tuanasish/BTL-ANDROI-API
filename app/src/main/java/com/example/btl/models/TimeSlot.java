@@ -17,7 +17,6 @@ public class TimeSlot implements Parcelable {
 
     public TimeSlot(String fieldName, String time, int status, int totalPrice, String bookedDate) {
         this.fieldName = fieldName;
-        fixFieldName();
         this.time = time;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -82,12 +81,6 @@ public class TimeSlot implements Parcelable {
     public void setStatus(int status) {
         this.status = status;
     }
-    public void fixFieldName() {
-        if (fieldName.contains("Sân nhỏ")) {
-            fieldName = fieldName.replace("Sân nhỏ", "PickelBall");
-        }
-    }
-
 
     @Override
     public int describeContents() {
