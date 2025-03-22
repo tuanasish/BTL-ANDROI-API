@@ -1,0 +1,253 @@
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: Booking_BE
+-- ------------------------------------------------------
+-- Server version	9.2.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Bookings`
+--
+
+DROP TABLE IF EXISTS `Bookings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Bookings` (
+  `booking_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `court_id` int NOT NULL,
+  `date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `total_price` decimal(10,2) DEFAULT NULL,
+  `booking_status` enum('pending','confirmed','cancelled') DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`booking_id`),
+  KEY `user_id` (`user_id`),
+  KEY `field_id` (`field_id`),
+  KEY `court_id` (`court_id`),
+  CONSTRAINT `Bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
+  CONSTRAINT `Bookings_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `Fields` (`field_id`),
+  CONSTRAINT `Bookings_ibfk_3` FOREIGN KEY (`court_id`) REFERENCES `courts` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Bookings`
+--
+
+LOCK TABLES `Bookings` WRITE;
+/*!40000 ALTER TABLE `Bookings` DISABLE KEYS */;
+INSERT INTO `Bookings` VALUES (5,1,2,1,'2025-03-15','17:00:00','18:00:00',100.00,'pending','2025-03-13 23:33:04','2025-03-13 23:33:04');
+/*!40000 ALTER TABLE `Bookings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Fields`
+--
+
+DROP TABLE IF EXISTS `Fields`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Fields` (
+  `field_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `type` enum('Cầu lông','Pick','Bóng đá','Tenis') NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `capacity` int DEFAULT NULL,
+  `description` text,
+  `images` text,
+  PRIMARY KEY (`field_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Fields`
+--
+
+LOCK TABLES `Fields` WRITE;
+/*!40000 ALTER TABLE `Fields` DISABLE KEYS */;
+INSERT INTO `Fields` VALUES (1,'Sân A','123 Đường ABC, Quận 1','Bóng đá',500000.00,10,'Sân cỏ nhân tạo chất lượng cao.','image1.jpg'),(2,'Sân B','456 Đường XYZ, Quận 2','Cầu lông',300000.00,8,'Sân có đầy đủ rổ và ánh sáng tốt.','image2.jpg'),(3,'Sân C','789 Đường LMN, Quận 3','Cầu lông',200000.00,4,'Sân cầu lông tiêu chuẩn thi đấu.','image3.jpg'),(4,'Sân D','321 Đường UVW, Quận 4','Cầu lông',250000.00,12,'Sân có lưới tiêu chuẩn.','image4.jpg'),(5,'Sân E','654 Đường DEF, Quận 5','Bóng đá',550000.00,15,'Sân rộng rãi, phù hợp tổ chức giải đấu.','image5.jpg'),(6,'Sân F','987 Đường GHI, Quận 6','Cầu lông',600000.00,2,'Sân tennis cao cấp với nền đất nện.','image6.jpg'),(7,'Sân G','741 Đường JKL, Quận 7','Cầu lông',180000.00,6,'Sân có trần cao, không bị chói sáng.','image7.jpg'),(8,'Sân H','852 Đường MNO, Quận 8','Cầu lông',150000.00,2,'Sân bóng bàn chuyên nghiệp.','image8.jpg'),(9,'Sân I','963 Đường PQR, Quận 9','Bóng đá',520000.00,10,'Sân có hệ thống đèn chiếu sáng hiện đại.','image9.jpg'),(10,'Sân J','159 Đường STU, Quận 10','Cầu lông',320000.00,8,'Sân bóng rổ có sàn gỗ chuyên dụng.','image10.jpg');
+/*!40000 ALTER TABLE `Fields` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Payments`
+--
+
+DROP TABLE IF EXISTS `Payments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Payments` (
+  `payment_id` int NOT NULL AUTO_INCREMENT,
+  `booking_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_method` varchar(50) DEFAULT NULL,
+  `payment_status` enum('pending','completed','failed') DEFAULT 'pending',
+  `payment_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`payment_id`),
+  KEY `booking_id` (`booking_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `Payments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Payments`
+--
+
+LOCK TABLES `Payments` WRITE;
+/*!40000 ALTER TABLE `Payments` DISABLE KEYS */;
+INSERT INTO `Payments` VALUES (1,1,1,500000.00,'Credit Card','completed','2025-03-03 03:14:16'),(2,2,2,300000.00,'PayPal','completed','2025-03-03 03:14:16'),(3,3,3,200000.00,'Bank Transfer','pending','2025-03-03 03:14:16'),(4,4,4,250000.00,'Cash','completed','2025-03-03 03:14:16'),(5,5,5,550000.00,'Credit Card','failed','2025-03-03 03:14:16'),(6,6,6,500000.00,'Cash','completed','2025-03-03 03:14:16'),(7,7,7,300000.00,'Bank Transfer','pending','2025-03-03 03:14:16'),(8,8,8,200000.00,'Credit Card','completed','2025-03-03 03:14:16'),(9,9,9,250000.00,'PayPal','completed','2025-03-03 03:14:16'),(10,10,10,550000.00,'Bank Transfer','pending','2025-03-03 03:14:16');
+/*!40000 ALTER TABLE `Payments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Reviews`
+--
+
+DROP TABLE IF EXISTS `Reviews`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Reviews` (
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `field_id` int NOT NULL,
+  `rating` int DEFAULT NULL,
+  `comment` text,
+  `review_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`review_id`),
+  KEY `user_id` (`user_id`),
+  KEY `field_id` (`field_id`),
+  CONSTRAINT `Reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`),
+  CONSTRAINT `Reviews_ibfk_2` FOREIGN KEY (`field_id`) REFERENCES `Fields` (`field_id`),
+  CONSTRAINT `Reviews_chk_1` CHECK ((`rating` between 1 and 5))
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Reviews`
+--
+
+LOCK TABLES `Reviews` WRITE;
+/*!40000 ALTER TABLE `Reviews` DISABLE KEYS */;
+INSERT INTO `Reviews` VALUES (1,1,1,5,'Sân rất đẹp và rộng rãi!','2025-03-03 03:14:12'),(2,2,2,4,'Sân tốt nhưng hơi đông vào buổi tối.','2025-03-03 03:14:12'),(3,3,3,5,'Mặt sân đẹp, không bị trơn.','2025-03-03 03:14:12'),(4,4,4,3,'Lưới hơi cũ nhưng vẫn chơi được.','2025-03-03 03:14:12'),(5,5,5,5,'Tuyệt vời! Sẽ quay lại lần sau.','2025-03-03 03:14:12'),(6,6,1,4,'Giá hơi cao nhưng chất lượng xứng đáng.','2025-03-03 03:14:12'),(7,7,2,5,'Sân rổ đạt chuẩn, rất thích.','2025-03-03 03:14:12'),(8,8,3,3,'Sân hơi nhỏ nhưng ổn với giá này.','2025-03-03 03:14:12'),(9,9,4,5,'Phục vụ chu đáo, sân sạch sẽ.','2025-03-03 03:14:12'),(10,10,5,4,'Có chỗ gửi xe tiện lợi.','2025-03-03 03:14:12');
+/*!40000 ALTER TABLE `Reviews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TimeSlots`
+--
+
+DROP TABLE IF EXISTS `TimeSlots`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TimeSlots` (
+  `slot_id` int NOT NULL AUTO_INCREMENT,
+  `field_id` int NOT NULL,
+  `booking_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `status` enum('available','booked') DEFAULT 'available',
+  PRIMARY KEY (`slot_id`),
+  KEY `field_id` (`field_id`),
+  CONSTRAINT `TimeSlots_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `Fields` (`field_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TimeSlots`
+--
+
+LOCK TABLES `TimeSlots` WRITE;
+/*!40000 ALTER TABLE `TimeSlots` DISABLE KEYS */;
+INSERT INTO `TimeSlots` VALUES (1,1,'2025-03-05','08:00:00','10:00:00','available'),(2,1,'2025-03-05','10:30:00','12:30:00','booked'),(3,2,'2025-03-06','14:00:00','16:00:00','available'),(4,2,'2025-03-06','16:30:00','18:30:00','booked'),(5,3,'2025-03-07','09:00:00','11:00:00','available'),(6,3,'2025-03-07','11:30:00','13:30:00','booked'),(7,4,'2025-03-08','15:00:00','17:00:00','available'),(8,4,'2025-03-08','17:30:00','19:30:00','booked'),(9,5,'2025-03-09','07:00:00','09:00:00','available'),(10,5,'2025-03-09','09:30:00','11:30:00','booked');
+/*!40000 ALTER TABLE `TimeSlots` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Users`
+--
+
+DROP TABLE IF EXISTS `Users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `role` enum('customer','admin','manager') DEFAULT 'customer',
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Users`
+--
+
+LOCK TABLES `Users` WRITE;
+/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
+INSERT INTO `Users` VALUES (1,'john_doe','password123','john.doe@example.com','0123456789','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(2,'jane_smith','securepass456','jane.smith@example.com','0987654321','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(3,'admin_user','adminpass789','admin@example.com','0912345678','admin','2025-03-05 14:52:11','2025-03-05 14:52:21'),(4,'mike_taylor','mikepass001','mike.taylor@example.com','0900123456','manager','2025-03-05 14:52:11','2025-03-05 14:52:21'),(5,'lucy_williams','lucypass234','lucy.williams@example.com','0934567890','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(6,'james_brown','jamespass567','james.brown@example.com','0986123456','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(7,'admin_john','adminpass888','john_admin@example.com','0978123456','admin','2025-03-05 14:52:11','2025-03-05 14:52:21'),(8,'elizabeth_green','elizpass123','elizabeth.green@example.com','0911223344','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(9,'david_lee','davidpass654','david.lee@example.com','0922334455','manager','2025-03-05 14:52:11','2025-03-05 14:52:21'),(10,'paul_clark','paulpass987','paul.clark@example.com','0944556677','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(11,'john_doe','password123','john.doe@example.com','0123456789','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(12,'jane_smith','securepass456','jane.smith@example.com','0987654321','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(13,'admin_user','adminpass789','admin@example.com','0912345678','admin','2025-03-05 14:52:11','2025-03-05 14:52:21'),(14,'mike_taylor','mikepass001','mike.taylor@example.com','0900123456','manager','2025-03-05 14:52:11','2025-03-05 14:52:21'),(15,'lucy_williams','lucypass234','lucy.williams@example.com','0934567890','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(16,'james_brown','jamespass567','james.brown@example.com','0986123456','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(17,'admin_john','adminpass888','john_admin@example.com','0978123456','admin','2025-03-05 14:52:11','2025-03-05 14:52:21'),(18,'elizabeth_green','elizpass123','elizabeth.green@example.com','0911223344','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(19,'david_lee','davidpass654','david.lee@example.com','0922334455','manager','2025-03-05 14:52:11','2025-03-05 14:52:21'),(20,'paul_clark','paulpass987','paul.clark@example.com','0944556677','customer','2025-03-05 14:52:11','2025-03-05 14:52:21'),(21,'hello','abc123','john.doe@example.com','1234567890','customer','2025-03-06 15:01:47','2025-03-06 15:01:47'),(22,'hello','abc123','john.doe@example.com','1234567890','admin','2025-03-06 15:31:14','2025-03-06 15:31:14'),(23,'hello','abc123','john.doe@example.com','1234567890','admin','2025-03-06 15:31:44','2025-03-06 15:31:44'),(24,'hello','$2a$10$boKGyozga9PKpNZKIaaxXeUHtbqfbiFxFTyvJT8NjfBToeqMgFTg6','john.doe@example.com','1234567890','admin','2025-03-06 15:43:02','2025-03-06 15:43:02'),(25,'hello','$2a$10$ceht/H62W8tmI/cWyUHw1OWUusc.nmIlYsoAUZVlPjeXb.aZXuj/C','john.doe@example.com','1234567890','admin','2025-03-06 15:43:29','2025-03-06 15:43:29'),(26,'hello','$2a$10$BUY4Qw2gvaJ5GGrCR8nHPeTEgd6FfATcUrVK4NfJWml9ZUMFJUMcq','john.doe@example.com','1234567890','admin','2025-03-06 15:44:44','2025-03-06 15:44:44'),(27,'hello','$2a$10$ZOmkaU5X3VKTEqjQHXsRhupypdwGaQcmv6rIl9ereKjcqNBKe9cV6','john.doe@example.com','1234567890','admin','2025-03-06 15:47:51','2025-03-06 15:47:51'),(28,'hello','$2a$10$va.B1fwaHRZZ2o7BqAp7pehlnMkLMOCB2yTL0cM/jEn8EitmnmL/q','john.doe@example.com','1234567890','admin','2025-03-06 16:03:38','2025-03-06 16:03:38'),(29,'hello','$2a$10$UTxRaDJWtVNYz5CM2Din3.cH4/km2vw/Ypcq7Y.EAP9vp/jE4NoNi','john.doe@example.com','1234567890','admin','2025-03-06 16:05:23','2025-03-06 16:05:23'),(30,'hello','$2a$10$3Aw/cg4hePMKEnWfXHa35eI37HdZ8ynPaR7HDyd.HIecguIABJCP2','john.doe@example.com','1234567890','admin','2025-03-06 16:08:20','2025-03-06 16:08:20'),(31,'hello','$2a$10$HsU5Hp3U3HpdB.HgBzyow.Jbr9ietFwVAMp8TYg6nRoNKkw.jnzzK','john.doe@example.com','1234567890','admin','2025-03-06 16:10:31','2025-03-06 16:10:31'),(32,'hello','$2a$10$Lt3Tk2k.QyqZ4fTnP6j5HejocsocMa8IhxymvM4eoQKvya/byX6pu','john.doe@example.com','1234567890','admin','2025-03-06 16:16:38','2025-03-06 16:16:38'),(33,'hello','$2a$10$8VrCg.jfMBh.jDYVLhpWSOtKhsLy/ScCPCUgC5QMaTwfrmvXgj7uW','john.doe@example.com','1234567890','admin','2025-03-06 16:18:58','2025-03-06 16:18:58'),(34,'hello','$2a$10$6suvaURCQ.VwJY22kp6EV.L0yC7Ckcml3YG/b0UrQ8feobDTlz0i.','john.doe@example.com','1234567890','admin','2025-03-06 16:27:38','2025-03-06 16:27:38'),(35,'hello','$2a$10$B/4zKK03pwRPPkWvAyFrIOt9c0jmR73Zkp5ZNI2anqucduJbBwoPC','john.doe@example.com','1234567890','admin','2025-03-06 16:28:22','2025-03-06 16:28:22'),(36,'hello','$2a$10$1V9kDwEFDgsZ4XRRHxS0UuuhkCRFlIOCeLJycn1tVYzXmGIveBASy','john.doe@example.com','1234567890','admin','2025-03-06 16:30:00','2025-03-06 16:30:00'),(37,'hello','$2a$10$Oix6OFzIaW/qES7ZhpVa.OGO574jztsrUP3r1rfT2mHWrVgY8rg0u','john.doe@example.com','1234567890','admin','2025-03-09 02:31:21','2025-03-09 02:31:21'),(38,'hello','$2a$10$UqSbEMS8dlmXpLwt5w31tuSHQc33J6r9R6SeEShIK51OOmIfZfb16','john.doe@example.com','1234567890','admin','2025-03-09 02:37:02','2025-03-09 02:37:02'),(39,'hello','$2a$10$H002u4Oq9u8N8CdjnREC2ODx.UQksTdIi9vvTJOX42cSYrIOTsHgy','john.doe@example.com','1234567890','admin','2025-03-09 02:38:05','2025-03-09 02:38:05'),(40,'hello','$2a$10$H/UC2B6m/PEOMd1ojHXQye6LkrrFfvGeFiWivNKtz30ynn3otN.hC','john.doe@example.com','1234567890','admin','2025-03-09 02:41:50','2025-03-09 02:41:50'),(41,'hello','$2a$10$GpHOyi9Bj42NT05MZGZ5Xe5MCkBxL/hOGYAPA99nymQFa/WjduyiW','john.doe@example.com','1234567890','admin','2025-03-09 02:42:40','2025-03-09 02:42:40'),(42,'hello','$2a$10$DfH8Ou7CrJ/4q3Z6323QU.kFPgeB2Po4NuB/RJWBME6c7yuhwqeiy','john.doe@example.com','1234567890','admin','2025-03-09 02:51:02','2025-03-09 02:51:02'),(43,'hello','$2a$10$oBDRu/K28j2ziBSiITJQSe/9IXC4N1ER9Ffbk7CafdCH0.ZWJAQG2','john.doe@example.com','1234567890','admin','2025-03-09 02:55:37','2025-03-09 02:55:37'),(44,'hello','$2a$10$6quvVu8bbofeQMv2H5KyeONuh7P0B.PZBxEOO.DDfXFI2a2rtH5wq','john.doe@example.com','1234567890','admin','2025-03-09 03:10:09','2025-03-09 03:10:09'),(45,'hello','$2a$10$HAlMyAN9cm4icgRItbBX5ewytzsvGl07FK/KzI1WLHMyj9txbK7ES','john.doe@example.com','1234567890','admin','2025-03-09 03:13:02','2025-03-09 03:13:02'),(46,'hello','$2a$10$8DjeodRTE6fya7Nvj2Uqjemsw/9lLBWtcPExJxSoVtUFrabehORx.','john.doe@example.com','1234567890','admin','2025-03-09 03:17:14','2025-03-09 03:17:14');
+/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `courts`
+--
+
+DROP TABLE IF EXISTS `courts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `courts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `field_id` int NOT NULL,
+  `court_number` int NOT NULL,
+  `status` varchar(50) DEFAULT 'available',
+  PRIMARY KEY (`id`),
+  KEY `field_id` (`field_id`),
+  CONSTRAINT `courts_ibfk_1` FOREIGN KEY (`field_id`) REFERENCES `Fields` (`field_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `courts`
+--
+
+LOCK TABLES `courts` WRITE;
+/*!40000 ALTER TABLE `courts` DISABLE KEYS */;
+INSERT INTO `courts` VALUES (1,1,1,'available');
+/*!40000 ALTER TABLE `courts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'Booking_BE'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-03-21 22:54:11
