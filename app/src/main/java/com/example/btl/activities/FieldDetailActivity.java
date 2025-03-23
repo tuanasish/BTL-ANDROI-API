@@ -30,6 +30,7 @@ public class FieldDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field_detail);
 
+        // Ánh xạ các thành phần giao diện
         fieldImage = findViewById(R.id.fieldImage);
         fieldName = findViewById(R.id.fieldName);
         fieldAddress = findViewById(R.id.fieldAddress);
@@ -38,7 +39,7 @@ public class FieldDetailActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
 
-        // Tạo adapter cho ViewPager2
+        // Tạo adapter cho ViewPager2 để hiển thị thông tin chi tiết sân
         adapterDetailField = new DetailFragentAdapterField(this);
         viewPager2.setAdapter(adapterDetailField);
 
@@ -68,6 +69,7 @@ public class FieldDetailActivity extends AppCompatActivity {
             String number = intent.getStringExtra("number");
             int image = intent.getIntExtra("image", R.drawable.ic_launcher_background);
 
+            // Hiển thị thông tin sân lớn
             fieldName.setText(name);
             fieldAddress.setText(address);
             fieldNumber.setText("Số điện thoại: " + number);
