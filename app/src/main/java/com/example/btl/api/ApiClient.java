@@ -5,7 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiTimeSlotClient {
+public class ApiClient {
     public static final String BASE_URL = "http://localhost:6000/v1/";
 
     private static Retrofit retrofit = null;
