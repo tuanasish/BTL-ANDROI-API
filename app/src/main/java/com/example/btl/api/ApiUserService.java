@@ -14,7 +14,7 @@ public class ApiUserService {
     }
 
     // Lấy thông tin User theo ID
-    public void getUserById(int id, ApiCallback<User> callback) {
+    public void getUserById(String email, int id, ApiCallback<User> callback) {
         api.getById(id).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
 import com.example.btl.adapters.TimeSlotAdapter;
+import com.example.btl.api.ApiTimeSlotService;
 import com.example.btl.models.TimeSlot;
 import com.example.btl.utils.BookingDatabaseHelper;
 
@@ -38,6 +39,7 @@ public class BookingActivity extends AppCompatActivity {
 
     private final int pricePerSlot = 60000;
     private int totalCost = 0;
+    private ApiTimeSlotService api;
 
     private BookingDatabaseHelper bookingDatabaseHelper;
 
@@ -56,7 +58,7 @@ public class BookingActivity extends AppCompatActivity {
         fieldImage = findViewById(R.id.fieldImage);
         selectedDateText = findViewById(R.id.selectedDateText);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         // Mở DB
         bookingDatabaseHelper = new BookingDatabaseHelper(this);
@@ -108,6 +110,7 @@ public class BookingActivity extends AppCompatActivity {
 
             startActivity(confirmIntent);
         });
+
     }
 
     // Cập nhật giá tiền khi chọn khung giờ
