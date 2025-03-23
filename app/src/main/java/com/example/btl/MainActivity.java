@@ -2,6 +2,7 @@ package com.example.btl;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar; // ✅ CHỈNH Ở ĐÂY
 import androidx.fragment.app.Fragment;
 
 import com.example.btl.fragments.AccountFragment;
@@ -17,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Gắn Toolbar với ActionBar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar); // ✅ Đúng cách
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -39,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Hàm hỗ trợ chuyển fragment
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()

@@ -72,9 +72,15 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         txtBookedSlots.setText(bookingDetails.toString().trim());
 
         btnConfirm.setOnClickListener(v -> {
+            String bookedDate = txtDate.getText().toString();
+
+            // Gán thêm địa chỉ và số điện thoại vào từng slot
             for (TimeSlot slot : selectedSlots) {
-                databaseHelper.addBooking(slot, txtDate.getText().toString(), totalCost);
+                slot.setFieldAddress(fieldAddress);
+                slot.setFieldNumber(fieldNumber);
+                databaseHelper.addBooking(slot, bookedDate, totalCost);
             }
+
             startActivity(new Intent(ConfirmBookingActivity.this, SuccessActivity.class));
             finish();
         });

@@ -1,112 +1,79 @@
 package com.example.btl.adapters;
 
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.btl.R;
 import com.example.btl.models.TimeSlot;
-import java.util.ArrayList;
+
 import java.util.List;
 
-public class BookingHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int VIEW_TYPE_HEADER = 0;
-    private static final int VIEW_TYPE_ITEM = 1;
+public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAdapter.ViewHolder> {
 
-    private List<TimeSlot> bookedSlots;
-    private String bookedDate;
-    private int totalCost;
+    private final Context context;
+    private final List<TimeSlot> bookings;
+    private OnItemClickListener listener;
 
-    public BookingHistoryAdapter() {
-        this.bookedSlots = new ArrayList<>();
-        this.bookedDate = "";
-        this.totalCost = 0;
+    public interface OnItemClickListener {
+        void onItemClick(TimeSlot slot);
     }
 
-    public void updateList(List<TimeSlot> newList, String newDate, int newTotal) {
-        Log.d("BookingHistoryAdapter", "🔹 updateList() called");
-        Log.d("BookingHistoryAdapter", "📅 newDate: " + newDate + ", 💰 newTotal: " + newTotal);
-        Log.d("BookingHistoryAdapter", "🕑 Slot count: " + (newList != null ? newList.size() : 0));
-
-        if (newList == null) return; // Tránh lỗi null
-        bookedSlots.clear();
-        bookedSlots.addAll(newList);
-        bookedDate = newDate;
-        totalCost = newTotal;
-
-        notifyDataSetChanged();
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
+    public BookingHistoryAdapter(Context context, List<TimeSlot> bookings) {
+        this.context = context;
+        this.bookings = bookings;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_HEADER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.booking_history_header, parent, false);
-            return new BookingHeaderViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking_history, parent, false);
-            return new BookingViewHolder(view);
-        }
+    public BookingHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_booking_history, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof BookingHeaderViewHolder) {
-            BookingHeaderViewHolder headerHolder = (BookingHeaderViewHolder) holder;
+    public void onBindViewHolder(@NonNull BookingHistoryAdapter.ViewHolder holder, int position) {
+        TimeSlot slot = bookings.get(position);
 
-            if (bookedDate == null || bookedDate.isEmpty()) {
-                headerHolder.txtBookedDate.setText("Ngày đặt: Không có dữ liệu");
-            } else {
-                headerHolder.txtBookedDate.setText("Ngày đặt: " + bookedDate);
+        holder.txtFieldName.setText("Sân: " + slot.getFieldName());
+        holder.txtFieldAddress.setText("Địa chỉ: " + slot.getFieldAddress());
+        holder.txtFieldNumber.setText("SĐT: " + slot.getFieldNumber());
+        holder.txtBookedDate.setText("Ngày đặt: " + slot.getBookedDate());
+        holder.txtTimeSlot.setText("Khung giờ: " + slot.getTime());
+        holder.txtTotalPrice.setText("Tổng tiền: " + slot.getTotalPrice() + " VND");
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(slot);
             }
-
-            headerHolder.txtTotalPrice.setText("Tổng tiền: " + totalCost + " VND");
-
-            Log.d("BookingHistoryAdapter", "📢 Header displayed - Date: " + bookedDate + ", Total: " + totalCost);
-        } else if (holder instanceof BookingViewHolder) {
-            BookingViewHolder itemHolder = (BookingViewHolder) holder;
-            TimeSlot slot = bookedSlots.get(position - 1); // Header chiếm vị trí đầu tiên
-
-            String fieldName = slot.getFieldName();
-            if (fieldName.contains("Sân nhỏ")) {
-                fieldName = fieldName.replace("Sân nhỏ", "PickelBall");
-            }
-            itemHolder.txtFieldName.setText("Sân: " + fieldName);
-            itemHolder.txtTimeSlot.setText("Khung giờ: " + slot.getTime());
-        }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return bookedSlots.size() + 1; // Thêm 1 cho header
+        return bookings.size();
     }
 
-    public static class BookingHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView txtBookedDate, txtTotalPrice;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView txtFieldName, txtFieldAddress, txtFieldNumber, txtBookedDate, txtTimeSlot, txtTotalPrice;
 
-        public BookingHeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            txtBookedDate = itemView.findViewById(R.id.txtBookedDateHeader);
-            txtTotalPrice = itemView.findViewById(R.id.txtTotalPriceHeader);
-        }
-    }
-
-    public static class BookingViewHolder extends RecyclerView.ViewHolder {
-        TextView txtFieldName, txtTimeSlot;
-
-        public BookingViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtFieldName = itemView.findViewById(R.id.txtFieldName);
+            txtFieldAddress = itemView.findViewById(R.id.txtFieldAddress);
+            txtFieldNumber = itemView.findViewById(R.id.txtFieldNumber);
+            txtBookedDate = itemView.findViewById(R.id.txtBookedDate);
             txtTimeSlot = itemView.findViewById(R.id.txtTimeSlot);
+            txtTotalPrice = itemView.findViewById(R.id.txtTotalPrice);
         }
     }
 }

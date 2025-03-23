@@ -8,6 +8,8 @@
     <color name="between_slot_color">#FFC107</color>
     <color name="primary">#6200EE</color>
     <color name="secondary">#03DAC5</color>
- 
+    <color name="locked_color">#E0E0E0</color> <!-- Slot đã đặt -->
+
+
     <!-- Các màu khác mà bạn muốn sử dụng --><!-- Màu vàng, bạn có thể đổi màu khác nếu muốn -->
 </resources>

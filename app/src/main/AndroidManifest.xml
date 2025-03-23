@@ -42,6 +42,9 @@
         <activity android:name=".activities.SuccessActivity"/>
         <activity android:name=".EditInfoActivity" />
         <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".activities.BookingDetailActivity" />
+
+
 
 
 
