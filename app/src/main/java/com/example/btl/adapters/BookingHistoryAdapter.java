@@ -76,7 +76,11 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             BookingViewHolder itemHolder = (BookingViewHolder) holder;
             TimeSlot slot = bookedSlots.get(position - 1); // Header chiếm vị trí đầu tiên
 
-            itemHolder.txtFieldName.setText("Sân: " + slot.getFieldName());
+            String fieldName = slot.getFieldName();
+            if (fieldName.contains("Sân nhỏ")) {
+                fieldName = fieldName.replace("Sân nhỏ", "PickelBall");
+            }
+            itemHolder.txtFieldName.setText("Sân: " + fieldName);
             itemHolder.txtTimeSlot.setText("Khung giờ: " + slot.getTime());
         }
     }
