@@ -38,7 +38,7 @@ public class BookingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         timeSlotList = generateTimeSlots();
 
-                adapter = new TimeSlotAdapter(timeSlotList, this::updatePrice);
+        adapter = new TimeSlotAdapter(timeSlotList, this::updatePrice);
 //        adapter = new TimeSlotAdapter(null, this::updatePrice);
 
         recyclerView.setAdapter(adapter);
