@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvFieldDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:lineSpacingExtra="5dp"
+        android:text="Thông tin sân bóng sẽ hiển thị ở đây" />
+</LinearLayout>

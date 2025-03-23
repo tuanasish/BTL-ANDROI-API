@@ -6,6 +6,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.btl.fragments.DetailField;
+import com.example.btl.fragments.DetailFieldFragment;
+import com.example.btl.fragments.ImagesFragment;
+import com.example.btl.fragments.ReviewsFragment;
+import com.example.btl.fragments.ServiceFragment;
 
 public class DetailFragentAdapterField extends FragmentStateAdapter {
 
@@ -19,15 +23,15 @@ public class DetailFragentAdapterField extends FragmentStateAdapter {
         // Tạo các fragment tương ứng với mỗi position
         switch (position) {
             case 0:
-                return new DetailField(); // Fragment 1
+                return new DetailFieldFragment(); // Fragment 1
             case 1:
-                return new DetailField(); // Fragment 2 (có thể thay đổi fragment nếu cần)
+                return new ServiceFragment(); // Fragment 2 (có thể thay đổi fragment nếu cần)
             case 2:
-                return new DetailField();
+                return new ImagesFragment();
             case 3:
-                return new DetailField();
+                return new ReviewsFragment();
             default:
-                return new DetailField(); // Mặc định trả về fragment 1
+                return new DetailFieldFragment(); // Mặc định trả về fragment 1
         }
     }
 
