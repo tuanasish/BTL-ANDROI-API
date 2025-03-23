@@ -1,10 +1,12 @@
 package com.example.btl.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
+import com.example.btl.activities.FieldDetailActivity;
 import com.example.btl.adapters.FieldAdapter;
 import com.example.btl.api.ApiClient;
 import com.example.btl.api.ApiFieldInterface;
@@ -40,7 +43,7 @@ public class ListFieldsFragment extends Fragment {
         fieldList = new ArrayList<>();
 
         fieldAdapter = new FieldAdapter(getContext(), fieldList);
-        recyclerView.setAdapter(fieldAdapter); // Gán adapter cho RecyclerView
+        recyclerView.setAdapter(fieldAdapter);
 
         ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
         apiFieldService = new ApiFieldService(apiFieldInterface);
@@ -56,7 +59,7 @@ public class ListFieldsFragment extends Fragment {
             public void onSuccess(List<Field> fields) {
                 fieldList.clear();
                 fieldList.addAll(fields);
-                fieldAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+                fieldAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -65,4 +68,8 @@ public class ListFieldsFragment extends Fragment {
             }
         });
     }
+
+
+
+
 }

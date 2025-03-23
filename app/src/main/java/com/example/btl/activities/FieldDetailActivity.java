@@ -3,26 +3,34 @@ package com.example.btl.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.adapters.DetailFragentAdapterField;
+import com.example.btl.api.ApiClient;
+import com.example.btl.api.ApiFieldInterface;
+import com.example.btl.api.ApiFieldService;
+import com.example.btl.models.Field;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class FieldDetailActivity extends AppCompatActivity {
-
+    private int fieldId;
     private ImageView fieldImage;
     private TextView fieldName, fieldAddress, fieldNumber;
     private Button btnBookNow;
     private ViewPager2 viewPager2;
     private TabLayout tabLayout;
     private DetailFragentAdapterField adapterDetailField;
+    private ApiFieldService apiFieldService;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -61,29 +69,54 @@ public class FieldDetailActivity extends AppCompatActivity {
                     }
                 }).attach();
 
-        // Nhận dữ liệu từ Intent
-        Intent intent = getIntent();
-        if (intent != null) {
-            String name = intent.getStringExtra("name");
-            String address = intent.getStringExtra("address");
-            String number = intent.getStringExtra("number");
-            int image = intent.getIntExtra("image", R.drawable.ic_launcher_background);
+        // Nhận ID từ Intent
+        fieldId = getIntent().getIntExtra("FIELD_ID", -1);
 
-            // Hiển thị thông tin sân lớn
-            fieldName.setText(name);
-            fieldAddress.setText(address);
-            fieldNumber.setText("Số điện thoại: " + number);
-            fieldImage.setImageResource(image);
+        if (fieldId == -1) {
+            Toast.makeText(this, "Lỗi: Không tìm thấy sân bóng", Toast.LENGTH_SHORT).show();
+            finish(); // Đóng activity nếu không có ID hợp lệ
+            return;
+        }
+
+        ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
+        apiFieldService = new ApiFieldService(apiFieldInterface);
+        loadFieldDetails(fieldId);
+
+
 
             // Xử lý sự kiện khi nhấn nút "Đặt ngay"
             btnBookNow.setOnClickListener(v -> {
                 Intent bookingIntent = new Intent(FieldDetailActivity.this, BookingActivity.class);
-                bookingIntent.putExtra("name", name);
+                /*bookingIntent.putExtra("name", name);
                 bookingIntent.putExtra("address", address);
                 bookingIntent.putExtra("number", number);
-                bookingIntent.putExtra("image", image);
+                bookingIntent.putExtra("image", image);*/
                 startActivity(bookingIntent);
             });
         }
+
+    private void loadFieldDetails(int id) {
+        apiFieldService.getFieldById(id, new ApiFieldService.ApiCallback<Field>() {
+            @Override
+            public void onSuccess(Field field) {
+                // Cập nhật giao diện với dữ liệu nhận được
+                fieldName.setText(field.getName());
+                fieldAddress.setText(field.getLocation());
+                fieldNumber.setText(String.valueOf(field.getCapacity()));
+
+                if (field.getImages() != null && !field.getImages().isEmpty()) {
+                    Glide.with(FieldDetailActivity.this).load(field.getImages()).into(fieldImage);
+                } else {
+                    fieldImage.setImageResource(R.drawable.field2);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Log.e("API_ERROR", "Lỗi khi tải dữ liệu sân bóng: " + t.getMessage());
+                Toast.makeText(FieldDetailActivity.this, "Lỗi khi tải dữ liệu sân bóng", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
+
