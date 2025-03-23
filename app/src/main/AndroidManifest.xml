@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:enableOnBackInvokedCallback="true"
+        android:requestLegacyExternalStorage="true"
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +15,7 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Btl"
-        tools:targetApi="31">
+        tools:targetApi="33">
 
         <!-- Màn hình đăng nhập hiển thị đầu tiên -->
         <activity

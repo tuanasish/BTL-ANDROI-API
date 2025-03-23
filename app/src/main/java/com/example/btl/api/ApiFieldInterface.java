@@ -1,6 +1,8 @@
 package com.example.btl.api;
 
 import com.example.btl.models.Field;
+import com.example.btl.models.FieldResponse;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,8 +20,8 @@ public interface ApiFieldInterface {
     Call<Field> getById(@Path("id") int id);
 
     // Lấy danh sách tất cả các Field
-    @GET("fields")
-    Call<List<Field>> getAllFields();
+    @GET("field/list")
+    Call<FieldResponse> getAllFields();
 
     // Tạo mới một Field
     @POST("field")

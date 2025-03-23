@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.activities.FieldDetailActivity;
 import com.example.btl.models.Field;
@@ -35,19 +37,20 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Field field = fieldList.get(position);
         holder.fieldName.setText(field.getName());
-        holder.fieldAddress.setText(field.getAddress());
-        holder.fieldNumber.setText("Số điện thoại: " + field.getNumber());
-        holder.fieldImage.setImageResource(field.getImage());
+        holder.fieldAddress.setText(field.getLocation());
+        holder.fieldNumber.setText(String.valueOf(field.getCapacity()));
 
-        // Xử lý sự kiện click vào sân bóng
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, FieldDetailActivity.class);
-            intent.putExtra("name", field.getName());
-            intent.putExtra("address", field.getAddress());
-            intent.putExtra("number", field.getNumber());
-            intent.putExtra("image", field.getImage());
-            context.startActivity(intent);
-        });
+        // Load image (nếu có)
+        if (field.getImages() != null && !field.getImages().isEmpty()) {
+            // Sử dụng thư viện như Glide hoặc Picasso để load ảnh từ URL
+            // Ví dụ với Glide:
+            Glide.with(context)
+                    .load(field.getImages())
+                    .placeholder(R.drawable.ic_launcher_background) // Ảnh placeholder nếu load lỗi
+                    .into(holder.fieldImage);
+        } else {
+            holder.fieldImage.setImageResource(R.drawable.field2); // Ảnh mặc định
+        }
     }
 
     @Override
