@@ -13,6 +13,25 @@ public class ApiUserService {
         this.api = api;
     }
 
+    // dang nhap
+    public void loginUser(String email, String password, ApiCallback<User> callback) {
+        api.login(email, password).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError(new Exception("Sai email hoặc mật khẩu!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
     // Lấy thông tin User theo ID
     public void getUserById(String email, int id, ApiCallback<User> callback) {
         api.getById(id).enqueue(new Callback<User>() {

@@ -84,7 +84,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
             }
         });
 
-
+        
     }
 
     @Override
