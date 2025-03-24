@@ -1,10 +1,11 @@
-
 package com.example.btl.models;
 
-
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Field {
+public class Field implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @SerializedName("field_id")
     private int field_id;
 

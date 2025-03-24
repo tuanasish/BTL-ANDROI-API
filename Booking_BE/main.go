@@ -43,11 +43,12 @@ func main() {
 		{
 			fields.POST("/create", fieldTransport.CreateField(db))
 			fields.GET("/list", fieldTransport.ListField(db)) // Gọi bằng alias fieldTransport
-			fields.GET("/list/field/:field_id/booked", timeslotTransport.GetBookedTimeSlotsByField(db))
+			fields.GET("/list/:field_id/booked", timeslotTransport.GetBookedTimeSlotsByField(db))
 			fields.GET("/:id", fieldTransport.GetFieldByID(db))
 			fields.PUT("update/:id", fieldTransport.UpdateField(db))
 			fields.DELETE("delete/:id", fieldTransport.DeleteField(db))
 			fields.GET("/filter", fieldTransport.FilterFields(db))
+			fields.GET("/:id/courts", fieldTransport.GetCourtsHandler(db))
 
 		}
 		booking := v1.Group("/booking")
@@ -63,7 +64,7 @@ func main() {
 	}
 
 	// Chạy server
-	if err := router.Run(":6000"); err != nil {
+	if err := router.Run(":7000"); err != nil {
 		log.Fatal("Server start failed:", err)
 	}
 }

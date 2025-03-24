@@ -31,6 +31,7 @@ public class FieldDetailActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private DetailFragentAdapterField adapterDetailField;
     private ApiFieldService apiFieldService;
+    private Field field;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,17 +71,15 @@ public class FieldDetailActivity extends AppCompatActivity {
                 }).attach();
 
         // Nhận ID từ Intent
-        fieldId = getIntent().getIntExtra("FIELD_ID", -1);
-
-        if (fieldId == -1) {
-            Toast.makeText(this, "Lỗi: Không tìm thấy sân bóng", Toast.LENGTH_SHORT).show();
-            finish(); // Đóng activity nếu không có ID hợp lệ
-            return;
+        Intent intent = getIntent();
+        if(intent != null && intent.hasExtra("FIELD_DATA")) {
+            field = (Field) intent.getSerializableExtra("FIELD_DATA");
+            // Sử dụng dữ liệu field theo ý muốn
         }
 
-        ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
-        apiFieldService = new ApiFieldService(apiFieldInterface);
-        loadFieldDetails(fieldId);
+        fieldAddress.setText(field.getLocation());
+        fieldName.setText(field.getName());
+        fieldImage.setImageResource(R.drawable.field2);
 
 
 
@@ -91,32 +90,33 @@ public class FieldDetailActivity extends AppCompatActivity {
                 bookingIntent.putExtra("address", address);
                 bookingIntent.putExtra("number", number);
                 bookingIntent.putExtra("image", image);*/
+                bookingIntent.putExtra("FIELD_DATA", field);
                 startActivity(bookingIntent);
             });
         }
 
-    private void loadFieldDetails(int id) {
-        apiFieldService.getFieldById(id, new ApiFieldService.ApiCallback<Field>() {
-            @Override
-            public void onSuccess(Field field) {
-                // Cập nhật giao diện với dữ liệu nhận được
-                fieldName.setText(field.getName());
-                fieldAddress.setText(field.getLocation());
-                fieldNumber.setText(String.valueOf(field.getCapacity()));
-
-                if (field.getImages() != null && !field.getImages().isEmpty()) {
-                    Glide.with(FieldDetailActivity.this).load(field.getImages()).into(fieldImage);
-                } else {
-                    fieldImage.setImageResource(R.drawable.field2);
-                }
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                Log.e("API_ERROR", "Lỗi khi tải dữ liệu sân bóng: " + t.getMessage());
-                Toast.makeText(FieldDetailActivity.this, "Lỗi khi tải dữ liệu sân bóng", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void loadFieldDetails(int id) {
+//        apiFieldService.getFieldById(id, new ApiFieldService.ApiCallback<Field>() {
+//            @Override
+//            public void onSuccess(Field field) {
+//                // Cập nhật giao diện với dữ liệu nhận được
+//                fieldName.setText(field.getName());
+//                fieldAddress.setText(field.getLocation());
+//                fieldNumber.setText(String.valueOf(field.getCapacity()));
+//
+//                if (field.getImages() != null && !field.getImages().isEmpty()) {
+//                    Glide.with(FieldDetailActivity.this).load(field.getImages()).into(fieldImage);
+//                } else {
+//                    fieldImage.setImageResource(R.drawable.field2);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable t) {
+//                Log.e("API_ERROR", "Lỗi khi tải dữ liệu sân bóng: " + t.getMessage());
+//                Toast.makeText(FieldDetailActivity.this, "Lỗi khi tải dữ liệu sân bóng", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }
 
