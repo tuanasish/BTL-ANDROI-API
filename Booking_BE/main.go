@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	dsn := "root:abc123@tcp(127.0.0.1:3306)/Booking_BE?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root@tcp(127.0.0.1:3306)/Booking_BE?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Print("Failed to connect to database:", err)
@@ -64,7 +64,7 @@ func main() {
 	}
 
 	// Chạy server
-	if err := router.Run(":7000"); err != nil {
+	if err := router.Run(":8000"); err != nil {
 		log.Fatal("Server start failed:", err)
 	}
 }
