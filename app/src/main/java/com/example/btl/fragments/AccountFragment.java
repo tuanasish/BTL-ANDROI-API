@@ -18,6 +18,7 @@ import com.example.btl.R;
 import com.example.btl.activities.BookingDetailActivity;
 import com.example.btl.adapters.BookingHistoryAdapter;
 import com.example.btl.models.TimeSlot;
+import com.example.btl.models.User;
 import com.example.btl.utils.BookingDatabaseHelper;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class AccountFragment extends Fragment {
     private TextView tvUsername, tvUserInfo;
     private RecyclerView rvBookingHistory;
     private BookingDatabaseHelper databaseHelper;
-
+    private User loginUser;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -40,9 +41,15 @@ public class AccountFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvUsername);
         tvUserInfo = view.findViewById(R.id.tvUserInfo);
         rvBookingHistory = view.findViewById(R.id.rvBookingHistory);
+        //du lieu nguoi dung
+        if (getArguments() != null) {
+            loginUser = (User) getArguments().getSerializable("USER_DATA");
+            if (loginUser != null) {
+                tvUsername.setText("Tên người dùng: " + loginUser.getUsername());
+                tvUserInfo.setText("Email: " + loginUser.getEmail() + "\nSố điện thoại: " + loginUser.getPhone());
+            }
+        }
 
-        tvUsername.setText("Tên người dùng: Nguyễn Văn A");
-        tvUserInfo.setText("Email: example@example.com\nSố điện thoại: 0381234567");
 
         databaseHelper = new BookingDatabaseHelper(getContext());
         databaseHelper.open();

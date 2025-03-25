@@ -1,6 +1,11 @@
 package com.example.btl.api;
 
+import android.util.Log;
+
+import com.example.btl.models.LoginResponse;
 import com.example.btl.models.User;
+
+import java.io.IOException;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,8 +18,8 @@ public class ApiUserService {
         this.api = api;
     }
 
-    // dang nhap
-    public void loginUser(String email, String password, ApiCallback<User> callback) {
+    // dang nhap cu
+    /*public void loginUser(String email, String password, ApiCallback<User> callback) {
         api.login(email, password).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -27,6 +32,44 @@ public class ApiUserService {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }*/
+
+
+    //dang nhap moi
+    public void loginUser(String email, String password, final ApiCallback<User> callback) {
+        api.login(email, password).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+                    User user = loginResponse.getUser();
+
+                    if (user != null) {
+                        Log.d("API_RESPONSE", "Login success: " + loginResponse.getMessage());
+                        Log.d("API_RESPONSE", "User data: " + user.toString());
+                        callback.onSuccess(user);
+                    } else {
+                        callback.onError(new Exception("User data is null"));
+                    }
+                } else {
+                    String errorMsg = "Login failed: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("API_ERROR", "Error reading error body", e);
+                    }
+                    callback.onError(new Exception(errorMsg));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.e("API_FAILURE", "Network error: " + t.getMessage());
                 callback.onError(t);
             }
         });

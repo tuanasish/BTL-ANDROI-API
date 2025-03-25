@@ -2,6 +2,7 @@ package com.example.btl;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,9 +52,14 @@ public class LoginActivity extends AppCompatActivity {
             apiUserService.loginUser(email, password, new ApiUserService.ApiCallback<User>() {
                 @Override
                 public void onSuccess(User user) {
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,
+                            "Welcome " + user.getUsername(),
+                            Toast.LENGTH_SHORT).show();
+                    Log.d("LOGIN_SUCCESS", "User data: " + user.toString());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("USER_ID", user.getUser_id());
+
+                    // lấy dữ liệu của người dùng khi đăng nhập
+                    intent.putExtra("USER_DATA", user);
                     startActivity(intent);
                     finish();
                 }
