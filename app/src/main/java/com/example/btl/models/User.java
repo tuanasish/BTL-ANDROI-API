@@ -1,8 +1,13 @@
 package com.example.btl.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class User {
+public class User implements Serializable {
+
+    @SerializedName("user_id")
     private int user_id;
     private String username;
     private String password;
@@ -88,5 +93,19 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "create_at=" + create_at +
+                ", user_id=" + user_id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role='" + role + '\'' +
+                ", update_at=" + update_at +
+                '}';
     }
 }
