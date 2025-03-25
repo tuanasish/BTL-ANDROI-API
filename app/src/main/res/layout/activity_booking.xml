@@ -1,0 +1,125 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/white"
+    android:weightSum="1"> <!-- Thêm weightSum cho LinearLayout -->
+
+    <!-- Ảnh sân lớn -->
+    <ImageView
+        android:id="@+id/fieldImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background" />
+
+    <!-- Thông tin sân lớn -->
+    <TextView
+        android:id="@+id/fieldNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên sân"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/fieldAddressText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Địa chỉ sân"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/fieldNumberText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Số điện thoại"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:paddingBottom="8dp" />
+
+    <!-- Tiêu đề chọn ngày tháng -->
+    <TextView
+        android:id="@+id/selectedDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Chọn ngày"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chọn khung giờ đặt sân"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="10dp" />
+
+    <!-- Danh sách khung giờ -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_weight="0.5"> <!-- Sử dụng layout_weight để giới hạn chiều cao của HorizontalScrollView -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:scrollbars="horizontal" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Nút chọn giữa các khung giờ -->
+    <Button
+        android:id="@+id/btnBetween"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="⋮"
+        android:visibility="gone"
+        android:background="@drawable/between_time_selector"
+        android:layout_gravity="center" />
+
+    <!-- Tổng tiền -->
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tổng tiền: 0 VND"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:padding="10dp" />
+
+    <!-- Nút Tiếp theo -->
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tiếp theo"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@color/purple_500"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.5" /> <!-- Sử dụng layout_weight cho nút Next để cân đối không gian -->
+
+</LinearLayout>
+</ScrollView>
