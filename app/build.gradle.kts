@@ -56,6 +56,6 @@ dependencies {
     /*implementation ("androidx.credentials:credentials:1.2.0-alpha03")
     implementation ("androidx.credentials:credentials-play-services-auth:1.2.0-alpha03")
     implementation ("com.google.android.libraries.identity.googleid:1.0.0")*/
-
+    implementation ("com.google.android.material:material:1.6.0")// hoặc version mới hơn
 
 }

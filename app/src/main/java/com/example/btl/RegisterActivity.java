@@ -5,42 +5,75 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private TextInputEditText etUsername, etEmail, etPassword, etConfirmPassword;
+    private Button btnRegister;
+    private TextView tvToLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Button signupButton = findViewById(R.id.signupButton);
-        final EditText fullname = findViewById(R.id.fullname);
-        final EditText username = findViewById(R.id.username);
-        final EditText email = findViewById(R.id.email);
-        final EditText password = findViewById(R.id.password);
-        final EditText confirmPassword = findViewById(R.id.confirmPassword);
+        // Ánh xạ view
+        etUsername = findViewById(R.id.etUsername);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        btnRegister = findViewById(R.id.btnRegister);
+        tvToLogin = findViewById(R.id.tvToLogin);
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = fullname.getText().toString();
-                String user = username.getText().toString();
-                String mail = email.getText().toString();
-                String pass = password.getText().toString();
-                String confirmPass = confirmPassword.getText().toString();
+        // Xử lý sự kiện đăng ký
+        btnRegister.setOnClickListener(v -> handleRegister());
 
-                // Logic kiểm tra và lưu thông tin đăng ký (có thể kết nối với cơ sở dữ liệu)
-                if (pass.equals(confirmPass)) {
-                    Toast.makeText(RegisterActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                    // Chuyển sang màn hình đăng nhập
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Mật khẩu không khớp!", Toast.LENGTH_SHORT).show();
-                }
-            }
+        // Xử lý chuyển sang màn hình đăng nhập
+        tvToLogin.setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
         });
     }
+
+    private void handleRegister() {
+        // Lấy dữ liệu từ các trường nhập
+        String username = etUsername.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString();
+        String confirmPassword = etConfirmPassword.getText().toString();
+
+        // Validate dữ liệu
+        if (username.isEmpty()) {
+            etUsername.setError("Vui lòng nhập tên đăng nhập");
+            return;
+        }
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Email không hợp lệ");
+            return;
+        }
+
+        if (password.length() < 6) {
+            etPassword.setError("Mật khẩu phải có ít nhất 6 ký tự");
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            etConfirmPassword.setError("Mật khẩu không khớp");
+            return;
+        }
+
+        // api
+        // Tạm thời hiển thị thông báo đăng ký thành công
+        Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+
+        // Chuyển về màn hình đăng nhập sau khi đăng ký thành công
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    // Thêm các phương thức khác nếu cần
 }
