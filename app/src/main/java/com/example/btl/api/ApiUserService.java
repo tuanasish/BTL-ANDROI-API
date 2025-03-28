@@ -3,6 +3,7 @@ package com.example.btl.api;
 import android.util.Log;
 
 import com.example.btl.models.LoginResponse;
+import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
 
 import java.io.IOException;
@@ -18,27 +19,7 @@ public class ApiUserService {
         this.api = api;
     }
 
-    // dang nhap cu
-    /*public void loginUser(String email, String password, ApiCallback<User> callback) {
-        api.login(email, password).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
-                } else {
-                    callback.onError(new Exception("Sai email hoặc mật khẩu!"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }*/
-
-
-    //dang nhap moi
+    //dang nhap
     public void loginUser(String email, String password, final ApiCallback<User> callback) {
         api.login(email, password).enqueue(new Callback<LoginResponse>() {
             @Override
@@ -70,6 +51,41 @@ public class ApiUserService {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.e("API_FAILURE", "Network error: " + t.getMessage());
+                callback.onError(t);
+            }
+        });
+    }
+
+    // dang ky
+    public void registerUser(User user, final ApiCallback<User> callback) {
+        api.register(user).enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    RegisterResponse registerResponse = response.body();
+                    User registeredUser = registerResponse.getUser();
+
+                    if (registeredUser != null) {
+                        callback.onSuccess(registeredUser);
+                    } else {
+                        callback.onError(new Exception("User data is null in response"));
+                    }
+                } else {
+                    String errorMsg = "Registration failed: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("API_ERROR", "Error reading error body", e);
+                    }
+                    callback.onError(new Exception(errorMsg));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Log.e("API_FAILURE", "Registration error: " + t.getMessage());
                 callback.onError(t);
             }
         });

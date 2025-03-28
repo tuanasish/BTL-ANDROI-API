@@ -1,6 +1,7 @@
 package com.example.btl.api;
 
 import com.example.btl.models.LoginResponse;
+import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
 import java.util.List;
 import retrofit2.Call;
@@ -15,11 +16,12 @@ import retrofit2.http.Query;
 public interface ApiUserInterface {
 
     // dang nhap
-
     @GET("api/auth/login")
     Call<LoginResponse> login(@Query("email") String email,
                               @Query("password") String password);
-
+    // dang ki
+    @POST("api/auth/register")
+    Call<RegisterResponse> register(@Body User user);
 
     @GET("user/{id}")
     Call<User> getById(@Path("id") int id);

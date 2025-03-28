@@ -14,10 +14,11 @@ import com.example.btl.api.ApiClient;
 import com.example.btl.api.ApiUserInterface;
 import com.example.btl.api.ApiUserService;
 import com.example.btl.models.User;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText loginEmail, loginPassword;
+    private TextInputEditText loginEmail, loginPassword;
     private Button btnLogin;
     private TextView tvToRegister;
     private ApiUserService apiUserService;
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(User user) {
                     Toast.makeText(LoginActivity.this,
-                            "Welcome " + user.getUsername(),
+                            "Xin Chào : " + user.getUsername(),
                             Toast.LENGTH_SHORT).show();
                     Log.d("LOGIN_SUCCESS", "User data: " + user.toString());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
