@@ -1,11 +1,14 @@
 package transport
 
 import (
-	"BOOKING_BE/modules/user/biz"
 	"BOOKING_BE/modules/user/storage"
+	
+
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -50,34 +53,35 @@ import (
 //	}
 func Login(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
-		// Lấy email và password từ query params
 		email := c.Query("email")
-		pwd := c.Query("password")
+		password := c.Query("password")
 
-		// Kiểm tra dữ liệu đầu vào
-		if email == "" || pwd == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Thiếu email hoặc password"})
-			return
-		}
+		// Debug: In ra thông tin nhận được
+		log.Printf("Attempting login - Email: %s, Password: %s", email, password)
 
-		// Khởi tạo storage và business logic
 		store := storage.NewUserStorage(db)
-		biz := biz.NewLoginUserBiz(store)
 
-		// Kiểm tra đăng nhập
-		if err := biz.CheckLogin(email, pwd); err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-			return
-		}
-
-		// Tìm user sau khi kiểm tra đăng nhập
+		// 1. Tìm user bằng email
 		user, err := store.FindUserByEmail(email)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Không tìm thấy user"})
+			log.Printf("User not found for email %s: %v", email, err)
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Email hoặc mật khẩu không đúng"})
 			return
 		}
 
-		// Trả về kết quả thành công
+		// Debug: In ra thông tin user tìm được
+		log.Printf("Found user: %+v", user)
+
+		// 2. So sánh mật khẩu
+		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+		if err != nil {
+			log.Printf("Password mismatch for user %s: %v", email, err)
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Email hoặc mật khẩu không đúng"})
+			return
+		}
+
+		// 3. Trả về thành công
+		log.Printf("Login successful for user %s", email)
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Đăng nhập thành công",
 			"user": gin.H{
