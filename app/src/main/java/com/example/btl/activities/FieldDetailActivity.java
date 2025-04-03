@@ -51,6 +51,36 @@ public class FieldDetailActivity extends AppCompatActivity {
         // Tạo adapter cho ViewPager2 để hiển thị thông tin chi tiết sân
         adapterDetailField = new DetailFragentAdapterField(this);
         viewPager2.setAdapter(adapterDetailField);
+        // Nhận ID từ Intent
+        Intent intent = getIntent();
+        if(intent != null) {
+            String name = intent.getStringExtra("FIELD_NAME");
+            String address = intent.getStringExtra("FIELD_LOCATION");
+            int number = intent.getIntExtra("FIELD_CAPACITY", 0);
+            String image = intent.getStringExtra("FIELD_IMAGE");
+
+            // Hiển thị dữ liệu lên giao diện
+            fieldName.setText(name);
+            fieldAddress.setText(address);
+            fieldNumber.setText(String.valueOf(number));
+
+            // Hiển thị ảnh bằng Glide
+            if (image != null && !image.isEmpty()) {
+                Glide.with(this)
+                        .load(image)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .into(fieldImage);
+            } else {
+                fieldImage.setImageResource(R.drawable.field2);
+            }
+
+            // Tạo đối tượng Field để sử dụng trong booking
+            field = new Field();
+            field.setName(name);
+            field.setLocation(address);
+            field.setCapacity(number);
+            field.setImages(image);
+        }
 
         new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> {
@@ -70,18 +100,9 @@ public class FieldDetailActivity extends AppCompatActivity {
                     }
                 }).attach();
 
-        // Nhận ID từ Intent
-        Intent intent = getIntent();
-        if(intent != null && intent.hasExtra("FIELD_DATA")) {
-            field = (Field) intent.getSerializableExtra("FIELD_DATA");
-            // Sử dụng dữ liệu field theo ý muốn
-        }
-
         fieldAddress.setText(field.getLocation());
         fieldName.setText(field.getName());
         fieldImage.setImageResource(R.drawable.field2);
-
-
 
             // Xử lý sự kiện khi nhấn nút "Đặt ngay"
             btnBookNow.setOnClickListener(v -> {
@@ -95,28 +116,6 @@ public class FieldDetailActivity extends AppCompatActivity {
             });
         }
 
-//    private void loadFieldDetails(int id) {
-//        apiFieldService.getFieldById(id, new ApiFieldService.ApiCallback<Field>() {
-//            @Override
-//            public void onSuccess(Field field) {
-//                // Cập nhật giao diện với dữ liệu nhận được
-//                fieldName.setText(field.getName());
-//                fieldAddress.setText(field.getLocation());
-//                fieldNumber.setText(String.valueOf(field.getCapacity()));
-//
-//                if (field.getImages() != null && !field.getImages().isEmpty()) {
-//                    Glide.with(FieldDetailActivity.this).load(field.getImages()).into(fieldImage);
-//                } else {
-//                    fieldImage.setImageResource(R.drawable.field2);
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable t) {
-//                Log.e("API_ERROR", "Lỗi khi tải dữ liệu sân bóng: " + t.getMessage());
-//                Toast.makeText(FieldDetailActivity.this, "Lỗi khi tải dữ liệu sân bóng", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+
 }
 

@@ -62,29 +62,23 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
         }
 
         //su kien click item
+        // Sự kiện click item
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Gọi API để lấy dữ liệu chi tiết của Field
-                api.getFieldById(field.getField_id(), new ApiFieldService.ApiCallback<Field>() {
-                    @Override
-                    public void onSuccess(Field result) {
-                        Log.d("DEBUG", "Received Field data: " + result);
-                        // Tạo Intent và truyền đối tượng Field
-                        Intent intent = new Intent(context, FieldDetailActivity.class);
-                        intent.putExtra("FIELD_DATA", result);
-                        context.startActivity(intent);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        Toast.makeText(context, "Lỗi tải dữ liệu sân", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                // Tạo Intent và truyền đối tượng Field
+                Intent intent = new Intent(context, FieldDetailActivity.class);
+                intent.putExtra("FIELD_ID", field.getField_id());
+                intent.putExtra("FIELD_NAME", field.getName());
+                intent.putExtra("FIELD_LOCATION", field.getLocation());
+                intent.putExtra("FIELD_CAPACITY", field.getCapacity());
+                intent.putExtra("FIELD_IMAGE", field.getImages());
+                context.startActivity(intent);
             }
         });
 
-        
+
+
     }
 
     @Override
