@@ -15,6 +15,16 @@
     <color name="black">#000000</color>
 
     <color name="primary_color">#3F51B5</color>
+    <color name="colorPrimary">#006400</color>
+    <color name="colorPrimaryDark">#004d00</color>
+    <color name="colorAccent">#4CAF50</color>
+    <color name="backgroundColor">#006400</color>
+    <color name="lightGreen">#FFFFFF</color> <!-- Màu xanh nhạt cho nền của các item -->
+    <color name="buttonBackground">#4CAF50</color> <!-- Màu xanh lá đậm cho nút -->
+    <color name="buttonText">#FFFFFF</color> <!-- Màu chữ trắng cho các nút -->
+    <color name="textTitle">#F2F4A1</color> <!-- Màu vàng nhạt cho tiêu đề -->
+        <color name="bottom_nav_item_selected">#FFFFFF</color> <!-- Màu chữ khi mục được chọn -->
+        <color name="bottom_nav_item_unselected">#FFFFFF</color> <!-- Màu chữ khi mục không được chọn -->
 
 
     <!-- Các màu khác mà bạn muốn sử dụng --><!-- Màu vàng, bạn có thể đổi màu khác nếu muốn -->

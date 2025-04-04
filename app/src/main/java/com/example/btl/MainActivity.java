@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // Gắn Toolbar với ActionBar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Booking App");
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -44,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_list_fields) {
                 selectedFragment = new ListFieldsFragment();
-            } else if (id == R.id.nav_booked_fields) {
-                selectedFragment = new BookedFieldsFragment();
+
             } else if (id == R.id.nav_account) {
                 AccountFragment accountFragment = new AccountFragment();
                 Bundle bundle = new Bundle();
