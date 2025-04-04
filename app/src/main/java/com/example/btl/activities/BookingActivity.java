@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,22 +14,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.adapters.TimeSlotAdapter;
 import com.example.btl.api.ApiClient;
 import com.example.btl.api.ApiTimeSlotInterface;
 import com.example.btl.api.ApiTimeSlotService;
 import com.example.btl.models.CourtResponse;
+import com.example.btl.models.Field;
 import com.example.btl.models.TimeSlot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class BookingActivity extends AppCompatActivity {
-    private int index = 1; // FIELD_ID
+    private int index = 1;
     private RecyclerView recyclerView;
     private TimeSlotAdapter adapter;
     private List<List<TimeSlot>> timeSlotList;
@@ -63,18 +65,34 @@ public class BookingActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        // Nhận dữ liệu từ Intent
+        // Nhận dữ liệu từ Intent (Field thông tin)
+        // Nhận dữ liệu từ Intent (Field thông tin)
         Intent intent = getIntent();
         if (intent != null) {
-            fieldName = intent.getStringExtra("name");
-            fieldAddress = intent.getStringExtra("address");
-            fieldNumber = intent.getStringExtra("number");
-            fieldImageRes = intent.getIntExtra("image", R.drawable.ic_launcher_background);
-            index = intent.getIntExtra("FIELD_ID", 1);
+            // Nhận các dữ liệu sân từ Intent
+            String fieldName = intent.getStringExtra("FIELD_NAME");
+            String fieldAddress = intent.getStringExtra("FIELD_ADDRESS");
+            String fieldNumberString = intent.getStringExtra("FIELD_PHONE");  // Lấy giá trị số điện thoại dưới dạng String
+            int fieldNumber = 0;
+
+            // Chuyển đổi fieldNumberString sang kiểu int, nếu có lỗi thì mặc định là 0
+            try {
+                fieldNumber = Integer.parseInt(fieldNumberString);
+            } catch (NumberFormatException e) {
+                Log.e("BookingActivity", "Error parsing fieldNumber: " + e.getMessage());
+                fieldNumber = 0;  // Default value if parsing fails
+            }
+
+            String fieldImage = intent.getStringExtra("FIELD_IMAGE");
+            int fieldId = intent.getIntExtra("FIELD_ID", -1);
+
+            // Hiển thị thông tin sân lên giao diện
             fieldNameText.setText(fieldName);
             fieldAddressText.setText(fieldAddress);
             fieldNumberText.setText("Số điện thoại: " + fieldNumber);
-            fieldImage.setImageResource(fieldImageRes);
+
+            // Hiển thị ảnh bằng Glide
+             // Thay fieldImageView bằng đúng ImageView của bạn
         }
 
         // Khởi tạo API service cho TimeSlot
@@ -214,18 +232,15 @@ public class BookingActivity extends AppCompatActivity {
         String[] times = {"5:00", "6:30", "8:00", "9:30", "11:00", "12:30", "14:00", "15:30", "17:00", "18:30", "20:00", "21:30", "23:00"};
 
         // Với mỗi sân, tạo một danh sách TimeSlot cho các khung giờ
-        // Nếu API không trả về count hợp lệ (ví dụ 0), bạn có thể đặt một giá trị mặc định hoặc thông báo lỗi
         int numberOfCourts = count[0] > 0 ? count[0] : 1;
         for (int i = 0; i < numberOfCourts; i++) {
             List<TimeSlot> slotRow = new ArrayList<>();
             for (String time : times) {
                 // Giả sử constructor của TimeSlot có dạng:
-                // TimeSlot(String courtName, String time, String status, int duration, String bookingDate)
                 TimeSlot slot = new TimeSlot("PickelBall " + (i + 1), time, TimeSlot.AVAILABLE, 90, selectedDate);
 
                 // Kiểm tra nếu trong danh sách bookedSlots có khung giờ trùng với time hiện tại
                 for (TimeSlot booked : bookedSlots) {
-                    // Giả sử booked.getTime() trả về thời gian dạng chuỗi
                     if (booked.getTime().equals(time)) {
                         slot.setStatus(TimeSlot.LOCKED);
                         break;
