@@ -11,4 +11,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
+    <style name="TitleTextStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item> <!-- Centers the text -->
+        <item name="android:textSize">20sp</item> <!-- Adjust size as needed -->
+    </style>
+
 </resources>
