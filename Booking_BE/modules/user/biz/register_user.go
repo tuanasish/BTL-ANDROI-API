@@ -37,12 +37,12 @@ func hashPassword(password string) (string, error) {
 func (biz *RegisterUserBiz) RegisterUser(ctx context.Context, data *model.UserCreate) error {
 	log.Println("RegisterUser is called")
 
-	hashedPassword, err := hashPassword(data.Password)
-	if err != nil {
-		log.Println("Error hashing password:", err)
-		return err
-	}
-	data.Password = hashedPassword
+	// hashedPassword, err := hashPassword(data.Password)
+	// if err != nil {
+	// 	log.Println("Error hashing password:", err)
+	// 	return err
+	// }
+	// data.Password = hashedPassword
 
 	log.Println("Calling CreateUser") // Log trước khi gọi CreateUser
 	if err := biz.store.CreateUser(ctx, data); err != nil {

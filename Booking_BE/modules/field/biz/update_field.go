@@ -29,9 +29,9 @@ func (biz *UpdateFieldBiz) UpdateField(ctx context.Context, id int, data *model.
 		return errors.New("tên sân phải có từ 3 đến 100 ký tự")
 	}
 
-	if data.Price != "" && len(data.Price) < 3 {
-		return errors.New("giá không hợp lệ")
-	}
+	// if data.Price != "" && len(data.Price) < 3 {
+	// 	return errors.New("giá không hợp lệ")
+	// }
 
 	// Gọi storage để cập nhật dữ liệu
 	if err := biz.store.UpdateField(ctx, id, data); err != nil {

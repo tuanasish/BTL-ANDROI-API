@@ -17,6 +17,7 @@ import (
 
 func main() {
 	dsn := "root:abc123@tcp(127.0.0.1:3306)/Booking_BE?charset=utf8mb4&parseTime=True&loc=Local"
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Print("Failed to connect to database:", err)
@@ -43,16 +44,17 @@ func main() {
 		{
 			fields.POST("/create", fieldTransport.CreateField(db))
 			fields.GET("/list", fieldTransport.ListField(db)) // Gọi bằng alias fieldTransport
-			fields.GET("/list/field/:field_id/booked", timeslotTransport.GetBookedTimeSlotsByField(db))
+			fields.GET("/list/:field_id/booked", timeslotTransport.GetBookedTimeSlotsByField(db))
 			fields.GET("/:id", fieldTransport.GetFieldByID(db))
 			fields.PUT("update/:id", fieldTransport.UpdateField(db))
 			fields.DELETE("delete/:id", fieldTransport.DeleteField(db))
 			fields.GET("/filter", fieldTransport.FilterFields(db))
+			fields.GET("/:id/courts", fieldTransport.GetCourtsHandler(db))
 
 		}
 		booking := v1.Group("/booking")
 		{
-			booking.POST("/create", bookingTransport.CreateBooking(db))
+			booking.POST("/create", bookingTransport.CreateBookingTimeslot(db))
 			booking.GET("/user/:user_id", bookingTransport.GetUserBookings(db)) // Thêm handler cụ thể
 			users.PUT("/update/:booking_id", bookingTransport.UpdateBooking(db))
 			// booking.GET("/:id", bookingTransport.GetBookingByID(db)) // Thêm endpoint cụ thể
@@ -63,7 +65,7 @@ func main() {
 	}
 
 	// Chạy server
-	if err := router.Run(":6000"); err != nil {
+	if err := router.Run(":8000"); err != nil {
 		log.Fatal("Server start failed:", err)
 	}
 }

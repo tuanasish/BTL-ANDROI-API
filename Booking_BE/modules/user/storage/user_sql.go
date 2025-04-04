@@ -1,3 +1,4 @@
+
 package storage
 
 import (
@@ -50,3 +51,11 @@ func (s *UserStorage) GetUserByEmailPwd(email, pwd string) error {
 
 	return nil
 }
+func (s *UserStorage) FindUserByEmail(email string) (*model.User, error) {
+	var user model.User
+	if err := s.db.Where("email = ?", email).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
