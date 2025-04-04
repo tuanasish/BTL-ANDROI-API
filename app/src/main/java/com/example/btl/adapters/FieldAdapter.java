@@ -66,6 +66,9 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("FieldAdapter", "Field clicked: ID = " + field.getField_id() +
+                        ", Name = " + field.getName() +
+                        ", Location = " + field.getLocation());
                 // Tạo Intent và truyền đối tượng Field
                 Intent intent = new Intent(context, FieldDetailActivity.class);
                 intent.putExtra("FIELD_ID", field.getField_id());

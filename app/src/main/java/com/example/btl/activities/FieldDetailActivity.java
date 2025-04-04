@@ -105,16 +105,37 @@ public class FieldDetailActivity extends AppCompatActivity {
         fieldImage.setImageResource(R.drawable.field2);
 
             // Xử lý sự kiện khi nhấn nút "Đặt ngay"
-            btnBookNow.setOnClickListener(v -> {
-                Intent bookingIntent = new Intent(FieldDetailActivity.this, BookingActivity.class);
-                /*bookingIntent.putExtra("name", name);
-                bookingIntent.putExtra("address", address);
-                bookingIntent.putExtra("number", number);
-                bookingIntent.putExtra("image", image);*/
-                bookingIntent.putExtra("FIELD_DATA", field);
-                startActivity(bookingIntent);
-            });
-        }
+
+        btnBookNow.setOnClickListener(v -> {
+            // Lấy thông tin từ đối tượng Field
+            String fieldName = field.getName();
+            String fieldAddress = field.getLocation();
+            int fieldPhone = field.getCapacity();  // Hoặc số điện thoại của bạn
+            String fieldImage = field.getImages();
+            int fieldId = field.getField_id();
+
+            // Log dữ liệu trước khi truyền vào Intent
+            Log.d("FieldDetailActivity", "fieldName: " + fieldName);
+            Log.d("FieldDetailActivity", "fieldAddress: " + fieldAddress);
+            Log.d("FieldDetailActivity", "fieldPhone: " + fieldPhone);
+            Log.d("FieldDetailActivity", "fieldImage: " + fieldImage);
+            Log.d("FieldDetailActivity", "fieldId: " + fieldId);
+
+            // Tạo một Intent để chuyển tới BookingActivity
+            Intent bookingIntent = new Intent(FieldDetailActivity.this, BookingActivity.class);
+
+            // Truyền các thông tin của Field qua Intent
+            bookingIntent.putExtra("FIELD_NAME", fieldName);
+            bookingIntent.putExtra("FIELD_ADDRESS", fieldAddress);
+            bookingIntent.putExtra("FIELD_PHONE", String.valueOf(fieldPhone));  // Chuyển phone thành String nếu cần
+            bookingIntent.putExtra("FIELD_IMAGE", fieldImage);
+            bookingIntent.putExtra("FIELD_ID", fieldId);
+
+            // Bắt đầu Activity
+            startActivity(bookingIntent);
+        });
+
+    }
 
 
 }
