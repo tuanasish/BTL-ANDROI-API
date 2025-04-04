@@ -12,6 +12,11 @@
         android:icon="@drawable/ic_map" />
 
     <item
+        android:id="@+id/nav_discount"
+        android:title="Nổi bật"
+        android:icon="@drawable/baseline_apps_24" />
+
+    <item
         android:id="@+id/nav_account"
         android:icon="@drawable/ic_account"
         android:title="Tài khoản" />
