@@ -4,10 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.btl.R;
 import com.example.btl.models.TimeSlot;
+
 import java.util.List;
 
 public class TimeSlotRowAdapter extends RecyclerView.Adapter<TimeSlotRowAdapter.ViewHolder> {
@@ -33,19 +36,29 @@ public class TimeSlotRowAdapter extends RecyclerView.Adapter<TimeSlotRowAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TimeSlot timeSlot = timeSlots.get(position);
-        holder.timeText.setText(timeSlot.getTime());
 
-        holder.itemView.setOnClickListener(v -> {
-            timeSlot.toggleSelected(); // Toggle trạng thái chọn
-            listener.onTimeSlotClicked(timeSlot, timeSlot.isSelected());
-            notifyDataSetChanged(); // Cập nhật UI
-        });
-
-        // Cập nhật màu khi chọn
-        if (timeSlot.isSelected()) {
-            holder.itemView.setBackgroundResource(R.color.selected_color);
+        // Nếu đã đặt → khóa tương tác + làm mờ + hiển thị (Đã đặt)
+        if (timeSlot.getStatus() == TimeSlot.LOCKED) {
+            holder.timeText.setText(timeSlot.getTime() + " (Đã đặt)");
+            holder.itemView.setAlpha(0.4f); // Làm mờ
+            holder.itemView.setOnClickListener(null); // Không cho bấm
+            holder.itemView.setBackgroundResource(R.color.locked_color); // Màu riêng cho đã đặt
         } else {
-            holder.itemView.setBackgroundResource(R.color.default_color);
+            // Nếu chưa đặt → xử lý bình thường
+            holder.timeText.setText(timeSlot.getTime());
+            holder.itemView.setAlpha(1.0f);
+            holder.itemView.setOnClickListener(v -> {
+                timeSlot.toggleSelected(); // Chọn/huỷ chọn
+                listener.onTimeSlotClicked(timeSlot, timeSlot.isSelected());
+                notifyDataSetChanged();
+            });
+
+            // Thay đổi màu khi được chọn
+            if (timeSlot.isSelected()) {
+                holder.itemView.setBackgroundResource(R.color.selected_color);
+            } else {
+                holder.itemView.setBackgroundResource(R.color.default_color);
+            }
         }
     }
 

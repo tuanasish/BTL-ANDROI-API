@@ -1,45 +1,110 @@
 package com.example.btl.models;
 
+import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Field {
+public class Field implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @SerializedName("field_id")
+    private int field_id;
+
+    @SerializedName("name")
     private String name;
-    private String address;
-    private String number;
-    private int image;
-    private double latitude;
-    private double longitude;
 
-    public Field(String name, String address, String number, int image, double latitude, double longitude) {
-        this.name = name;
-        this.address = address;
-        this.number = number;
-        this.image = image;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    @SerializedName("location")
+    private String location;
+
+    @SerializedName("type")
+    private String type;
+
+    @SerializedName("price")
+    private String price;
+
+    @SerializedName("capacity")
+    private int capacity;
+
+    @SerializedName("description")
+    private String description;
+
+    @SerializedName("image")
+    private String images;
+
+    public Field() {
     }
 
-    // Getter và Setter cho các trường
+    public Field(Integer capacity, String description, int field_id, String images, String location, String name, double price, String type) {
+        this.capacity = capacity;
+        this.description = description;
+        this.field_id = field_id;
+        this.images = images;
+        this.location = location;
+        this.name = name;
+        this.price = String.valueOf(price);
+        this.type = type;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getField_id() {
+        return field_id;
+    }
+
+    public void setField_id(int field_id) {
+        this.field_id = field_id;
+    }
+
+    public String getImages() {
+        return images;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public double getPrice() {
+        return Double.parseDouble(price);
     }
 
-    public int getImage() {
-        return image;
+    public void setPrice(double price) {
+        this.price = String.valueOf(price);
     }
 
-    public double getLatitude() {
-        return latitude;
+    public String getType() {
+        return type;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public void setType(String type) {
+        this.type = type;
     }
 }

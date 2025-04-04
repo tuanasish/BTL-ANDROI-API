@@ -1,6 +1,12 @@
 package com.example.btl.api;
 
+import android.util.Log;
+
+import com.example.btl.models.LoginResponse;
+import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
+
+import java.io.IOException;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,8 +19,80 @@ public class ApiUserService {
         this.api = api;
     }
 
+    //dang nhap
+    public void loginUser(String email, String password, final ApiCallback<User> callback) {
+        api.login(email, password).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+                    User user = loginResponse.getUser();
+
+                    if (user != null) {
+                        Log.d("API_RESPONSE", "Login success: " + loginResponse.getMessage());
+                        Log.d("API_RESPONSE", "User data: " + user.toString());
+                        callback.onSuccess(user);
+                    } else {
+                        callback.onError(new Exception("User data is null"));
+                    }
+                } else {
+                    String errorMsg = "Login failed: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("API_ERROR", "Error reading error body", e);
+                    }
+                    callback.onError(new Exception(errorMsg));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.e("API_FAILURE", "Network error: " + t.getMessage());
+                callback.onError(t);
+            }
+        });
+    }
+
+    // dang ky
+    public void registerUser(User user, final ApiCallback<User> callback) {
+        api.register(user).enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    RegisterResponse registerResponse = response.body();
+                    User registeredUser = registerResponse.getUser();
+
+                    if (registeredUser != null) {
+                        callback.onSuccess(registeredUser);
+                    } else {
+                        callback.onError(new Exception("User data is null in response"));
+                    }
+                } else {
+                    String errorMsg = "Registration failed: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("API_ERROR", "Error reading error body", e);
+                    }
+                    callback.onError(new Exception(errorMsg));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Log.e("API_FAILURE", "Registration error: " + t.getMessage());
+                callback.onError(t);
+            }
+        });
+    }
+
     // Lấy thông tin User theo ID
-    public void getUserById(int id, ApiCallback<User> callback) {
+    public void getUserById(String email, int id, ApiCallback<User> callback) {
         api.getById(id).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

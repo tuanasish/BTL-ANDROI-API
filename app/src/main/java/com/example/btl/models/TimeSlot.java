@@ -8,15 +8,19 @@ public class TimeSlot implements Parcelable {
     public static final int BOOKED = 1;
     public static final int LOCKED = 2;
 
-    private String fieldName;   // Tên sân
-    private String time;        // Khung giờ
-    private int status;         // Trạng thái đặt sân
-    private boolean selected;   // Đánh dấu chọn sân
-    private int totalPrice;     // Tổng tiền
-    private String bookedDate;  // Ngày đặt
+    private String fieldName;     // Tên sân
+    private String time;          // Khung giờ
+    private int status;           // Trạng thái đặt sân
+    private boolean selected;     // Đánh dấu chọn sân
+    private int totalPrice;       // Tổng tiền
+    private String bookedDate;    // Ngày đặt
+    private String fieldAddress;  // Địa chỉ sân
+    private String fieldNumber;   // SĐT sân
 
+    // Constructor chính
     public TimeSlot(String fieldName, String time, int status, int totalPrice, String bookedDate) {
         this.fieldName = fieldName;
+        fixFieldName();
         this.time = time;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -24,6 +28,7 @@ public class TimeSlot implements Parcelable {
         this.selected = false;
     }
 
+    // Constructor từ Parcel
     protected TimeSlot(Parcel in) {
         fieldName = in.readString();
         time = in.readString();
@@ -31,6 +36,8 @@ public class TimeSlot implements Parcelable {
         totalPrice = in.readInt();
         bookedDate = in.readString();
         selected = in.readByte() != 0;
+        fieldAddress = in.readString();
+        fieldNumber = in.readString();
     }
 
     public static final Creator<TimeSlot> CREATOR = new Creator<TimeSlot>() {
@@ -45,6 +52,7 @@ public class TimeSlot implements Parcelable {
         }
     };
 
+    // Getter & Setter
     public String getFieldName() {
         return fieldName;
     }
@@ -69,17 +77,38 @@ public class TimeSlot implements Parcelable {
         return bookedDate;
     }
 
+    public String getFieldAddress() {
+        return fieldAddress;
+    }
+
+    public String getFieldNumber() {
+        return fieldNumber;
+    }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
     public void toggleSelected() {
-        selected = !selected;
+        this.selected = !this.selected;
     }
 
-    // ✅ Thêm phương thức setStatus để sửa lỗi
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public void setFieldAddress(String fieldAddress) {
+        this.fieldAddress = fieldAddress;
+    }
+
+    public void setFieldNumber(String fieldNumber) {
+        this.fieldNumber = fieldNumber;
+    }
+
+    public void fixFieldName() {
+        if (fieldName.contains("Sân nhỏ")) {
+            fieldName = fieldName.replace("Sân nhỏ", "PickelBall");
+        }
     }
 
     @Override
@@ -95,5 +124,7 @@ public class TimeSlot implements Parcelable {
         dest.writeInt(totalPrice);
         dest.writeString(bookedDate);
         dest.writeByte((byte) (selected ? 1 : 0));
+        dest.writeString(fieldAddress);
+        dest.writeString(fieldNumber);
     }
 }

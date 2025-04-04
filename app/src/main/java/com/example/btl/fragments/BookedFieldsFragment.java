@@ -31,39 +31,12 @@ public class BookedFieldsFragment extends Fragment {
         txtNoBookings = view.findViewById(R.id.txtNoBookings);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BookingHistoryAdapter();
-        recyclerView.setAdapter(adapter);
 
         databaseHelper = new BookingDatabaseHelper(getContext());
         databaseHelper.open();
 
-        updateUI();
 
         return view;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
     }
 
-    private void updateUI() {
-        List<TimeSlot> bookedSlots = databaseHelper.getBookings();
-        int totalPrice = databaseHelper.getTotalPrice();
-        if (bookedSlots.isEmpty()) {
-            txtNoBookings.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            txtNoBookings.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            adapter.updateList(bookedSlots, "1/1/2025", totalPrice); // TODO Đang sửa
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        databaseHelper.close();
-    }
-}

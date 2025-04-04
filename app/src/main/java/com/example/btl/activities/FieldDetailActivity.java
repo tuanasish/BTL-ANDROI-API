@@ -3,26 +3,35 @@ package com.example.btl.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.adapters.DetailFragentAdapterField;
+import com.example.btl.api.ApiClient;
+import com.example.btl.api.ApiFieldInterface;
+import com.example.btl.api.ApiFieldService;
+import com.example.btl.models.Field;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class FieldDetailActivity extends AppCompatActivity {
-
+    private int fieldId;
     private ImageView fieldImage;
     private TextView fieldName, fieldAddress, fieldNumber;
     private Button btnBookNow;
     private ViewPager2 viewPager2;
     private TabLayout tabLayout;
     private DetailFragentAdapterField adapterDetailField;
+    private ApiFieldService apiFieldService;
+    private Field field;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -30,6 +39,7 @@ public class FieldDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_field_detail);
 
+        // Ánh xạ các thành phần giao diện
         fieldImage = findViewById(R.id.fieldImage);
         fieldName = findViewById(R.id.fieldName);
         fieldAddress = findViewById(R.id.fieldAddress);
@@ -38,9 +48,39 @@ public class FieldDetailActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
 
-        // Tạo adapter cho ViewPager2
+        // Tạo adapter cho ViewPager2 để hiển thị thông tin chi tiết sân
         adapterDetailField = new DetailFragentAdapterField(this);
         viewPager2.setAdapter(adapterDetailField);
+        // Nhận ID từ Intent
+        Intent intent = getIntent();
+        if(intent != null) {
+            String name = intent.getStringExtra("FIELD_NAME");
+            String address = intent.getStringExtra("FIELD_LOCATION");
+            int number = intent.getIntExtra("FIELD_CAPACITY", 0);
+            String image = intent.getStringExtra("FIELD_IMAGE");
+
+            // Hiển thị dữ liệu lên giao diện
+            fieldName.setText(name);
+            fieldAddress.setText(address);
+            fieldNumber.setText(String.valueOf(number));
+
+            // Hiển thị ảnh bằng Glide
+            if (image != null && !image.isEmpty()) {
+                Glide.with(this)
+                        .load(image)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .into(fieldImage);
+            } else {
+                fieldImage.setImageResource(R.drawable.field2);
+            }
+
+            // Tạo đối tượng Field để sử dụng trong booking
+            field = new Field();
+            field.setName(name);
+            field.setLocation(address);
+            field.setCapacity(number);
+            field.setImages(image);
+        }
 
         new TabLayoutMediator(tabLayout, viewPager2,
                 (tab, position) -> {
@@ -60,28 +100,43 @@ public class FieldDetailActivity extends AppCompatActivity {
                     }
                 }).attach();
 
-        // Nhận dữ liệu từ Intent
-        Intent intent = getIntent();
-        if (intent != null) {
-            String name = intent.getStringExtra("name");
-            String address = intent.getStringExtra("address");
-            String number = intent.getStringExtra("number");
-            int image = intent.getIntExtra("image", R.drawable.ic_launcher_background);
-
-            fieldName.setText(name);
-            fieldAddress.setText(address);
-            fieldNumber.setText("Số điện thoại: " + number);
-            fieldImage.setImageResource(image);
+        fieldAddress.setText(field.getLocation());
+        fieldName.setText(field.getName());
+        fieldImage.setImageResource(R.drawable.field2);
 
             // Xử lý sự kiện khi nhấn nút "Đặt ngay"
-            btnBookNow.setOnClickListener(v -> {
-                Intent bookingIntent = new Intent(FieldDetailActivity.this, BookingActivity.class);
-                bookingIntent.putExtra("name", name);
-                bookingIntent.putExtra("address", address);
-                bookingIntent.putExtra("number", number);
-                bookingIntent.putExtra("image", image);
-                startActivity(bookingIntent);
-            });
-        }
+
+        btnBookNow.setOnClickListener(v -> {
+            // Lấy thông tin từ đối tượng Field
+            String fieldName = field.getName();
+            String fieldAddress = field.getLocation();
+            int fieldPhone = field.getCapacity();  // Hoặc số điện thoại của bạn
+            String fieldImage = field.getImages();
+            int fieldId = field.getField_id();
+
+            // Log dữ liệu trước khi truyền vào Intent
+            Log.d("FieldDetailActivity", "fieldName: " + fieldName);
+            Log.d("FieldDetailActivity", "fieldAddress: " + fieldAddress);
+            Log.d("FieldDetailActivity", "fieldPhone: " + fieldPhone);
+            Log.d("FieldDetailActivity", "fieldImage: " + fieldImage);
+            Log.d("FieldDetailActivity", "fieldId: " + fieldId);
+
+            // Tạo một Intent để chuyển tới BookingActivity
+            Intent bookingIntent = new Intent(FieldDetailActivity.this, BookingActivity.class);
+
+            // Truyền các thông tin của Field qua Intent
+            bookingIntent.putExtra("FIELD_NAME", fieldName);
+            bookingIntent.putExtra("FIELD_ADDRESS", fieldAddress);
+            bookingIntent.putExtra("FIELD_PHONE", String.valueOf(fieldPhone));  // Chuyển phone thành String nếu cần
+            bookingIntent.putExtra("FIELD_IMAGE", fieldImage);
+            bookingIntent.putExtra("FIELD_ID", fieldId);
+
+            // Bắt đầu Activity
+            startActivity(bookingIntent);
+        });
+
     }
+
+
 }
+
