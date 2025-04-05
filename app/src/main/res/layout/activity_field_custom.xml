@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Hình ảnh sân -->
+    <ImageView
+        android:id="@+id/fieldImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"/>
+
+    <!-- Tên sân -->
+    <TextView
+        android:id="@+id/fieldName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sân 1"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Địa chỉ sân -->
+    <TextView
+        android:id="@+id/fieldLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Địa chỉ"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- Sức chứa sân -->
+    <TextView
+        android:id="@+id/fieldCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sức chứa"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Mô tả sân -->
+    <TextView
+        android:id="@+id/fieldDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mô tả"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Nút chỉnh sửa sân -->
+    <Button
+        android:id="@+id/btnEditField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chỉnh sửa sân"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

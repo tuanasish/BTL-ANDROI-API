@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.btl.activities.AdminMainActivity;
 import com.example.btl.api.ApiClient;
 import com.example.btl.api.ApiUserInterface;
 import com.example.btl.api.ApiUserService;
@@ -76,6 +77,12 @@ public class LoginActivity extends AppCompatActivity {
         // Chuyển sang màn hình đăng ký
         tvToRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+        // Chuyển sang màn hình đăng nhập chủ sân (admin)
+        TextView tvAdminLogin = findViewById(R.id.tvAdminLogin);
+        tvAdminLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, AdminMainActivity.class);
             startActivity(intent);
         });
     }
