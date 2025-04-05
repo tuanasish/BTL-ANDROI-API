@@ -104,10 +104,10 @@ public class BookingActivity extends AppCompatActivity {
 
         // Bấm nút tiếp tục
         btnNext.setOnClickListener(v -> {
-            if (selectedSlots.isEmpty()) {
-                totalPrice.setText("Vui lòng chọn ít nhất một khung giờ!");
-                return;
-            }
+//            if (selectedSlots.isEmpty()) {
+//                totalPrice.setText("Vui lòng chọn ít nhất một khung giờ!");
+//                return;
+//            }
             if (selectedDate.isEmpty()) {
                 totalPrice.setText("Vui lòng chọn ngày!");
                 return;
@@ -146,9 +146,11 @@ public class BookingActivity extends AppCompatActivity {
         totalPrice.setText("Tổng tiền: " + totalCost + " VND");
     }
 
+
     /**
      * Hiển thị DatePickerDialog để chọn ngày, sau đó gọi API lấy danh sách slot đã đặt của ngày đó.
      */
+
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);

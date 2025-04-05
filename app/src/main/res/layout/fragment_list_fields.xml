@@ -18,6 +18,15 @@
         android:textStyle="bold"
         android:textColor="@color/textTitle" /> <!-- Màu vàng nhạt cho tiêu đề -->
 
+    <!-- Tìm kiếm -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Tìm kiếm theo tên, địa chỉ hoặc số điện thoại"
+        android:iconifiedByDefault="false"
+        android:layout_marginBottom="10dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

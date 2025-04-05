@@ -42,14 +42,20 @@ public class ListFieldsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         fieldList = new ArrayList<>();
 
+        fieldList.add(new Field(50, "Sân bóng đá 11 người, có mái che, đầy đủ trang thiết bị", 1, "field1_image.jpg", "Đường Nguyễn Văn Linh, TP.HCM", "Sân Bóng 11 Người", 500000, "Football"));
+        fieldList.add(new Field(30, "Sân bóng đá 7 người, có đèn chiếu sáng, mặt sân cỏ nhân tạo", 2, "field2_image.jpg", "Đường Lý Thường Kiệt, TP.HCM", "Sân Bóng 7 Người", 350000, "Football"));
+        fieldList.add(new Field(20, "Sân tennis đôi, mặt sân cứng, có khu vực chờ", 3, "field3_image.jpg", "Đường Trường Chinh, TP.HCM", "Sân Tennis", 200000, "Tennis"));
+        fieldList.add(new Field(10, "Sân cầu lông, có đèn chiếu sáng, không gian thoáng đãng", 4, "field4_image.jpg", "Đường Phan Văn Trị, TP.HCM", "Sân Cầu Lông", 100000, "Badminton"));
+        fieldList.add(new Field(25, "Sân bóng rổ, có bảng rổ, đèn chiếu sáng đủ", 5, "field5_image.jpg", "Đường Hồ Tùng Mậu, TP.HCM", "Sân Bóng Rổ", 150000, "Basketball"));
+
         fieldAdapter = new FieldAdapter(getContext(), fieldList);
         recyclerView.setAdapter(fieldAdapter);
 
-        ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
-        apiFieldService = new ApiFieldService(apiFieldInterface);
-
-        // Lấy dữ liệu field
-        loadFields();
+//        ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
+//        apiFieldService = new ApiFieldService(apiFieldInterface);
+//
+//        // Lấy dữ liệu field
+//        loadFields();
         return view;
     }
 
@@ -68,8 +74,4 @@ public class ListFieldsFragment extends Fragment {
             }
         });
     }
-
-
-
-
 }

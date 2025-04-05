@@ -1,10 +1,18 @@
 package com.example.btl.activities;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl.R;
@@ -25,11 +33,20 @@ public class ConfirmBookingActivity extends AppCompatActivity {
     private List<TimeSlot> selectedSlots;
     private int totalCost;
     private BookingDatabaseHelper databaseHelper;
+    private static final String CHANNEL_ID = "my_channel_id"; // Khai báo CHANNEL_ID
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;  // Request code for permission
+    private static final int NOTIFICATION_ID_BASE = 1000; // Base ID for notification to differentiate between different slots
+    private NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_booking);
+
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // Tạo Notification Channel nếu cần (đảm bảo chỉ làm điều này một lần)
+        createNotificationChannel();
 
         txtDate = findViewById(R.id.txtDate);
         txtTotalPrice = findViewById(R.id.txtTotalPrice);
@@ -42,6 +59,17 @@ public class ConfirmBookingActivity extends AppCompatActivity {
 
         databaseHelper = new BookingDatabaseHelper(this);
         databaseHelper.open();
+
+        // Kiểm tra quyền POST_NOTIFICATIONS trên Android 13 hoặc cao hơn
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
+            } else {
+                createNotificationChannel();
+            }
+        } else {
+            createNotificationChannel(); // Nếu Android phiên bản thấp hơn 13, tạo channel mà không cần yêu cầu quyền
+        }
 
         Intent intent = getIntent();
         selectedSlots = intent.getParcelableArrayListExtra("selected_slots");
@@ -79,7 +107,10 @@ public class ConfirmBookingActivity extends AppCompatActivity {
                 slot.setFieldAddress(fieldAddress);
                 slot.setFieldNumber(fieldNumber);
                 databaseHelper.addBooking(slot, bookedDate, totalCost);
+
+            //    showNotification(slot.getFieldName(), "Đặt sân " + slot.getFieldName() + " thành công!");
             }
+            showNotification("Đặt sân thành công", "Bạn đã đặt sân thành công!");
 
             startActivity(new Intent(ConfirmBookingActivity.this, SuccessActivity.class));
             finish();
@@ -93,4 +124,48 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         super.onDestroy();
         databaseHelper.close();
     }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Notifications";
+            String description = "Channel for my app notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    // Phương thức để hiển thị thông báo cho từng sân riêng biệt
+//    private void showNotification(String fieldName, String message) {
+//        // Tạo Notification cho mỗi sân
+//        int notificationId = NOTIFICATION_ID_BASE + fieldName.hashCode(); // Tạo ID thông báo riêng biệt cho từng sân
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setSmallIcon(R.drawable.dadat) // Đảm bảo icon hợp lệ
+//                .setContentTitle("Thông báo mới" )
+//                .setContentText(message)  // Cập nhật nội dung thông báo
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                .setOngoing(true) // Đảm bảo thông báo không tự động bị tắt
+//                .setAutoCancel(false); // Giữ thông báo trên thanh trạng thái
+//
+//        notificationManager.notify(notificationId, builder.build()); // Dùng ID duy nhất cho mỗi sân
+//    }
+    // Phương thức để hiển thị thông báo chung
+    private void showNotification(String title, String message) {
+        // Tạo Notification chung cho tất cả các sân
+        int notificationId = NOTIFICATION_ID_BASE; // Sử dụng ID duy nhất cho thông báo chung
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.dadat) // Đảm bảo icon hợp lệ
+                .setContentTitle(title)          // Tiêu đề thông báo
+                .setContentText(message)         // Nội dung thông báo
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setOngoing(false)               // Không cho phép thông báo này kéo dài
+                .setAutoCancel(true);            // Cho phép tự động tắt thông báo khi người dùng nhấn
+
+        notificationManager.notify(notificationId, builder.build()); // Dùng ID chung cho thông báo
+    }
+
+
 }

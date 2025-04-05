@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.btl.fragments.AccountFragment;
 import com.example.btl.fragments.BookedFieldsFragment;
+import com.example.btl.fragments.DiscountFragment;
 import com.example.btl.fragments.ListFieldsFragment;
 import com.example.btl.fragments.MapFragment;
 import com.example.btl.models.User;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("DEBUG", "User: " + loginUser);
                 accountFragment.setArguments(bundle);
                 selectedFragment = accountFragment;
+            } else if (id == R.id.nav_discount) {
+                selectedFragment = new DiscountFragment();
             } else if (id == R.id.nav_map) {
                 // Sử dụng MapFragment để hiển thị bản đồ
                 selectedFragment = new MapFragment();
