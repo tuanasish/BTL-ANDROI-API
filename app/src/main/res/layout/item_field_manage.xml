@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="10dp">
+
+    <!-- Hình ảnh sân -->
+    <ImageView
+        android:id="@+id/fieldImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_launcher_background"
+        android:scaleType="centerCrop"/>
+
+    <!-- Thông tin sân -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="start">
+
+        <!-- Tên sân -->
+        <TextView
+            android:id="@+id/fieldName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên sân"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Địa chỉ sân -->
+        <TextView
+            android:id="@+id/fieldLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa điểm"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <!-- Sức chứa sân -->
+        <TextView
+            android:id="@+id/fieldCapacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sức chứa: 0"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <!-- Các nút chỉnh sửa và xóa sân -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Nút Chỉnh sửa -->
+        <ImageView
+            android:id="@+id/imgEdit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_edit"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Chỉnh sửa sân" />
+
+        <!-- Nút Xóa -->
+        <ImageView
+            android:id="@+id/imgDelete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_logout"
+            android:contentDescription="Xóa sân" />
+    </LinearLayout>
+
+</LinearLayout>

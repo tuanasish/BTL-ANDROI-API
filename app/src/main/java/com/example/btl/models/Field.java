@@ -30,7 +30,7 @@ public class Field implements Serializable {
     @SerializedName("image")
     private String images;
 
-    public Field() {
+    public Field(int i, String s, String string, String bóngĐá, int i1, int i2, String s1, String image, String string1) {
     }
 
     public Field(Integer capacity, String description, int field_id, String images, String location, String name, double price, String type) {
@@ -107,4 +107,5 @@ public class Field implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
 }

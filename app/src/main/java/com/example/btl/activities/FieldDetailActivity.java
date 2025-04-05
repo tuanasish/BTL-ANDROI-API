@@ -7,7 +7,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -15,8 +14,6 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.adapters.DetailFragentAdapterField;
-import com.example.btl.api.ApiClient;
-import com.example.btl.api.ApiFieldInterface;
 import com.example.btl.api.ApiFieldService;
 import com.example.btl.models.Field;
 import com.google.android.material.tabs.TabLayout;
@@ -75,7 +72,7 @@ public class FieldDetailActivity extends AppCompatActivity {
             }
 
             // Tạo đối tượng Field để sử dụng trong booking
-            field = new Field();
+            field = new Field(1, "Sân 1", "Địa chỉ 1", "Bóng đá", 500000, 20, "Mô tả sân 1", "image1.jpg", "10.123, 20.123");
             field.setName(name);
             field.setLocation(address);
             field.setCapacity(number);

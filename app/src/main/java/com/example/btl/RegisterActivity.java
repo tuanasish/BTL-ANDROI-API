@@ -3,7 +3,6 @@ package com.example.btl;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // Tạo đối tượng User từ thông tin đăng ký
-        User newUser = new User();
+        User newUser = new User(1, "Nguyễn Văn A", "a@gmail.com", "123456");
         newUser.setUsername(username);
         newUser.setEmail(email);
         newUser.setPhone(phone);
