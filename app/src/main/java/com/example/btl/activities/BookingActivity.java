@@ -113,7 +113,7 @@ public class BookingActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent confirmIntent = new Intent(BookingActivity.this, ConfirmBookingActivity.class);
+            /*Intent confirmIntent = new Intent(BookingActivity.this, ConfirmBookingActivity.class);
             confirmIntent.putParcelableArrayListExtra("selected_slots", new ArrayList<>(selectedSlots));
             confirmIntent.putExtra("total_cost", totalCost);
             confirmIntent.putExtra("field_name", fieldName);
@@ -128,7 +128,7 @@ public class BookingActivity extends AppCompatActivity {
                 confirmIntent.putExtra("selected_time", firstSlot.getTime());
                 confirmIntent.putExtra("selected_duration", selectedSlots.size() * 90);
             }
-            startActivity(confirmIntent);
+            startActivity(confirmIntent);*/
         });
     }
 
@@ -176,7 +176,7 @@ public class BookingActivity extends AppCompatActivity {
                             // Tạo lại danh sách các khung giờ dựa vào dữ liệu trả về từ API
                             timeSlotList = generateTimeSlots(index, selectedDate, bookedSlots);
                             // Khởi tạo adapter và gán vào RecyclerView
-                            adapter = new TimeSlotAdapter(timeSlotList, BookingActivity.this::updatePrice);
+                            /*adapter = new TimeSlotAdapter(timeSlotList, BookingActivity.this::updatePrice);*/
                             recyclerView.setAdapter(adapter);
                         }
 
@@ -239,7 +239,7 @@ public class BookingActivity extends AppCompatActivity {
             List<TimeSlot> slotRow = new ArrayList<>();
             for (String time : times) {
                 // Giả sử constructor của TimeSlot có dạng:
-                TimeSlot slot = new TimeSlot("PickelBall " + (i + 1), time, TimeSlot.AVAILABLE, 90, selectedDate);
+               /* TimeSlot slot = new TimeSlot("PickelBall " + (i + 1), time, TimeSlot.AVAILABLE, 90, selectedDate);
 
                 // Kiểm tra nếu trong danh sách bookedSlots có khung giờ trùng với time hiện tại
                 for (TimeSlot booked : bookedSlots) {
@@ -247,8 +247,8 @@ public class BookingActivity extends AppCompatActivity {
                         slot.setStatus(TimeSlot.LOCKED);
                         break;
                     }
-                }
-                slotRow.add(slot);
+                }*/
+                /*slotRow.add(slot);*/
             }
             allSlots.add(slotRow);
         }

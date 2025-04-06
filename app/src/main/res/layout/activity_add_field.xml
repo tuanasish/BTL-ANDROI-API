@@ -1,173 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- Tiêu đề "Thêm sân" -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thêm sân"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:paddingBottom="24dp" />
-
-    <!-- Tên sân -->
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="#3F51B5"
-        app:hintTextColor="#3F51B5">
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fieldName"
+        <!-- Tiêu đề "Thêm sân" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp"
+            android:text="Thêm sân"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Tên sân -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên sân"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#3F51B5">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fieldName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên sân"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Địa chỉ sân -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="#3F51B5"
-        app:hintTextColor="#3F51B5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fieldLocation"
+        <!-- Địa chỉ sân -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Địa chỉ"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#3F51B5">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fieldLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Địa chỉ"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Giá thuê -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="#3F51B5"
-        app:hintTextColor="#3F51B5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fieldPrice"
+        <!-- Giá thuê -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Giá thuê"
-            android:inputType="numberDecimal"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#3F51B5">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fieldPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Giá thuê"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Sức chứa -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="#3F51B5"
-        app:hintTextColor="#3F51B5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fieldCapacity"
+        <!-- Sức chứa -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Sức chứa"
-            android:inputType="number"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#3F51B5">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fieldCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sức chứa"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Mô tả sân -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="#3F51B5"
-        app:hintTextColor="#3F51B5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fieldDescription"
+        <!-- Loại sân (Spinner) -->
+        <Spinner
+            android:id="@+id/fieldTypeSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mô tả"
-            android:inputType="textMultiLine"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="8dp"
+            android:spinnerMode="dropdown"
+            android:prompt="@string/choose_field_type"/>
 
-    <!-- Tọa độ -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="8dp"
-        app:boxCornerRadiusBottomStart="8dp"
-        app:boxCornerRadiusTopEnd="8dp"
-        app:boxCornerRadiusTopStart="8dp"
-        app:boxStrokeColor="#3F51B5"
-        app:hintTextColor="#3F51B5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fieldCoordinates"
+        <!-- Mô tả -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tọa độ"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#3F51B5">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fieldDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mô tả"
+                android:inputType="textMultiLine"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Chọn ảnh -->
-    <ImageView
-        android:id="@+id/fieldImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_background"
-        android:contentDescription="Hình ảnh sân"
-        android:scaleType="centerCrop" />
+        <!-- Tọa độ -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#3F51B5">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fieldCoordinates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tọa độ"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnSelectImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chọn ảnh"
-        android:layout_marginTop="16dp" />
+        <!-- Ảnh sân -->
+        <ImageView
+            android:id="@+id/fieldImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_background"
+            android:contentDescription="Hình ảnh sân"
+            android:scaleType="centerCrop" />
 
-    <!-- Nút Thêm sân -->
-    <Button
-        android:id="@+id/btnAddField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Thêm sân"
-        android:layout_marginTop="24dp" />
+        <!-- Nút chọn ảnh -->
+        <Button
+            android:id="@+id/btnSelectImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Chọn ảnh" />
 
-    <!-- Thêm FrameLayout để chứa fragment -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"/>
+        <!-- Nút thêm sân -->
+        <Button
+            android:id="@+id/btnAddField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Thêm sân" />
 
-</LinearLayout>
+        <!-- Nếu có fragment thì giữ lại -->
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BOOKING APP</string>
+    <string name="choose_field_type">Chọn loại sân</string>
+    <string-array name="field_types">
+        <item>Cầu lông</item>
+        <item>Pick</item>
+        <item>Bóng đá</item>
+        <item>Tenis</item>
+    </string-array>
+
 </resources>

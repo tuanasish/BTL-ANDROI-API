@@ -72,7 +72,7 @@ public class FieldDetailActivity extends AppCompatActivity {
             }
 
             // Tạo đối tượng Field để sử dụng trong booking
-            field = new Field(1, "Sân 1", "Địa chỉ 1", "Bóng đá", 500000, 20, "Mô tả sân 1", "image1.jpg", "10.123, 20.123");
+
             field.setName(name);
             field.setLocation(address);
             field.setCapacity(number);

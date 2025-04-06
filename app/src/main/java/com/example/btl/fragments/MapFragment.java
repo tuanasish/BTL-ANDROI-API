@@ -3,6 +3,7 @@ package com.example.btl.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mMap.setMyLocationEnabled(true);
 
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), location -> {
+                .addOnSuccessListener(getActivity(), (OnSuccessListener<? super Location>) location -> {
                     if (location != null) {
                         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));

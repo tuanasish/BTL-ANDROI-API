@@ -25,11 +25,6 @@ public class BookingDetailActivity extends AppCompatActivity {
         // Nhận dữ liệu từ intent
         TimeSlot slot = getIntent().getParcelableExtra("booking_detail");
 
-        if (slot != null) {
-            txtDetailFieldName.setText("Sân: " + slot.getFieldName());
-            txtDetailBookedDate.setText("Ngày đặt: " + slot.getBookedDate());
-            txtDetailTimeSlot.setText("Khung giờ: " + slot.getTime());
-            txtDetailTotalPrice.setText("Tổng tiền: " + slot.getTotalPrice() + " VND");
-        }
+
     }
 }

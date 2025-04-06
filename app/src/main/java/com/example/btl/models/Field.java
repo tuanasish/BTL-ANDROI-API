@@ -19,7 +19,7 @@ public class Field implements Serializable {
     private String type;
 
     @SerializedName("price")
-    private String price;
+    private double price;
 
     @SerializedName("capacity")
     private int capacity;
@@ -27,28 +27,70 @@ public class Field implements Serializable {
     @SerializedName("description")
     private String description;
 
-    @SerializedName("image")
+    @SerializedName("images")
     private String images;
 
-    public Field(int i, String s, String string, String bóngĐá, int i1, int i2, String s1, String image, String string1) {
-    }
+    // Constructor mặc định
+    public Field() {}
 
-    public Field(Integer capacity, String description, int field_id, String images, String location, String name, double price, String type) {
+    // Constructor đầy đủ
+    public Field(int field_id, String name, String location, String type, double price, int capacity, String description, String images) {
+        this.field_id = field_id;
+        this.name = name;
+        this.location = location;
+        this.type = type;
+        this.price = price;
         this.capacity = capacity;
         this.description = description;
-        this.field_id = field_id;
         this.images = images;
-        this.location = location;
+    }
+
+    // Getter và Setter cho các trường
+    public int getField_id() {
+        return field_id;
+    }
+
+    public void setField_id(int field_id) {
+        this.field_id = field_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        this.price = String.valueOf(price);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Integer getCapacity() {
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
@@ -60,14 +102,6 @@ public class Field implements Serializable {
         this.description = description;
     }
 
-    public int getField_id() {
-        return field_id;
-    }
-
-    public void setField_id(int field_id) {
-        this.field_id = field_id;
-    }
-
     public String getImages() {
         return images;
     }
@@ -75,37 +109,4 @@ public class Field implements Serializable {
     public void setImages(String images) {
         this.images = images;
     }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return Double.parseDouble(price);
-    }
-
-    public void setPrice(double price) {
-        this.price = String.valueOf(price);
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
 }

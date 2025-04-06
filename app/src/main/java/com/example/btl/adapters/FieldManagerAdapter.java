@@ -2,6 +2,7 @@ package com.example.btl.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,15 +45,16 @@ public class FieldManagerAdapter extends RecyclerView.Adapter<FieldManagerAdapte
         holder.fieldName.setText(field.getName());
         holder.fieldLocation.setText(field.getLocation());
         holder.fieldCapacity.setText("Sức chứa: " + field.getCapacity());
+        String imageUrl = field.getImages();
+        Log.d("FieldAdapter", "Image URL: " + imageUrl);
 
-        // Lấy ảnh từ drawable
-        int imageResource = context.getResources().getIdentifier(field.getImages(), "drawable", context.getPackageName());
-
-        // Kiểm tra nếu ảnh tồn tại
-        if (imageResource != 0) {
-            holder.fieldImage.setImageResource(imageResource); // Load từ drawable
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.field2) // ảnh tạm trong lúc load
+                    .into(holder.fieldImage);
         } else {
-            holder.fieldImage.setImageResource(R.drawable.ic_launcher_background); // Hình ảnh mặc định
+            holder.fieldImage.setImageResource(R.drawable.field2);
         }
 
         // Chỉnh sửa sân

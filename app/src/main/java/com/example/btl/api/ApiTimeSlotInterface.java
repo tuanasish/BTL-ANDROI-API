@@ -12,6 +12,9 @@ import java.lang.reflect.Array;
 import java.util.List;
 
 public interface ApiTimeSlotInterface {
+
+
+
     @GET("field/list/{fieldId}/booked")
     Call<List<TimeSlot>> getTimeSlots(@Path("fieldId") int fieldId, @Query("date") String date);
     @GET("field/{field_id}/courts")

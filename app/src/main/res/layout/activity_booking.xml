@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,6 +11,8 @@
     android:weightSum="1"> <!-- Thêm weightSum cho LinearLayout -->
 
     <!-- Ảnh sân lớn -->
+
+    <!-- Thông tin sân lớn -->
     <ImageView
         android:id="@+id/fieldImage"
         android:layout_width="match_parent"
@@ -18,7 +20,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background" />
 
-    <!-- Thông tin sân lớn -->
     <TextView
         android:id="@+id/fieldNameText"
         android:layout_width="match_parent"

@@ -5,13 +5,14 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- RecyclerView hiển thị danh sách các sân -->
+    <!-- RecyclerView chiếm phần lớn không gian -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFields"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <!-- Nút thêm sân -->
+    <!-- Nút thêm sân luôn nằm dưới cùng -->
     <Button
         android:id="@+id/btnAddField"
         android:layout_width="match_parent"

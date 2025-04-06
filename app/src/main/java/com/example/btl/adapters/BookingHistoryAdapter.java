@@ -41,22 +41,10 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookingHistoryAdapter.ViewHolder holder, int position) {
-        TimeSlot slot = bookings.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.txtFieldName.setText("Sân: " + slot.getFieldName());
-        holder.txtFieldAddress.setText("Địa chỉ: " + slot.getFieldAddress());
-        holder.txtFieldNumber.setText("SĐT: " + slot.getFieldNumber());
-        holder.txtBookedDate.setText("Ngày đặt: " + slot.getBookedDate());
-        holder.txtTimeSlot.setText("Khung giờ: " + slot.getTime());
-        holder.txtTotalPrice.setText("Tổng tiền: " + slot.getTotalPrice() + " VND");
-
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(slot);
-            }
-        });
     }
+
 
     @Override
     public int getItemCount() {

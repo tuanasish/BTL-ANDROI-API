@@ -3,6 +3,7 @@ package com.example.btl.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,33 +16,27 @@ import com.example.btl.ChangePasswordActivity;
 import com.example.btl.EditInfoActivity;
 import com.example.btl.LoginActivity;
 import com.example.btl.R;
-import com.example.btl.activities.BookingDetailActivity;
-import com.example.btl.adapters.BookingHistoryAdapter;
-import com.example.btl.models.TimeSlot;
 import com.example.btl.models.User;
 import com.example.btl.utils.BookingDatabaseHelper;
 
-import java.util.List;
-
-public class AccountFragment extends Fragment {
+public class AdminAccountFragment extends Fragment {
 
     private TextView tvUsername, tvUserInfo;
-    private RecyclerView rvBookingHistory;
-    private BookingDatabaseHelper databaseHelper;
     private User loginUser;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_account_admin, container, false);
         setHasOptionsMenu(true);
 
         tvUsername = view.findViewById(R.id.tvUsername);
         tvUserInfo = view.findViewById(R.id.tvUserInfo);
-        rvBookingHistory = view.findViewById(R.id.rvBookingHistory);
-        //du lieu nguoi dung
+
+        // Lấy dữ liệu user từ arguments
         if (getArguments() != null) {
             loginUser = (User) getArguments().getSerializable("USER_DATA");
             if (loginUser != null) {
@@ -50,11 +45,6 @@ public class AccountFragment extends Fragment {
             }
         }
 
-
-        databaseHelper = new BookingDatabaseHelper(getContext());
-        databaseHelper.open();
-
-        rvBookingHistory.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
         return view;
@@ -83,9 +73,4 @@ public class AccountFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (databaseHelper != null) databaseHelper.close();
-    }
 }

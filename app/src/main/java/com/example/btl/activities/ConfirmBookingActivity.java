@@ -72,7 +72,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        selectedSlots = intent.getParcelableArrayListExtra("selected_slots");
+        /*selectedSlots = intent.getParcelableArrayListExtra("selected_slots");*/
         totalCost = intent.getIntExtra("total_cost", 0);
 
         txtDate.setText(intent.getStringExtra("selected_date"));
@@ -88,8 +88,8 @@ public class ConfirmBookingActivity extends AppCompatActivity {
 
         Map<String, List<String>> groupedSlots = new HashMap<>();
         for (TimeSlot slot : selectedSlots) {
-            groupedSlots.putIfAbsent(slot.getFieldName(), new ArrayList<>());
-            groupedSlots.get(slot.getFieldName()).add(slot.getTime());
+            /*groupedSlots.putIfAbsent(slot.getFieldName(), new ArrayList<>());
+            groupedSlots.get(slot.getFieldName()).add(slot.getTime());*/
         }
 
         StringBuilder bookingDetails = new StringBuilder();
@@ -104,10 +104,10 @@ public class ConfirmBookingActivity extends AppCompatActivity {
 
             // Gán thêm địa chỉ và số điện thoại vào từng slot
             for (TimeSlot slot : selectedSlots) {
-                slot.setFieldAddress(fieldAddress);
+                /*slot.setFieldAddress(fieldAddress);
                 slot.setFieldNumber(fieldNumber);
                 databaseHelper.addBooking(slot, bookedDate, totalCost);
-
+*/
             //    showNotification(slot.getFieldName(), "Đặt sân " + slot.getFieldName() + " thành công!");
             }
             showNotification("Đặt sân thành công", "Bạn đã đặt sân thành công!");
