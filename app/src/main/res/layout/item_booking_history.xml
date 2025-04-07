@@ -4,27 +4,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:layout_marginBottom="8dp">
 
     <TextView
         android:id="@+id/txtFieldName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sân: Pickleball 1"
+        android:text="Tên sân: ..."
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="#2E7D32" />
 
-    <TextView
-        android:id="@+id/txtFieldAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Địa chỉ: ..." />
-
-    <TextView
-        android:id="@+id/txtFieldNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SĐT: ..." />
 
     <TextView
         android:id="@+id/txtBookedDate"
@@ -37,6 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Khung giờ: ..." />
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trạng thái: ..." />
 
     <TextView
         android:id="@+id/txtTotalPrice"
