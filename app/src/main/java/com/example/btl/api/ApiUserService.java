@@ -7,7 +7,11 @@ import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -109,6 +113,31 @@ public class ApiUserService {
             }
         });
     }
+    // Thêm phương thức changePassword vào ApiUserService
+    public void changePassword(int userId, String currentPassword, String newPassword, final ApiCallback<Void> callback) {
+        Map<String, String> body = new HashMap<>();
+        body.put("current_password", currentPassword);
+        body.put("new_password", newPassword);
+
+        // Gửi yêu cầu PUT đến API
+        api.updatePassword(userId, body).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(null);  // Thành công, không cần trả về dữ liệu
+                } else {
+                    callback.onError(new Exception("Password update failed: " + response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+
 
     // Lấy danh sách tất cả Users
     public void getAllUsers(ApiCallback<List<User>> callback) {
@@ -166,7 +195,6 @@ public class ApiUserService {
             }
         });
     }
-
     // Interface callback để xử lý kết quả bất đồng bộ
     public interface ApiCallback<T> {
         void onSuccess(T result);

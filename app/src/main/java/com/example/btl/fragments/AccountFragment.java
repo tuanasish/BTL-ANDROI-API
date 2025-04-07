@@ -29,6 +29,7 @@ public class AccountFragment extends Fragment {
     private RecyclerView rvBookingHistory;
     private BookingDatabaseHelper databaseHelper;
     private User loginUser;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,7 +42,8 @@ public class AccountFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvUsername);
         tvUserInfo = view.findViewById(R.id.tvUserInfo);
         rvBookingHistory = view.findViewById(R.id.rvBookingHistory);
-        //du lieu nguoi dung
+
+        // Lấy dữ liệu người dùng từ Bundle (có thể từ Intent hoặc từ một Fragment khác)
         if (getArguments() != null) {
             loginUser = (User) getArguments().getSerializable("USER_DATA");
             if (loginUser != null) {
@@ -50,7 +52,7 @@ public class AccountFragment extends Fragment {
             }
         }
 
-
+        // Thiết lập RecyclerView
         databaseHelper = new BookingDatabaseHelper(getContext());
         databaseHelper.open();
 
@@ -70,7 +72,12 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_edit_info) {
-            startActivity(new Intent(getActivity(), EditInfoActivity.class));
+            // Truyền dữ liệu người dùng từ AccountFragment sang EditInfoActivity
+            if (loginUser != null) {
+                Intent intent = new Intent(getActivity(), EditInfoActivity.class);
+                intent.putExtra("USER_DATA", loginUser);  // Truyền đối tượng User vào Intent
+                startActivity(intent);
+            }
             return true;
         } else if (id == R.id.menu_change_password) {
             startActivity(new Intent(getActivity(), ChangePasswordActivity.class));

@@ -2,6 +2,7 @@ package com.example.btl.api;
 
 import com.example.btl.models.Field;
 import com.example.btl.models.FieldResponse;
+import com.example.btl.models.FieldSingleResponse;
 
 import java.util.List;
 
@@ -23,7 +24,8 @@ public interface ApiFieldInterface {
 
     // Lấy thông tin của Field theo ID
     @GET("field/{id}")
-    Call<Field> getById(@Path("id") int id);
+    Call<FieldSingleResponse> getById(@Path("id") int id);
+
 
     // Lấy danh sách tất cả các Field
     @GET("field/list")

@@ -4,7 +4,11 @@ import com.example.btl.models.LoginResponse;
 import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -34,6 +38,10 @@ public interface ApiUserInterface {
     Call<User> create(@Body User user);
 
     // Sửa User
-    @PUT("user/{id}")
+    @PUT("api/auth/update/{id}")
     Call<User> update(@Path("id") int id, @Body User user);
+
+    @PUT("user/{id}/password")
+    Call<ResponseBody> updatePassword(@Path("id") int id, @Body Map<String, String> body);
+
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.btl.models.Field;
 import com.example.btl.models.FieldResponse;
+import com.example.btl.models.FieldSingleResponse;
 
 import java.util.List;
 
@@ -23,22 +24,23 @@ public class ApiFieldService {
 
     // Lấy thông tin của Field theo ID
     public void getFieldById(int id, final ApiCallback<Field> callback) {
-        api.getById(id).enqueue(new Callback<Field>() {
+        api.getById(id).enqueue(new Callback<FieldSingleResponse>() {
             @Override
-            public void onResponse(Call<Field> call, Response<Field> response) {
+            public void onResponse(Call<FieldSingleResponse> call, Response<FieldSingleResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
-
+                    callback.onSuccess(response.body().getData());
                 } else {
                     callback.onError(new Exception("Response error: " + response.code()));
                 }
             }
+
             @Override
-            public void onFailure(Call<Field> call, Throwable t) {
+            public void onFailure(Call<FieldSingleResponse> call, Throwable t) {
                 callback.onError(t);
             }
         });
     }
+
 
     // Lấy danh sách tất cả các Field
     public void getAllFields(final ApiCallback<List<Field>> callback) {

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgField"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/txtFieldName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên sân"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/txtFieldAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/txtFieldPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sức chứa"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/txtType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại sân"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/txtPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá thuê"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mô tả"
+            android:layout_marginTop="4dp" />
+
+        <Button
+            android:id="@+id/btnBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đặt sân"
+            android:layout_marginTop="12dp"/>
+        <Button
+            android:id="@+id/btnDirection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chỉ đường"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</ScrollView>
