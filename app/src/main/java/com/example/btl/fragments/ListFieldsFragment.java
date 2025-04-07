@@ -42,8 +42,17 @@ public class ListFieldsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         fieldList = new ArrayList<>();
 
+        // Tạo adapter với OnItemClickListener
+        fieldAdapter = new FieldAdapter(getContext(), fieldList, new FieldAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Field field) {
+                // Khi nhấn vào một sân, truyền fieldId sang FieldDetailActivity
+                Intent intent = new Intent(getContext(), FieldDetailActivity.class);
+                intent.putExtra("FIELD_ID", field.getField_id());
+                startActivity(intent);
+            }
+        });
 
-        fieldAdapter = new FieldAdapter(getContext(), fieldList);
         recyclerView.setAdapter(fieldAdapter);
 
         ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
@@ -51,6 +60,7 @@ public class ListFieldsFragment extends Fragment {
 
         // Lấy dữ liệu field
         loadFields();
+
         return view;
     }
 
