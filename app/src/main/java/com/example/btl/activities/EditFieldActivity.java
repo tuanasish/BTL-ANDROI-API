@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.api.ApiClient;
 import com.example.btl.api.ApiFieldInterface;
@@ -65,6 +66,12 @@ public class EditFieldActivity extends AppCompatActivity {
         fieldLocation.setText(field.getLocation());
         fieldPrice.setText(String.valueOf(field.getPrice()));
         fieldCapacity.setText(String.valueOf(field.getCapacity()));
+        Glide.with(this)
+                .load(field.getImages())
+                .placeholder(R.drawable.field2)
+                .error(R.drawable.ic_launcher_background)
+                .into(fieldImage);
+
         // Spinner loại sân
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
