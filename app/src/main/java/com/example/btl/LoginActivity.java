@@ -45,38 +45,38 @@ public class LoginActivity extends AppCompatActivity {
             if(email.isEmpty() || password.isEmpty()){
                 Toast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
-            } /*else {
+            } else {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-            }*/
-            apiUserService.loginUser(email, password, new ApiUserService.ApiCallback<User>() {
-                @Override
-                public void onSuccess(User user) {
-                    Toast.makeText(LoginActivity.this,
-                            "Xin Chào : " + user.getUsername(),
-                            Toast.LENGTH_SHORT).show();
-                    Log.d("LOGIN_SUCCESS", "User data: " + user.toString());
-                    Intent intent;
-
-                    // Kiểm tra vai trò người dùng
-                    if (user.getRole() != null && user.getRole().equalsIgnoreCase("admin")) {
-                        intent = new Intent(LoginActivity.this, AdminMainActivity.class);
-                    } else {
-                        intent = new Intent(LoginActivity.this, MainActivity.class);
-                    }
-
-                    intent.putExtra("USER_DATA", user);
-                    startActivity(intent);
-                    finish();
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            }
+//            apiUserService.loginUser(email, password, new ApiUserService.ApiCallback<User>() {
+//                @Override
+//                public void onSuccess(User user) {
+//                    Toast.makeText(LoginActivity.this,
+//                            "Xin Chào : " + user.getUsername(),
+//                            Toast.LENGTH_SHORT).show();
+//                    Log.d("LOGIN_SUCCESS", "User data: " + user.toString());
+//                    Intent intent;
+//
+//                    // Kiểm tra vai trò người dùng
+//                    if (user.getRole() != null && user.getRole().equalsIgnoreCase("admin")) {
+//                        intent = new Intent(LoginActivity.this, AdminMainActivity.class);
+//                    } else {
+//                        intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    }
+//
+//                    intent.putExtra("USER_DATA", user);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//
+//                @Override
+//                public void onError(Throwable t) {
+//                    Toast.makeText(LoginActivity.this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+//                }
+//            });
 
         });
 

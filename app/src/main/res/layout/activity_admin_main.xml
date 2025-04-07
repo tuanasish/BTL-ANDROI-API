@@ -14,6 +14,9 @@
         android:id="@+id/bottom_navigation_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/menu_admin_bottom_nav" />
+        app:menu="@menu/menu_admin_bottom_nav"
+        android:background="@color/colorPrimary"
+        app:itemTextColor="@color/bottom_nav_item_selected"
+        app:itemIconTint="@color/bottom_nav_item_unselected"/>
 
 </LinearLayout>

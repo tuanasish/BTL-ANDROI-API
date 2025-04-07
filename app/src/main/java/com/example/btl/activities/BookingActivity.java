@@ -66,7 +66,6 @@ public class BookingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
         // Nhận dữ liệu từ Intent (Field thông tin)
-        // Nhận dữ liệu từ Intent (Field thông tin)
         Intent intent = getIntent();
         if (intent != null) {
             // Nhận các dữ liệu sân từ Intent
@@ -108,10 +107,10 @@ public class BookingActivity extends AppCompatActivity {
 //                totalPrice.setText("Vui lòng chọn ít nhất một khung giờ!");
 //                return;
 //            }
-            if (selectedDate.isEmpty()) {
-                totalPrice.setText("Vui lòng chọn ngày!");
-                return;
-            }
+//            if (selectedDate.isEmpty()) {
+//                totalPrice.setText("Vui lòng chọn ngày!");
+//                return;
+//            }
 
             /*Intent confirmIntent = new Intent(BookingActivity.this, ConfirmBookingActivity.class);
             confirmIntent.putParcelableArrayListExtra("selected_slots", new ArrayList<>(selectedSlots));
@@ -247,7 +246,7 @@ public class BookingActivity extends AppCompatActivity {
                         slot.setStatus(TimeSlot.LOCKED);
                         break;
                     }
-                }*/
+                }
                 /*slotRow.add(slot);*/
             }
             allSlots.add(slotRow);

@@ -42,41 +42,84 @@ public class ListFieldsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         fieldList = new ArrayList<>();
 
-        // Tạo adapter với OnItemClickListener
-        fieldAdapter = new FieldAdapter(getContext(), fieldList, new FieldAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Field field) {
-                // Khi nhấn vào một sân, truyền fieldId sang FieldDetailActivity
-                Intent intent = new Intent(getContext(), FieldDetailActivity.class);
-                intent.putExtra("FIELD_ID", field.getField_id());
-                startActivity(intent);
-            }
-        });
+        fieldList.add(new Field(
+                1,
+                "Sân số 1",
+                "123 Đường A, Quận B",
+                "Sân mini",
+                200000,
+                10,
+                "Sân cỏ nhân tạo, phù hợp đá 5 người",
+                String.valueOf(R.drawable.field1)
+        ));
 
+        fieldList.add(new Field(
+                2,
+                "Sân số 2",
+                "456 Đường B, Quận C",
+                "Sân 7 người",
+                300000,
+                14,
+                "Sân rộng, có mái che",
+                String.valueOf(R.drawable.field2)
+        ));
+
+        fieldList.add(new Field(
+                3,
+                "Sân số 3",
+                "123 Đường A, Quận B",
+                "Sân mini",
+                220000,
+                10,
+                "Mặt cỏ mềm, không trơn trượt",
+                String.valueOf(R.drawable.field3)
+        ));
+
+        fieldList.add(new Field(
+                4,
+                "Sân số 4",
+                "456 Đường B, Quận C",
+                "Sân 11 người",
+                500000,
+                22,
+                "Sân thi đấu tiêu chuẩn",
+                String.valueOf(R.drawable.field4)
+        ));
+
+        fieldList.add(new Field(
+                5,
+                "Sân số 5",
+                "456 Đường B, Quận C",
+                "Sân 7 người",
+                350000,
+                14,
+                "Có phòng thay đồ và chỗ đậu xe",
+                String.valueOf(R.drawable.field5)
+        ));
+        fieldAdapter = new FieldAdapter(getContext(), fieldList);
         recyclerView.setAdapter(fieldAdapter);
 
         ApiFieldInterface apiFieldInterface = ApiClient.getClient().create(ApiFieldInterface.class);
         apiFieldService = new ApiFieldService(apiFieldInterface);
 
         // Lấy dữ liệu field
-        loadFields();
-
+        // loadFields();
         return view;
     }
 
-    private void loadFields() {
-        apiFieldService.getAllFields(new ApiFieldService.ApiCallback<List<Field>>() {
-            @Override
-            public void onSuccess(List<Field> fields) {
-                fieldList.clear();
-                fieldList.addAll(fields);
-                fieldAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                Log.e("API_ERROR", "Loi: " + t.getMessage());
-            }
-        });
-    }
+//    private void loadFields() {
+//        apiFieldService.getAllFields(new ApiFieldService.ApiCallback<List<Field>>() {
+//            @Override
+//            public void onSuccess(List<Field> fields) {
+//                fieldList.clear();
+//                fieldList.addAll(fields);
+//                fieldAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onError(Throwable t) {
+//                Log.e("API_ERROR", "Loi: " + t.getMessage());
+//            }
+//        });
+//    }
 }

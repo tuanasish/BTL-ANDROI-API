@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/backgroundColor">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,6 +31,7 @@
                 android:paddingTop="10dp"
                 android:text="Tên sân"
                 android:textSize="24sp"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:text="Địa chỉ sân"
-                android:textColor="#777777"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <TextView
@@ -47,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:text="Số điện thoại"
-                android:textColor="#FF5722"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
             <com.google.android.material.appbar.AppBarLayout
@@ -58,9 +60,10 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:tabIndicatorColor="@color/purple_500"
-                    app:tabSelectedTextColor="@color/purple_500"
-                    app:tabTextColor="@color/black">
+                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabTextColor="@color/colorAccent"
+                    android:background="@color/backgroundColor">
 
                     <com.google.android.material.tabs.TabItem android:text="Thông tin" />
 
@@ -78,13 +81,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="380dp"
                 android:layout_weight="1"
-                android:orientation="horizontal" />
-
-
+                android:orientation="horizontal"
+                android:background="@color/backgroundColor"/>
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBookNow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,5 +95,7 @@
         android:text="Đặt lịch ngay"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:background="@color/purple_500" />
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/colorAccent" />
+
 </LinearLayout>
