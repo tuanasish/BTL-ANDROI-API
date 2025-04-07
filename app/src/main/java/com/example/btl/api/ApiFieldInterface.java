@@ -46,12 +46,23 @@ public interface ApiFieldInterface {
     @POST("field")
     Call<Field> createField(@Body Field field);
 
-    // Cập nhật thông tin Field theo ID
-    @PUT("field/{id}")
-    Call<Field> updateField(@Path("id") int id, @Body Field field);
+    @Multipart
+    @PUT("field/update/{id}")
+    Call<ResponseBody> updateFieldToServer(
+            @Path("id") int id,
+            @Part("name") RequestBody name,
+            @Part("location") RequestBody location,
+            @Part("type") RequestBody type,
+            @Part("price") RequestBody price,
+            @Part("capacity") RequestBody capacity,
+            @Part MultipartBody.Part image
+    );
+
+
+
 
     // Xóa Field theo ID
-    @DELETE("field/{id}")
+    @DELETE("field/delete/{id}")
     Call<Void> deleteField(@Path("id") int id);
 
     // Lọc Field theo loại và khu vực

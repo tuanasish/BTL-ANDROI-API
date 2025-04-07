@@ -1,5 +1,7 @@
 package com.example.btl.adapters;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -16,9 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.activities.EditFieldActivity;
+import com.example.btl.api.ApiClient;
+import com.example.btl.api.ApiFieldInterface;
+import com.example.btl.api.ApiFieldService;
 import com.example.btl.models.Field;
 
 import java.util.List;
+
+import retrofit2.Call;
 
 public class FieldManagerAdapter extends RecyclerView.Adapter<FieldManagerAdapter.ViewHolder> {
 
@@ -38,7 +45,7 @@ public class FieldManagerAdapter extends RecyclerView.Adapter<FieldManagerAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Field field = fieldList.get(position);
 
         // Hiển thị thông tin sân
@@ -59,22 +66,39 @@ public class FieldManagerAdapter extends RecyclerView.Adapter<FieldManagerAdapte
 
         // Chỉnh sửa sân
         holder.imgEdit.setOnClickListener(v -> {
-            // Mở màn hình chỉnh sửa sân
             Toast.makeText(context, "Chỉnh sửa sân: " + field.getName(), Toast.LENGTH_SHORT).show();
-
-            // Mở EditFieldActivity để chỉnh sửa thông tin sân
             Intent intent = new Intent(context, EditFieldActivity.class);
-            intent.putExtra("FIELD", field);  // Truyền đối tượng Field để chỉnh sửa
-            ((android.app.Activity) context).startActivityForResult(intent, 1);  // Yêu cầu trả kết quả về sau khi chỉnh sửa
+            intent.putExtra("FIELD", field);
+            ((android.app.Activity) context).startActivityForResult(intent, 1);
         });
 
         // Xóa sân
         holder.imgDelete.setOnClickListener(v -> {
-            // Xóa sân khỏi danh sách
-            fieldList.remove(position);
-            notifyItemRemoved(position);
-            Toast.makeText(context, "Sân đã xóa: " + field.getName(), Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(context)
+                    .setTitle("Xác nhận xóa")
+                    .setMessage("Bạn có chắc muốn xóa sân " + field.getName() + "?")
+                    .setPositiveButton("Xóa", (dialog, which) -> {
+                        ApiFieldService apiFieldService = new ApiFieldService(ApiClient.getClient().create(ApiFieldInterface.class));
+
+                        apiFieldService.deleteField(field.getField_id(), new ApiFieldService.ApiCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void result) {
+                                fieldList.remove(position);
+                                notifyItemRemoved(position);
+                                Toast.makeText(context, "Đã xóa sân " + field.getName(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                Toast.makeText(context, "Lỗi khi xóa sân: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e("DeleteField", "Lỗi: ", t);
+                            }
+                        });
+                    })
+                    .setNegativeButton("Hủy", null)
+                    .show();
         });
+
     }
 
     @Override

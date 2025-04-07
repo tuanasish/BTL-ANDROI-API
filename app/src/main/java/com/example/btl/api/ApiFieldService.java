@@ -6,6 +6,10 @@ import com.example.btl.models.Field;
 import com.example.btl.models.FieldResponse;
 
 import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,24 +64,6 @@ public class ApiFieldService {
     // Tạo mới một Field
     public void createField(Field field, final ApiCallback<Field> callback) {
         api.createField(field).enqueue(new Callback<Field>() {
-            @Override
-            public void onResponse(Call<Field> call, Response<Field> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
-                } else {
-                    callback.onError(new Exception("Response error: " + response.code()));
-                }
-            }
-            @Override
-            public void onFailure(Call<Field> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
-
-    // Cập nhật thông tin Field theo ID
-    public void updateField(int id, Field field, final ApiCallback<Field> callback) {
-        api.updateField(id, field).enqueue(new Callback<Field>() {
             @Override
             public void onResponse(Call<Field> call, Response<Field> response) {
                 if (response.isSuccessful() && response.body() != null) {
