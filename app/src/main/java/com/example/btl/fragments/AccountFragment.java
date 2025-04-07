@@ -2,6 +2,7 @@ package com.example.btl.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
 
@@ -17,11 +18,24 @@ import com.example.btl.LoginActivity;
 import com.example.btl.R;
 import com.example.btl.activities.BookingDetailActivity;
 import com.example.btl.adapters.BookingHistoryAdapter;
+import com.example.btl.api.ApiBookingInterface;
+import com.example.btl.api.ApiClient;
+import com.example.btl.models.BookingResponse;
 import com.example.btl.models.TimeSlot;
 import com.example.btl.models.User;
 import com.example.btl.utils.BookingDatabaseHelper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountFragment extends Fragment {
 
@@ -55,9 +69,39 @@ public class AccountFragment extends Fragment {
         // Thiết lập RecyclerView
         databaseHelper = new BookingDatabaseHelper(getContext());
         databaseHelper.open();
-
         rvBookingHistory.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
+        ApiBookingInterface api = ApiClient.getClient().create(ApiBookingInterface.class);
+        Call<JsonObject> call = api.getBookingsWithField(loginUser.getUser_id());
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    JsonArray dataArray = response.body().getAsJsonArray("data");
+
+                    List<BookingResponse> bookingList;
+                    bookingList = new ArrayList<>();
+                    Gson gson = new Gson();
+
+                    for (JsonElement element : dataArray) {
+                        BookingResponse booking = gson.fromJson(String.valueOf(element), BookingResponse.class);
+                        bookingList.add(booking);
+                    }
+
+                    BookingHistoryAdapter adapter = new BookingHistoryAdapter(getContext(), bookingList);
+                    rvBookingHistory.setAdapter(adapter);
+                } else {
+                    Log.e("API_ERROR", "Dữ liệu trả về không hợp lệ");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e("API_ERROR", "Lỗi kết nối: " + t.getMessage());
+            }
+        });
 
         return view;
     }

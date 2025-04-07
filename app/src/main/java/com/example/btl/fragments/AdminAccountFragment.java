@@ -29,7 +29,6 @@ public class AdminAccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_account_admin, container, false);
         setHasOptionsMenu(true);
 
@@ -44,9 +43,6 @@ public class AdminAccountFragment extends Fragment {
                 tvUserInfo.setText("Email: " + loginUser.getEmail() + "\nSố điện thoại: " + loginUser.getPhone());
             }
         }
-
-
-
         return view;
     }
 

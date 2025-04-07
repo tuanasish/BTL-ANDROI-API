@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="145dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="10dp"
     android:background="@drawable/item_background"
@@ -12,11 +12,11 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"/>
+        android:src="@drawable/ic_launcher_background" />
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="171dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingLeft="10dp">
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tên sân"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#2E7D32" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="Địa chỉ"
             android:textColor="#757575"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:text="Số điện thoại"
             android:textColor="#D32F2F"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -63,7 +63,7 @@
                 android:text="Đặt lịch"
                 android:textColor="@android:color/white"
                 android:backgroundTint="@color/backgroundColor"
-                android:textSize="14sp" />
+                android:textSize="10sp" />
 
             <Button
                 android:id="@+id/btnDirections"
@@ -75,7 +75,7 @@
                 android:text="Chỉ đường"
                 android:textColor="@android:color/white"
                 android:backgroundTint="@color/backgroundColor"
-                android:textSize="14sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
     </LinearLayout>

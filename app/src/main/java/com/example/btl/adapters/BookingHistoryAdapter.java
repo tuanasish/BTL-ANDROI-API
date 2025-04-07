@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
+import com.example.btl.models.BookingResponse;
 import com.example.btl.models.TimeSlot;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<TimeSlot> bookings;
+    private final List<BookingResponse> bookings;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -28,7 +29,7 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
         this.listener = listener;
     }
 
-    public BookingHistoryAdapter(Context context, List<TimeSlot> bookings) {
+    public BookingHistoryAdapter(Context context, List<BookingResponse> bookings) {
         this.context = context;
         this.bookings = bookings;
     }
@@ -42,8 +43,21 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        BookingResponse booking = bookings.get(position);
 
+        holder.txtFieldName.setText("Tên sân: " + booking.getField_name());
+        holder.txtBookedDate.setText("Ngày đặt: " + booking.getDate().substring(0, 10));
+        holder.txtTimeSlot.setText("Khung giờ: " + booking.getStart_time() + " - " + booking.getEnd_time());
+
+        String status = booking.getStatus();
+        if (status == null || status.isEmpty()) {
+            status = "Chờ xác nhận";
+        }
+        holder.txtStatus.setText("Trạng thái: " + status);
+
+        holder.txtTotalPrice.setText("Tổng tiền: " + ((int) booking.getTotal_price()) + " đ");
     }
+
 
 
     @Override
@@ -52,16 +66,16 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtFieldName, txtFieldAddress, txtFieldNumber, txtBookedDate, txtTimeSlot, txtTotalPrice;
+        TextView txtFieldName, txtBookedDate, txtTimeSlot, txtStatus, txtTotalPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtFieldName = itemView.findViewById(R.id.txtFieldName);
-            txtFieldAddress = itemView.findViewById(R.id.txtFieldAddress);
-            txtFieldNumber = itemView.findViewById(R.id.txtFieldNumber);
             txtBookedDate = itemView.findViewById(R.id.txtBookedDate);
             txtTimeSlot = itemView.findViewById(R.id.txtTimeSlot);
+            txtStatus = itemView.findViewById(R.id.txtStatus);
             txtTotalPrice = itemView.findViewById(R.id.txtTotalPrice);
         }
     }
+
 }
