@@ -1,6 +1,8 @@
 package com.example.btl.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -60,17 +62,26 @@ public class AccountFragment extends Fragment {
         // Lấy dữ liệu người dùng từ Bundle (có thể từ Intent hoặc từ một Fragment khác)
         if (getArguments() != null) {
             loginUser = (User) getArguments().getSerializable("USER_DATA");
-            if (loginUser != null) {
-                tvUsername.setText("Tên người dùng: " + loginUser.getUsername());
-                tvUserInfo.setText("Email: " + loginUser.getEmail() + "\nSố điện thoại: " + loginUser.getPhone());
+        }
+        if (loginUser == null) {
+            SharedPreferences prefs = getContext().getSharedPreferences("USER_PREF", Context.MODE_PRIVATE);
+            String userJson = prefs.getString("USER_DATA", null);
+            if (userJson != null) {
+                loginUser = new Gson().fromJson(userJson, User.class);
             }
+        }
+        if (loginUser != null) {
+            tvUsername.setText("Tên người dùng: " + loginUser.getUsername());
+            tvUserInfo.setText("Email: " + loginUser.getEmail() + "\nSố điện thoại: " + loginUser.getPhone());
+        } else {
+            tvUsername.setText("Không thể tải thông tin người dùng");
+            tvUserInfo.setText("");
         }
 
         // Thiết lập RecyclerView
         databaseHelper = new BookingDatabaseHelper(getContext());
         databaseHelper.open();
         rvBookingHistory.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         ApiBookingInterface api = ApiClient.getClient().create(ApiBookingInterface.class);
         Call<JsonObject> call = api.getBookingsWithField(loginUser.getUser_id());

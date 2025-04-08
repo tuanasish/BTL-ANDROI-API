@@ -16,6 +16,8 @@ import com.example.btl.api.ApiUserInterface;
 import com.example.btl.api.ApiUserService;
 import com.example.btl.models.User;
 import com.google.android.material.textfield.TextInputEditText;
+import android.content.SharedPreferences;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,19 +60,29 @@ public class LoginActivity extends AppCompatActivity {
                             "Xin Chào : " + user.getUsername(),
                             Toast.LENGTH_SHORT).show();
                     Log.d("LOGIN_SUCCESS", "User data: " + user.toString());
+
+                    // Lưu user vào SharedPreferences
+                    SharedPreferences prefs = getSharedPreferences("USER_PREF", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    Gson gson = new Gson();
+                    String userJson = gson.toJson(user);
+                    editor.putString("USER_DATA", userJson);
+                    editor.apply();
+
+                    // Mở màn hình chính
                     Intent intent;
 
-                    // Kiểm tra vai trò người dùng
                     if (user.getRole() != null && user.getRole().equalsIgnoreCase("admin")) {
                         intent = new Intent(LoginActivity.this, AdminMainActivity.class);
                     } else {
                         intent = new Intent(LoginActivity.this, MainActivity.class);
                     }
 
-                    intent.putExtra("USER_DATA", user);
+                    intent.putExtra("USER_DATA", user); // vẫn truyền nếu cần
                     startActivity(intent);
                     finish();
                 }
+
 
                 @Override
                 public void onError(Throwable t) {

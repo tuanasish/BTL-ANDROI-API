@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
             int id = item.getItemId();
             if (id == R.id.nav_list_fields) {
-                selectedFragment = new ListFieldsFragment();
+                selectedFragment = attachUserToFragment(new ListFieldsFragment());
 
             } else if (id == R.id.nav_account) {
                 AccountFragment accountFragment = new AccountFragment();
@@ -78,4 +78,13 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+    private Fragment attachUserToFragment(Fragment fragment) {
+        if (loginUser != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("USER_DATA", loginUser);
+            fragment.setArguments(bundle);
+        }
+        return fragment;
+    }
+
 }

@@ -11,8 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.btl.BookingActivity;
 import com.example.btl.R;
-import com.example.btl.activities.BookingActivity;
+
 import com.example.btl.api.ApiClient;
 import com.example.btl.api.ApiFieldInterface;
 import com.example.btl.api.ApiFieldService;

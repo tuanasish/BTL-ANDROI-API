@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl.R;
 import com.example.btl.models.BookingResponse;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAdapter.ViewHolder> {
@@ -45,7 +47,18 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
         BookingResponse slot = bookings.get(position);
 
         holder.txtFieldName.setText("Sân: " + slot.getField_name());
-        holder.txtBookedDate.setText("Ngày đặt: " + slot.getDate());
+        String rawDate = slot.getDate(); // "2025-04-08"
+        String formattedDate = rawDate;
+
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = inputFormat.parse(rawDate);
+            formattedDate = outputFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        holder.txtBookedDate.setText("Ngày đặt: " + formattedDate);
         holder.txtTimeSlot.setText("Khung giờ: " + slot.getStart_time() + " - " + slot.getEnd_time());
         holder.txtTotalPrice.setText("Tổng tiền: " + slot.getTotal_price() + " VND");
 
