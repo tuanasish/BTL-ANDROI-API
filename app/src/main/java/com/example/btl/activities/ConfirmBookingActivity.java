@@ -2,6 +2,7 @@ package com.example.btl.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import com.example.btl.api.ApiTimeSlotService;
 import com.example.btl.models.BookingRequest;
 import com.example.btl.models.Field;
 import com.example.btl.models.TimeSlot;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -72,6 +74,18 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         totalCostLong = intent.getLongExtra("TOTAL_COST", 0);
         selectedSlots = intent.getParcelableArrayListExtra("SELECTED_SLOTS");
 
+        SharedPreferences prefs = getSharedPreferences("USER_PREF", MODE_PRIVATE);
+        String userJson = prefs.getString("USER_DATA", null);
+
+        if (userJson == null) {
+            Toast.makeText(this, "Không tìm thấy thông tin người dùng!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        Gson gson = new Gson();
+        final com.example.btl.models.User user = gson.fromJson(userJson, com.example.btl.models.User.class);
+
         if (selectedSlots == null) {
             selectedSlots = new ArrayList<>();
             Toast.makeText(this, "Không có khung giờ nào được chọn!", Toast.LENGTH_SHORT).show();
@@ -102,7 +116,6 @@ public class ConfirmBookingActivity extends AppCompatActivity {
         }
 
         btnConfirm.setOnClickListener(v -> {
-            int userId = 47;
             int courtId = 1;
             double totalPrice = intent.getDoubleExtra("TOTAL_PRICE", totalCostLong);
 
@@ -123,7 +136,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
                     bookingDateFormatted,
                     startTime,
                     endTime,
-                    userId,
+                    user.getUser_id(),
                     courtId,
                     totalPrice
             );
@@ -132,7 +145,7 @@ public class ConfirmBookingActivity extends AppCompatActivity {
             Log.d("BookingDebug", "Date: " + bookingDateFormatted);
             Log.d("BookingDebug", "Start: " + startTime);
             Log.d("BookingDebug", "End: " + endTime);
-            Log.d("BookingDebug", "UserId: " + userId);
+            Log.d("BookingDebug", "UserId: " + user.getUser_id());
             Log.d("BookingDebug", "CourtId: " + courtId);
             Log.d("BookingDebug", "TotalPrice: " + totalPrice);
 
