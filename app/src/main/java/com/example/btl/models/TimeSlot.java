@@ -3,41 +3,47 @@ package com.example.btl.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 public class TimeSlot implements Parcelable {
     public static final int AVAILABLE = 0;
     public static final int BOOKED = 1;
     public static final int LOCKED = 2;
 
-    private String fieldName;     // Tên sân
-    private String time;          // Khung giờ
-    private int status;           // Trạng thái đặt sân
-    private boolean selected;     // Đánh dấu chọn sân
-    private int totalPrice;       // Tổng tiền
-    private String bookedDate;    // Ngày đặt
-    private String fieldAddress;  // Địa chỉ sân
-    private String fieldNumber;   // SĐT sân
+    private int slotID;
+    private int fieldID;
+    private Date bookingDate;
+    private String startTime;
+    private String endTime;
+    private int status;
+    private boolean isSelected;
 
-    // Constructor chính
-    public TimeSlot(String fieldName, String time, int status, int totalPrice, String bookedDate) {
-        this.fieldName = fieldName;
-        fixFieldName();
-        this.time = time;
+    public TimeSlot(int slotID, int fieldID, Date bookingDate,
+                    String startTime, String endTime, int status) {
+        this.slotID = slotID;
+        this.fieldID = fieldID;
+        this.bookingDate = bookingDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.status = status;
-        this.totalPrice = totalPrice;
-        this.bookedDate = bookedDate;
-        this.selected = false;
+        this.isSelected = false;
     }
 
-    // Constructor từ Parcel
     protected TimeSlot(Parcel in) {
-        fieldName = in.readString();
-        time = in.readString();
+        slotID = in.readInt();
+        fieldID = in.readInt();
+        bookingDate = new Date(in.readLong());
+        startTime = in.readString();
+        endTime = in.readString();
         status = in.readInt();
-        totalPrice = in.readInt();
-        bookedDate = in.readString();
-        selected = in.readByte() != 0;
-        fieldAddress = in.readString();
-        fieldNumber = in.readString();
+        isSelected = in.readByte() != 0;
     }
 
     public static final Creator<TimeSlot> CREATOR = new Creator<TimeSlot>() {
@@ -52,63 +58,52 @@ public class TimeSlot implements Parcelable {
         }
     };
 
-    // Getter & Setter
-    public String getFieldName() {
-        return fieldName;
+    public int getSlotID() {
+        return slotID;
     }
 
-    public String getTime() {
-        return time;
+    public void setSlotID(int slotID) {
+        this.slotID = slotID;
+    }
+
+    public int getFieldID() {
+        return fieldID;
+    }
+
+    public void setFieldID(int fieldID) {
+        this.fieldID = fieldID;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public int getStatus() {
         return status;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public String getBookedDate() {
-        return bookedDate;
-    }
-
-    public String getFieldAddress() {
-        return fieldAddress;
-    }
-
-    public String getFieldNumber() {
-        return fieldNumber;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
-    public void toggleSelected() {
-        this.selected = !this.selected;
-    }
-
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public void setFieldAddress(String fieldAddress) {
-        this.fieldAddress = fieldAddress;
-    }
-
-    public void setFieldNumber(String fieldNumber) {
-        this.fieldNumber = fieldNumber;
-    }
-
-    public void fixFieldName() {
-        if (fieldName.contains("Sân nhỏ")) {
-            fieldName = fieldName.replace("Sân nhỏ", "PickelBall");
-        }
     }
 
     @Override
@@ -117,14 +112,51 @@ public class TimeSlot implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fieldName);
-        dest.writeString(time);
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(slotID);
+        dest.writeInt(fieldID);
+        dest.writeLong(bookingDate != null ? bookingDate.getTime() : -1);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
         dest.writeInt(status);
-        dest.writeInt(totalPrice);
-        dest.writeString(bookedDate);
-        dest.writeByte((byte) (selected ? 1 : 0));
-        dest.writeString(fieldAddress);
-        dest.writeString(fieldNumber);
+        dest.writeByte((byte) (isSelected ? 1 : 0));
+    }
+
+    @Override
+    public String toString() {
+        return "TimeSlot{" +
+                "slotID=" + slotID +
+                ", fieldID=" + fieldID +
+                ", bookingDate=" + bookingDate +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+    public String getTimeRange() {
+        try {
+            // Format lại chỉ hiển thị giờ:phút
+            SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            SimpleDateFormat originalFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+
+            Date start = originalFormat.parse(startTime);
+            Date end = originalFormat.parse(endTime);
+
+            return displayFormat.format(start) + " - " + displayFormat.format(end);
+        } catch (Exception e) {
+            return startTime + " - " + endTime;
+        }
+    }
+    // Thêm các phương thức quản lý trạng thái chọn
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public void toggleSelected() {
+        isSelected = !isSelected;
     }
 }

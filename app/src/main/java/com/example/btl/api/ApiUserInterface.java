@@ -34,6 +34,6 @@ public interface ApiUserInterface {
     Call<User> create(@Body User user);
 
     // Sửa User
-    @PUT("user/{id}")
+    @PUT("api/auth/update/{id}")
     Call<User> update(@Path("id") int id, @Body User user);
 }

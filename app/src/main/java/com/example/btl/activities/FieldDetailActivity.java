@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.example.btl.BookingActivity;
 import com.example.btl.R;
 import com.example.btl.adapters.DetailFragentAdapterField;
 import com.example.btl.api.ApiClient;
@@ -54,6 +55,7 @@ public class FieldDetailActivity extends AppCompatActivity {
         // Nhận ID từ Intent
         Intent intent = getIntent();
         if(intent != null) {
+            int receivedFieldId = intent.getIntExtra("FIELD_ID", 1);
             String name = intent.getStringExtra("FIELD_NAME");
             String address = intent.getStringExtra("FIELD_LOCATION");
             int number = intent.getIntExtra("FIELD_CAPACITY", 0);
@@ -76,6 +78,7 @@ public class FieldDetailActivity extends AppCompatActivity {
 
             // Tạo đối tượng Field để sử dụng trong booking
             field = new Field();
+            field.setField_id(receivedFieldId);
             field.setName(name);
             field.setLocation(address);
             field.setCapacity(number);
@@ -125,10 +128,10 @@ public class FieldDetailActivity extends AppCompatActivity {
             Intent bookingIntent = new Intent(FieldDetailActivity.this, BookingActivity.class);
 
             // Truyền các thông tin của Field qua Intent
-            bookingIntent.putExtra("FIELD_NAME", fieldName);
-            bookingIntent.putExtra("FIELD_ADDRESS", fieldAddress);
-            bookingIntent.putExtra("FIELD_PHONE", String.valueOf(fieldPhone));  // Chuyển phone thành String nếu cần
-            bookingIntent.putExtra("FIELD_IMAGE", fieldImage);
+//            bookingIntent.putExtra("FIELD_NAME", fieldName);
+//            bookingIntent.putExtra("FIELD_ADDRESS", fieldAddress);
+//            bookingIntent.putExtra("FIELD_PHONE", String.valueOf(fieldPhone));  // Chuyển phone thành String nếu cần
+//            bookingIntent.putExtra("FIELD_IMAGE", fieldImage);
             bookingIntent.putExtra("FIELD_ID", fieldId);
 
             // Bắt đầu Activity

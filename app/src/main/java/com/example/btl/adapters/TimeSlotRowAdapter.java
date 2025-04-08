@@ -1,78 +1,127 @@
 package com.example.btl.adapters;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
 import com.example.btl.models.TimeSlot;
 
-import java.util.List;
+public class TimeSlotRowAdapter extends ListAdapter<TimeSlot, TimeSlotRowAdapter.ViewHolder> {
 
-public class TimeSlotRowAdapter extends RecyclerView.Adapter<TimeSlotRowAdapter.ViewHolder> {
-    private final List<TimeSlot> timeSlots;
     private final OnTimeSlotClickListener listener;
+    private int lastSelectedPosition = -1;
 
     public interface OnTimeSlotClickListener {
-        void onTimeSlotClicked(TimeSlot timeSlot, boolean isSelected);
+        void onTimeSlotClicked(TimeSlot timeSlot);
     }
 
-    public TimeSlotRowAdapter(List<TimeSlot> timeSlots, OnTimeSlotClickListener listener) {
-        this.timeSlots = timeSlots;
+    // Sử dụng DiffUtil để tối ưu cập nhật
+    private static final DiffUtil.ItemCallback<TimeSlot> DIFF_CALLBACK = new DiffUtil.ItemCallback<TimeSlot>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TimeSlot oldItem, @NonNull TimeSlot newItem) {
+            return oldItem.getSlotID() == newItem.getSlotID();
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        @Override
+        public boolean areContentsTheSame(@NonNull TimeSlot oldItem, @NonNull TimeSlot newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    public TimeSlotRowAdapter(OnTimeSlotClickListener listener) {
+        super(DIFF_CALLBACK);
         this.listener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_time_slot, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_time_slot, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TimeSlot timeSlot = timeSlots.get(position);
+        TimeSlot timeSlot = getItem(position);
+        Context context = holder.itemView.getContext();
 
-        // Nếu đã đặt → khóa tương tác + làm mờ + hiển thị (Đã đặt)
-        if (timeSlot.getStatus() == TimeSlot.LOCKED) {
-            holder.timeText.setText(timeSlot.getTime() + " (Đã đặt)");
-            holder.itemView.setAlpha(0.4f); // Làm mờ
-            holder.itemView.setOnClickListener(null); // Không cho bấm
-            holder.itemView.setBackgroundResource(R.color.locked_color); // Màu riêng cho đã đặt
+        // Hiển thị thời gian
+        holder.timeText.setText(timeSlot.getTimeRange());
+
+        // Xử lý trạng thái
+        if (timeSlot.getStatus() == TimeSlot.LOCKED || timeSlot.getStatus() == TimeSlot.BOOKED) {
+            handleLockedState(holder, timeSlot, context);
         } else {
-            // Nếu chưa đặt → xử lý bình thường
-            holder.timeText.setText(timeSlot.getTime());
-            holder.itemView.setAlpha(1.0f);
-            holder.itemView.setOnClickListener(v -> {
-                timeSlot.toggleSelected(); // Chọn/huỷ chọn
-                listener.onTimeSlotClicked(timeSlot, timeSlot.isSelected());
-                notifyDataSetChanged();
-            });
-
-            // Thay đổi màu khi được chọn
-            if (timeSlot.isSelected()) {
-                holder.itemView.setBackgroundResource(R.color.selected_color);
-            } else {
-                holder.itemView.setBackgroundResource(R.color.default_color);
-            }
+            handleAvailableState(holder, timeSlot, context);
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return timeSlots.size();
+    private void handleLockedState(ViewHolder holder, TimeSlot timeSlot, Context context) {
+        String statusText = timeSlot.getStatus() == TimeSlot.BOOKED ? " (Đã đặt)" : " (Khóa)";
+        holder.timeText.setText(timeSlot.getTimeRange() + statusText);
+
+        // Thiết lập giao diện
+        holder.itemView.setAlpha(0.5f);
+        holder.itemView.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_locked_time_slot));
+        holder.itemView.setOnClickListener(null);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView timeText;
+    private void handleAvailableState(ViewHolder holder, TimeSlot timeSlot, Context context) {
+        // Thiết lập giao diện mặc định
+        holder.itemView.setAlpha(1f);
+        holder.itemView.setBackground(ContextCompat.getDrawable(context,
+                timeSlot.isSelected() ? R.drawable.bg_selected_time_slot : R.drawable.bg_available_time_slot));
 
-        public ViewHolder(View itemView) {
+        // Xử lý sự kiện click
+        holder.itemView.setOnClickListener(v -> {
+            int currentPosition = holder.getBindingAdapterPosition();
+            if (currentPosition == RecyclerView.NO_POSITION) return;
+
+            TimeSlot currentItem = getItem(currentPosition);
+
+            // Xử lý chọn/bỏ chọn
+            handleItemSelection(currentPosition, currentItem);
+        });
+    }
+
+    private void handleItemSelection(int currentPosition, TimeSlot currentItem) {
+        // Bỏ chọn item trước đó
+        if (lastSelectedPosition != -1 && lastSelectedPosition != currentPosition) {
+            TimeSlot previousItem = getItem(lastSelectedPosition);
+            previousItem.setSelected(false);
+            notifyItemChanged(lastSelectedPosition);
+        }
+
+        // Cập nhật trạng thái hiện tại
+        boolean newState = !currentItem.isSelected();
+        currentItem.setSelected(newState);
+        lastSelectedPosition = newState ? currentPosition : -1;
+        notifyItemChanged(currentPosition);
+
+        // Thông báo sự kiện
+        if (listener != null) {
+            listener.onTimeSlotClicked(currentItem);
+        }
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        final TextView timeText;
+
+        ViewHolder(View itemView) {
             super(itemView);
-            timeText = itemView.findViewById(R.id.timeText);
+            timeText = itemView.findViewById(R.id.tvTime);
         }
     }
 }

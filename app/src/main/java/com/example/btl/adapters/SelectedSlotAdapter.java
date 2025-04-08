@@ -28,8 +28,8 @@ public class SelectedSlotAdapter extends RecyclerView.Adapter<SelectedSlotAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TimeSlot slot = selectedSlots.get(position);
-        holder.txtFieldName.setText(slot.getFieldName());
-        holder.txtTime.setText(slot.getTime());
+        holder.txtFieldName.setText(slot.getFieldID());
+        holder.txtTime.setText(slot.getTimeRange());
     }
 
     @Override

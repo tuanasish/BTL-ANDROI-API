@@ -53,10 +53,10 @@ public class BookingDatabaseHelper {
     // ✅ Lưu đầy đủ thông tin booking
     public long addBooking(TimeSlot slot, String bookedDate, int totalPrice) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_FIELD_NAME, slot.getFieldName());
-        values.put(COLUMN_FIELD_ADDRESS, slot.getFieldAddress());
-        values.put(COLUMN_FIELD_NUMBER, slot.getFieldNumber());
-        values.put(COLUMN_TIME, slot.getTime());
+        values.put(COLUMN_FIELD_NAME, slot.getFieldID());
+//        values.put(COLUMN_FIELD_ADDRESS, slot.getFieldAddress());
+        values.put(COLUMN_FIELD_NUMBER, slot.getSlotID());
+        values.put(COLUMN_TIME, slot.getTimeRange());
         values.put(COLUMN_TOTAL_PRICE, totalPrice);
         values.put(COLUMN_BOOKED_DATE, bookedDate);
         return db.insert(TABLE_BOOKINGS, null, values);
@@ -75,11 +75,11 @@ public class BookingDatabaseHelper {
                 @SuppressLint("Range") int totalPrice = cursor.getInt(cursor.getColumnIndex(COLUMN_TOTAL_PRICE));
                 @SuppressLint("Range") String bookedDate = cursor.getString(cursor.getColumnIndex(COLUMN_BOOKED_DATE));
 
-                TimeSlot slot = new TimeSlot(fieldName, time, TimeSlot.BOOKED, totalPrice, bookedDate);
-                slot.setFieldAddress(fieldAddress);
-                slot.setFieldNumber(fieldNumber);
+//                TimeSlot slot = new TimeSlot(fieldName, time, TimeSlot.BOOKED, totalPrice, bookedDate);
+//                slot.setFieldAddress(fieldAddress);
+//                slot.setFieldNumber(fieldNumber);
 
-                bookings.add(slot);
+//                bookings.add(slot);
             }
             cursor.close();
         }
