@@ -10,25 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
-import com.example.btl.models.TimeSlot;
+import com.example.btl.models.BookingResponse;
 
 import java.util.List;
 
 public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<TimeSlot> bookings;
+    private final List<BookingResponse> bookings;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(TimeSlot slot);
+        void onItemClick(BookingResponse slot);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    public BookingHistoryAdapter(Context context, List<TimeSlot> bookings) {
+    public BookingHistoryAdapter(Context context, List<BookingResponse> bookings) {
         this.context = context;
         this.bookings = bookings;
     }
@@ -42,14 +42,12 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
 
     @Override
     public void onBindViewHolder(@NonNull BookingHistoryAdapter.ViewHolder holder, int position) {
-        TimeSlot slot = bookings.get(position);
+        BookingResponse slot = bookings.get(position);
 
-//        holder.txtFieldName.setText("Sân: " + slot.getFieldName());
-//        holder.txtFieldAddress.setText("Địa chỉ: " + slot.getFieldAddress());
-//        holder.txtFieldNumber.setText("SĐT: " + slot.getFieldNumber());
-//        holder.txtBookedDate.setText("Ngày đặt: " + slot.getBookedDate());
-//        holder.txtTimeSlot.setText("Khung giờ: " + slot.getTime());
-//        holder.txtTotalPrice.setText("Tổng tiền: " + slot.getTotalPrice() + " VND");
+        holder.txtFieldName.setText("Sân: " + slot.getField_name());
+        holder.txtBookedDate.setText("Ngày đặt: " + slot.getDate());
+        holder.txtTimeSlot.setText("Khung giờ: " + slot.getStart_time() + " - " + slot.getEnd_time());
+        holder.txtTotalPrice.setText("Tổng tiền: " + slot.getTotal_price() + " VND");
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
