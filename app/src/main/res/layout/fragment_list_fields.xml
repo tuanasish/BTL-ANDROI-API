@@ -8,117 +8,26 @@
     android:background="@color/backgroundColor">
     <!-- Màu nền xanh lá -->
 
-    <!-- Tìm kiếm với EditText và Button - Updated Design -->
+    <!-- Tìm kiếm -->
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:layout_width="375dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_gravity="center_horizontal"
-        app:cardCornerRadius="24dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="2dp"
-        app:cardBackgroundColor="@color/white">
+        app:cardBackgroundColor="@color/white"
+        app:strokeColor="@color/backgroundColor"
+        app:strokeWidth="1dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:gravity="center_vertical">
-
-            <!-- Left icon -->
-
-            <EditText
-                android:id="@+id/editTextSearch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Tìm kiếm sân quanh đây."
-                android:background="@null"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:inputType="text" />
-
-            <!-- Search button as circular icon button -->
-            <ImageView
-                android:id="@+id/buttonSearch"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_search"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Tìm kiếm"
-                android:padding="4dp" />
-        </LinearLayout>
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="8dp"
+            android:iconifiedByDefault="false"
+            android:queryHint="Tìm kiếm theo tên, địa chỉ hoặc số điện thoại" />
     </com.google.android.material.card.MaterialCardView>
-
-    <!-- Bộ lọc thể thao -->
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginBottom="8dp">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupFilters"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:singleSelection="true"
-            app:singleLine="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipTennis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tennis"
-                app:chipBackgroundColor="@color/chip_background_color"
-                app:chipIcon="@drawable/ic_tennis"
-                app:chipIconVisible="true"
-                android:checkable="true" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipBadminton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cầu lông"
-                app:chipBackgroundColor="@color/chip_background_color"
-                app:chipIcon="@drawable/ic_badminton"
-                app:chipIconVisible="true"
-                android:checkable="true" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipFootball"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bóng đá"
-                app:chipBackgroundColor="@color/chip_background_color"
-                app:chipIcon="@drawable/ic_football"
-                app:chipIconVisible="true"
-                android:checkable="true" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipTableTennis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bóng bàn"
-                app:chipBackgroundColor="@color/chip_background_color"
-                app:chipIcon="@drawable/ic_table_tennis"
-                app:chipIconVisible="true"
-                android:checkable="true" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPickleball"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pickleball"
-                app:chipBackgroundColor="@color/chip_background_color"
-                app:chipIcon="@drawable/ic_pickleball"
-                app:chipIconVisible="true"
-                android:checkable="true" />
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
