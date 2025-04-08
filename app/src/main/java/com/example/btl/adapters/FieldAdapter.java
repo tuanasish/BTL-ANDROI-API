@@ -69,12 +69,9 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
                         ", Location = " + field.getLocation());
                 // Tạo Intent và truyền đối tượng Field
                 Intent intent = new Intent(context, FieldDetailActivity.class);
-                intent.putExtra("FIELD_ID", field.getField_id());
-                intent.putExtra("FIELD_NAME", field.getName());
-                intent.putExtra("FIELD_LOCATION", field.getLocation());
-                intent.putExtra("FIELD_CAPACITY", field.getCapacity());
-                intent.putExtra("FIELD_IMAGE", field.getImages());
+                intent.putExtra("FIELD_ID", field.getField_id());  // chỉ truyền ID
                 context.startActivity(intent);
+
             }
         });
 
