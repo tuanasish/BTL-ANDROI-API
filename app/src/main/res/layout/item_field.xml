@@ -3,23 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
+    android:padding="12dp"
     android:background="@drawable/item_background"
     android:layout_margin="8dp">
 
     <ImageView
         android:id="@+id/fieldImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@drawable/ic_launcher_background"
+        android:background="@drawable/image_rounded"
+        android:contentDescription="Ảnh sân" />
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingLeft="10dp">
+        android:paddingStart="12dp"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/fieldName"
@@ -28,55 +31,64 @@
             android:text="Tên sân"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="#2E7D32" />
+            android:textColor="#1B5E20" />
 
         <TextView
             android:id="@+id/fieldAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Địa chỉ"
-            android:textColor="#757575"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textColor="#616161"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/fieldNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Số điện thoại"
+            android:text="Sức chứa: 10"
             android:textColor="#D32F2F"
-            android:textSize="13sp"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/fieldPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá: 120.000 VND"
+            android:textSize="14sp"
+            android:textColor="#FF6F00"
+            android:layout_marginTop="4dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="8dp">
 
             <Button
                 android:id="@+id/btnBookField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:text="Đặt lịch"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@color/backgroundColor"
-                android:textSize="10sp" />
+                android:backgroundTint="#388E3C"
+                android:textSize="12sp"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btnDirections"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:padding="5dp"
+                android:layout_marginStart="8dp"
+                android:padding="6dp"
                 android:text="Chỉ đường"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@color/backgroundColor"
-                android:textSize="10sp" />
+                android:backgroundTint="#1976D2"
+                android:textSize="12sp"
+                android:textAllCaps="false" />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>
