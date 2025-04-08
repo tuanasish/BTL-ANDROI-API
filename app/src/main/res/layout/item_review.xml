@@ -1,0 +1,32 @@
+<!-- res/layout/item_review.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Người dùng"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nội dung đánh giá"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="4dp" />
+</LinearLayout>

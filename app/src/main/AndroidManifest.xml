@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Btl"
         tools:targetApi="33">
-
         <!-- Màn hình đăng nhập hiển thị đầu tiên -->
         <activity
             android:name=".LoginActivity"

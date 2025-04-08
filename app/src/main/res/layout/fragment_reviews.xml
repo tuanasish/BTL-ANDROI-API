@@ -1,92 +1,35 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvReviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đánh giá của người dùng"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerReviews"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:nestedScrollingEnabled="true"
+        android:overScrollMode="always"
+        android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/btnSubmitReview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tvReviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đánh giá của người dùng"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="10dp"/>
-
-        <!-- Các đánh giá -->
-        <TextView
-            android:id="@+id/review1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="• Nguyễn Văn A: Sân rất rộng, dịch vụ tốt! ⭐⭐⭐⭐⭐"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:paddingBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/review2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="• Trần Thị B: Mặt sân êm, rất thích! ⭐⭐⭐⭐"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:paddingBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/review3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="• Lê Văn C: Giá cả hợp lý, sẽ quay lại! ⭐⭐⭐⭐⭐"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:paddingBottom="5dp"/>
-
-        <TextView
-            android:id="@+id/review4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="• Phạm Thị D: Không gian thoáng, phục vụ nhiệt tình! ⭐⭐⭐⭐"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:paddingBottom="5dp"/>
-
-        <!-- Phần đánh giá của bạn -->
-        <TextView
-            android:id="@+id/tvYourReview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đánh giá của bạn"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingTop="20dp"
-            android:paddingBottom="10dp"/>
-
-        <EditText
-            android:id="@+id/etYourReview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nhập đánh giá của bạn..."
-            android:textSize="16sp"
-            android:background="@android:drawable/edit_text"
-            android:padding="10dp"
-            android:minHeight="100dp"
-            android:gravity="top"
-            android:inputType="textMultiLine"/>
-
-        <Button
-            android:id="@+id/btnSubmitReview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gửi đánh giá"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@android:color/holo_blue_dark"
-            android:textColor="@android:color/white"/>
-
-    </LinearLayout>
-</ScrollView>
+        android:text="Gửi đánh giá"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white" />
+</LinearLayout>
