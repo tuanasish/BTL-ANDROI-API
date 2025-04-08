@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.btl.R;
@@ -26,7 +28,11 @@ public class AdminMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_main);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_admin);
-
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_more_vert_white));
         // Lấy user từ LoginActivity
         Intent intent = getIntent();
         loginUser = (User) intent.getSerializableExtra("USER_DATA");
