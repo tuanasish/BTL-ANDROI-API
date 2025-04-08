@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/fieldImage"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
         android:background="@drawable/image_rounded"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Giá: 120.000 VND"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textColor="#FF6F00"
             android:layout_marginTop="4dp"
             android:textStyle="bold" />
