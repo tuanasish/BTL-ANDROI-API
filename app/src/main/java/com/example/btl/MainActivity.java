@@ -29,16 +29,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Gắn Toolbar với ActionBar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Booking Sport");
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_more_vert_white));
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        // Hiển thị fragment mặc định khi mở app
         loadFragment(new ListFieldsFragment());
 
         loginUser = (User) getIntent().getSerializableExtra("USER_DATA");

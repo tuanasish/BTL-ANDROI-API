@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
         holder.fieldNumber.setText("Sức chứa: " + field.getCapacity());
         holder.fieldPrice.setText("Giá: " + String.format("%,.0f", field.getPrice()) + " VND");
 
-        // Load ảnh
+        // Load ảnh sân
         if (field.getImages() != null && !field.getImages().isEmpty()) {
             Glide.with(context)
                     .load(field.getImages())
@@ -55,13 +56,19 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
             holder.fieldImage.setImageResource(R.drawable.field2);
         }
 
-        // Sự kiện click sân
-        holder.itemView.setOnClickListener(v -> {
-            Log.d("FieldAdapter", "Field clicked: ID = " + field.getField_id());
+        // Tạo Intent mở FieldDetailActivity
+        View.OnClickListener openDetail = v -> {
+            Log.d("FieldAdapter", "Mở chi tiết sân: ID = " + field.getField_id());
             Intent intent = new Intent(context, FieldDetailActivity.class);
             intent.putExtra("FIELD_ID", field.getField_id());
             context.startActivity(intent);
-        });
+        };
+
+        // Click toàn bộ item
+        holder.itemView.setOnClickListener(openDetail);
+
+        // Click nút Đặt lịch
+        holder.btnBookField.setOnClickListener(openDetail);
     }
 
     @Override
@@ -72,14 +79,16 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView fieldName, fieldAddress, fieldNumber, fieldPrice;
         ImageView fieldImage;
+        Button btnBookField;
 
         public ViewHolder(View itemView) {
             super(itemView);
             fieldName = itemView.findViewById(R.id.fieldName);
             fieldAddress = itemView.findViewById(R.id.fieldAddress);
             fieldNumber = itemView.findViewById(R.id.fieldNumber);
-            fieldPrice = itemView.findViewById(R.id.fieldPrice); // mới thêm
+            fieldPrice = itemView.findViewById(R.id.fieldPrice);
             fieldImage = itemView.findViewById(R.id.fieldImage);
+            btnBookField = itemView.findViewById(R.id.btnBookField);
         }
     }
 }

@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.btl.models.Field;
 import com.example.btl.models.FieldResponse;
 import com.example.btl.models.FieldSingleResponse;
+import com.example.btl.models.FieldSortResponse;
+import com.example.btl.models.FieldTypeResponse;
 
 import java.util.List;
 
@@ -63,6 +65,24 @@ public class ApiFieldService {
         });
     }
 
+    // Tạo mới một Field
+    public void createField(Field field, final ApiCallback<Field> callback) {
+        api.createField(field).enqueue(new Callback<Field>() {
+            @Override
+            public void onResponse(Call<Field> call, Response<Field> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError(new Exception("Response error: " + response.code()));
+                }
+            }
+            @Override
+            public void onFailure(Call<Field> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
     // Xóa Field theo ID
     public void deleteField(int id, final ApiCallback<Void> callback) {
         api.deleteField(id).enqueue(new Callback<Void>() {
@@ -80,6 +100,23 @@ public class ApiFieldService {
             }
         });
     }
+    public void getFieldsByType(String type, final ApiCallback<List<Field>> callback) {
+        api.getFieldsByType(type).enqueue(new Callback<FieldTypeResponse>() {
+            @Override
+            public void onResponse(Call<FieldTypeResponse> call, Response<FieldTypeResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData());
+                } else {
+                    callback.onError(new Exception("Response error: " + response.code()));
+                }
+            }
+            @Override
+            public void onFailure(Call<FieldTypeResponse> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
 
     // Lọc Field theo loại và địa chỉ
     public void filterFields(String type, String address, final ApiCallback<List<Field>> callback) {
@@ -98,6 +135,24 @@ public class ApiFieldService {
             }
         });
     }
+    public void sortFields(String sort, final ApiCallback<List<Field>> callback) {
+        api.sortFields(sort).enqueue(new Callback<FieldSortResponse>() {
+            @Override
+            public void onResponse(Call<FieldSortResponse> call, Response<FieldSortResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData());
+                } else {
+                    callback.onError(new Exception("Response error: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FieldSortResponse> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
 
     public interface ApiCallback<T> {
         void onSuccess(T result);

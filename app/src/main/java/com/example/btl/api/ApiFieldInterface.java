@@ -3,6 +3,8 @@ package com.example.btl.api;
 import com.example.btl.models.Field;
 import com.example.btl.models.FieldResponse;
 import com.example.btl.models.FieldSingleResponse;
+import com.example.btl.models.FieldSortResponse;
+import com.example.btl.models.FieldTypeResponse;
 
 import java.util.List;
 
@@ -25,9 +27,12 @@ public interface ApiFieldInterface {
     // Lấy thông tin của Field theo ID
     @GET("field/{id}")
     Call<FieldSingleResponse> getById(@Path("id") int id);
+
+
     // Lấy danh sách tất cả các Field
     @GET("field/list")
     Call<FieldResponse> getAllFields();
+
 
     // them 1 field vao csdl
     @Multipart
@@ -40,6 +45,10 @@ public interface ApiFieldInterface {
             @Part("capacity") RequestBody capacity,
             @Part MultipartBody.Part image
     );
+
+    // Tạo mới một Field
+    @POST("field")
+    Call<Field> createField(@Body Field field);
 
     @Multipart
     @PUT("field/update/{id}")
@@ -66,4 +75,11 @@ public interface ApiFieldInterface {
             @Query("type") String type,
             @Query("address") String address
     );
+    // Lọc Field theo loại (chỉ theo type)
+    @GET("field/type")
+    Call<FieldTypeResponse> getFieldsByType(@Query("type") String type);
+    @GET("field/sort")
+    Call<FieldSortResponse> sortFields(@Query("sort") String sort);
+
+
 }
