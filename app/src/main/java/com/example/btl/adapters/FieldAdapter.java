@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.activities.FieldDetailActivity;
-import com.example.btl.api.ApiFieldService;
 import com.example.btl.models.Field;
 
 import java.util.ArrayList;
@@ -26,8 +25,6 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
     private final List<Field> fieldList;
     private Context context;
 
-    private ApiFieldService api;
-
     public FieldAdapter(Context context, List<Field> fieldList) {
         this.context = context;
         this.fieldList = (fieldList != null) ? fieldList : new ArrayList<>();
@@ -37,7 +34,6 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_field, parent, false);
-
         return new ViewHolder(view);
     }
 
@@ -46,37 +42,26 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
         Field field = fieldList.get(position);
         holder.fieldName.setText(field.getName());
         holder.fieldAddress.setText(field.getLocation());
-        holder.fieldNumber.setText(String.valueOf(field.getCapacity()));
+        holder.fieldNumber.setText("Sức chứa: " + field.getCapacity());
+        holder.fieldPrice.setText("Giá: " + String.format("%,.0f", field.getPrice()) + " VND");
 
-
-        // Load image
+        // Load ảnh
         if (field.getImages() != null && !field.getImages().isEmpty()) {
-            // Sử dụng thư viện như Glide từ URL
             Glide.with(context)
                     .load(field.getImages())
-                    .placeholder(R.drawable.ic_launcher_background) // Ảnh placeholder nếu load lỗi
+                    .placeholder(R.drawable.ic_launcher_background)
                     .into(holder.fieldImage);
         } else {
-            holder.fieldImage.setImageResource(R.drawable.field2); // Ảnh mặc định
+            holder.fieldImage.setImageResource(R.drawable.field2);
         }
 
-        // Sự kiện click item
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("FieldAdapter", "Field clicked: ID = " + field.getField_id() +
-                        ", Name = " + field.getName() +
-                        ", Location = " + field.getLocation());
-                // Tạo Intent và truyền đối tượng Field
-                Intent intent = new Intent(context, FieldDetailActivity.class);
-                intent.putExtra("FIELD_ID", field.getField_id());  // chỉ truyền ID
-                context.startActivity(intent);
-
-            }
+        // Sự kiện click sân
+        holder.itemView.setOnClickListener(v -> {
+            Log.d("FieldAdapter", "Field clicked: ID = " + field.getField_id());
+            Intent intent = new Intent(context, FieldDetailActivity.class);
+            intent.putExtra("FIELD_ID", field.getField_id());
+            context.startActivity(intent);
         });
-
-
-
     }
 
     @Override
@@ -84,9 +69,8 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
         return (fieldList != null) ? fieldList.size() : 0;
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView fieldName, fieldAddress, fieldNumber;
+        TextView fieldName, fieldAddress, fieldNumber, fieldPrice;
         ImageView fieldImage;
 
         public ViewHolder(View itemView) {
@@ -94,6 +78,7 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
             fieldName = itemView.findViewById(R.id.fieldName);
             fieldAddress = itemView.findViewById(R.id.fieldAddress);
             fieldNumber = itemView.findViewById(R.id.fieldNumber);
+            fieldPrice = itemView.findViewById(R.id.fieldPrice); // mới thêm
             fieldImage = itemView.findViewById(R.id.fieldImage);
         }
     }

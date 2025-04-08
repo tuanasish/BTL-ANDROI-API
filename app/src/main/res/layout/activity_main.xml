@@ -31,8 +31,9 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav_menu"
         android:background="@color/colorPrimary"
-        app:itemTextColor="@color/bottom_nav_item_selected"
-        app:itemIconTint="@color/bottom_nav_item_unselected" />
+        app:itemIconTint="@color/bottom_nav_icon_color"
+        app:itemTextColor="@color/bottom_nav_text_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         // Gắn Toolbar với ActionBar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Booking App");
+        getSupportActionBar().setTitle("");
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_more_vert_white));
 

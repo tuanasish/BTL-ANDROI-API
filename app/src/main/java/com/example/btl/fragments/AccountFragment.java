@@ -18,12 +18,10 @@ import com.example.btl.ChangePasswordActivity;
 import com.example.btl.EditInfoActivity;
 import com.example.btl.LoginActivity;
 import com.example.btl.R;
-import com.example.btl.activities.BookingDetailActivity;
 import com.example.btl.adapters.BookingHistoryAdapter;
 import com.example.btl.api.ApiBookingInterface;
 import com.example.btl.api.ApiClient;
 import com.example.btl.models.BookingResponse;
-import com.example.btl.models.TimeSlot;
 import com.example.btl.models.User;
 import com.example.btl.utils.BookingDatabaseHelper;
 import com.google.gson.Gson;
@@ -34,7 +32,6 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,7 +56,6 @@ public class AccountFragment extends Fragment {
         tvUserInfo = view.findViewById(R.id.tvUserInfo);
         rvBookingHistory = view.findViewById(R.id.rvBookingHistory);
 
-        // Lấy dữ liệu người dùng từ Bundle (có thể từ Intent hoặc từ một Fragment khác)
         if (getArguments() != null) {
             loginUser = (User) getArguments().getSerializable("USER_DATA");
         }
@@ -78,7 +74,6 @@ public class AccountFragment extends Fragment {
             tvUserInfo.setText("");
         }
 
-        // Thiết lập RecyclerView
         databaseHelper = new BookingDatabaseHelper(getContext());
         databaseHelper.open();
         rvBookingHistory.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -90,19 +85,23 @@ public class AccountFragment extends Fragment {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    JsonArray dataArray = response.body().getAsJsonArray("data");
+                    JsonElement dataElement = response.body().get("data");
 
-                    List<BookingResponse> bookingList;
-                    bookingList = new ArrayList<>();
-                    Gson gson = new Gson();
+                    if (dataElement != null && dataElement.isJsonArray()) {
+                        JsonArray dataArray = dataElement.getAsJsonArray();
+                        List<BookingResponse> bookingList = new ArrayList<>();
+                        Gson gson = new Gson();
 
-                    for (JsonElement element : dataArray) {
-                        BookingResponse booking = gson.fromJson(String.valueOf(element), BookingResponse.class);
-                        bookingList.add(booking);
+                        for (JsonElement element : dataArray) {
+                            BookingResponse booking = gson.fromJson(element, BookingResponse.class);
+                            bookingList.add(booking);
+                        }
+
+                        BookingHistoryAdapter adapter = new BookingHistoryAdapter(getContext(), bookingList);
+                        rvBookingHistory.setAdapter(adapter);
+                    } else {
+                        Log.e("API_RESPONSE", "data = null hoặc không phải JsonArray");
                     }
-
-                    BookingHistoryAdapter adapter = new BookingHistoryAdapter(getContext(), bookingList);
-                    rvBookingHistory.setAdapter(adapter);
                 } else {
                     Log.e("API_ERROR", "Dữ liệu trả về không hợp lệ");
                 }
@@ -127,10 +126,9 @@ public class AccountFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_edit_info) {
-            // Truyền dữ liệu người dùng từ AccountFragment sang EditInfoActivity
             if (loginUser != null) {
                 Intent intent = new Intent(getActivity(), EditInfoActivity.class);
-                intent.putExtra("USER_DATA", loginUser);  // Truyền đối tượng User vào Intent
+                intent.putExtra("USER_DATA", loginUser);
                 startActivity(intent);
             }
             return true;
