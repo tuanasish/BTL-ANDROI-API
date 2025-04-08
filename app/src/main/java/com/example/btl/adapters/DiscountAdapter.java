@@ -7,13 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.btl.BookingActivity;
 import com.example.btl.R;
 import com.example.btl.activities.DiscountDetailActivity;
-import com.example.btl.activities.FieldDetailActivity;
 import com.example.btl.models.Discount;
 
 import java.util.List;
@@ -39,21 +38,20 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
         Discount discount = discountList.get(position);
         holder.image.setImageResource(discount.getImageResId());
 
-        // Sự kiện click cho itemView (toàn bộ ô discount): mở DiscountDetailActivity
+        // Sự kiện click toàn bộ item -> mở DiscountDetailActivity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DiscountDetailActivity.class);
             intent.putExtra("imageResId", discount.getImageResId());
             context.startActivity(intent);
         });
 
-        // ✅ Sự kiện click cho nút "Đặt lịch ngay": mở FieldDetailActivity với field_id
+        // ✅ Sự kiện click "Đặt lịch ngay" -> mở BookingActivity với đầy đủ thông tin
         holder.scheduleButton.setOnClickListener(v -> {
-            Intent intent = new Intent(context, FieldDetailActivity.class);
-            intent.putExtra("field_id", discount.getFieldId());  // Truyền duy nhất ID sân
+            Intent intent = new Intent(context, BookingActivity.class);
+            intent.putExtra("FIELD_ID", discount.getFieldId());  // ✅ Key chính xác
             context.startActivity(intent);
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -67,7 +65,7 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
         public DiscountViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.discountImage);
-            scheduleButton = itemView.findViewById(R.id.scheduleButton);  // Thêm view của nút "Đặt lịch ngay"
+            scheduleButton = itemView.findViewById(R.id.scheduleButton);
         }
     }
 }
