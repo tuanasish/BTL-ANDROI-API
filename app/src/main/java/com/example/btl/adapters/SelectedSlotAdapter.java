@@ -4,18 +4,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.btl.R;
 import com.example.btl.models.TimeSlot;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedSlotAdapter extends RecyclerView.Adapter<SelectedSlotAdapter.ViewHolder> {
 
-    private final List<TimeSlot> selectedSlots;
+    private List<TimeSlot> selectedSlots = new ArrayList<>();
 
-    public SelectedSlotAdapter(List<TimeSlot> selectedSlots) {
-        this.selectedSlots = selectedSlots;
+    public SelectedSlotAdapter() {
+        // Không cần truyền dữ liệu khi khởi tạo
+    }
+
+    public void setTimeSlotList(List<TimeSlot> slots) {
+        this.selectedSlots = slots;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -28,13 +37,13 @@ public class SelectedSlotAdapter extends RecyclerView.Adapter<SelectedSlotAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TimeSlot slot = selectedSlots.get(position);
-        holder.txtFieldName.setText(slot.getFieldID());
-        holder.txtTime.setText(slot.getTimeRange());
+        holder.txtFieldName.setText("Sân ID: " + slot.getFieldID()); // chuyển int sang String
+        holder.txtTime.setText("Khung giờ: " + slot.getTimeRange());
     }
 
     @Override
     public int getItemCount() {
-        return selectedSlots.size();
+        return selectedSlots != null ? selectedSlots.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -25,7 +25,7 @@
                 android:gravity="center"
                 android:paddingBottom="15dp" />
 
-            <!-- Thông tin sân lớn -->
+            <!-- Thông tin sân -->
             <TextView
                 android:id="@+id/txtFieldName"
                 android:layout_width="match_parent"
@@ -33,7 +33,6 @@
                 android:text="Tên sân"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:gravity="left"
                 android:paddingTop="8dp" />
 
             <TextView
@@ -41,20 +40,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Địa chỉ sân"
-                android:textSize="16sp"
-                android:gravity="left" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/txtFieldNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Số điện thoại"
+                android:text="Sức chứa"
                 android:textSize="16sp"
-                android:gravity="left"
-                android:textColor="@color/black"
                 android:paddingBottom="8dp" />
 
-            <!-- Hiển thị ngày đặt -->
+            <!-- Ngày đặt -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,34 +63,39 @@
                     android:layout_weight="1"
                     android:text="Ngày:"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
-            <!-- Danh sách sân nhỏ đã đặt -->
+            <!-- Danh sách khung giờ (RecyclerView) -->
             <TextView
-                android:id="@+id/txtBookedSlots"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Danh sách sân đã đặt"
+                android:text="Khung giờ đã chọn:"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:gravity="left"
-                android:paddingTop="8dp" />
+                android:paddingTop="10dp"
+                android:paddingBottom="4dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
 
             <!-- Tổng tiền -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -102,7 +103,7 @@
                     android:layout_weight="1"
                     android:text="Tổng tiền:"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
@@ -110,8 +111,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
@@ -128,7 +130,7 @@
             android:text="Xác nhận"
             android:backgroundTint="@color/backgroundColor"
             android:textColor="@android:color/white"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
         <Button
             android:id="@+id/btnCancel"
@@ -136,7 +138,7 @@
             android:layout_height="wrap_content"
             android:text="Hủy"
             android:backgroundTint="@color/backgroundColor"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </LinearLayout>
