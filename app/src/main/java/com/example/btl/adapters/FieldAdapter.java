@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,21 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.btl.R;
 import com.example.btl.activities.FieldDetailActivity;
-import com.example.btl.api.ApiClient;
-import com.example.btl.api.ApiFieldInterface;
 import com.example.btl.api.ApiFieldService;
 import com.example.btl.models.Field;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> {
 
+    private final List<Field> fieldList;
     private Context context;
-    private List<Field> fieldList;
+
     private ApiFieldService api;
 
     public FieldAdapter(Context context, List<Field> fieldList) {
         this.context = context;
-        this.fieldList = fieldList;
+        this.fieldList = (fieldList != null) ? fieldList : new ArrayList<>();
     }
 
     @NonNull
@@ -85,8 +84,9 @@ public class FieldAdapter extends RecyclerView.Adapter<FieldAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return fieldList.size();
+        return (fieldList != null) ? fieldList.size() : 0;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView fieldName, fieldAddress, fieldNumber;
