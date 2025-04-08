@@ -47,17 +47,14 @@ public class LoginActivity extends AppCompatActivity {
             if(email.isEmpty() || password.isEmpty()){
                 Toast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
-            } else {
-                Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
             }
+
+            // Gọi API đăng nhập
             apiUserService.loginUser(email, password, new ApiUserService.ApiCallback<User>() {
                 @Override
                 public void onSuccess(User user) {
                     Toast.makeText(LoginActivity.this,
-                            "Xin Chào : " + user.getUsername(),
+                            "Xin chào: " + user.getUsername(),
                             Toast.LENGTH_SHORT).show();
                     Log.d("LOGIN_SUCCESS", "User data: " + user.toString());
 
@@ -67,30 +64,30 @@ public class LoginActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     String userJson = gson.toJson(user);
                     editor.putString("USER_DATA", userJson);
+                    editor.putInt("USER_ID", user.getUser_id());
+                    editor.putString("USER_PASSWORD", password);
                     editor.apply();
 
                     // Mở màn hình chính
                     Intent intent;
-
                     if (user.getRole() != null && user.getRole().equalsIgnoreCase("admin")) {
                         intent = new Intent(LoginActivity.this, AdminMainActivity.class);
                     } else {
                         intent = new Intent(LoginActivity.this, MainActivity.class);
                     }
 
-                    intent.putExtra("USER_DATA", user); // vẫn truyền nếu cần
+                    intent.putExtra("USER_DATA", user);
                     startActivity(intent);
                     finish();
                 }
-
 
                 @Override
                 public void onError(Throwable t) {
                     Toast.makeText(LoginActivity.this, "Sai email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                 }
             });
-
         });
+
 
         // Chuyển sang màn hình đăng ký
         tvToRegister.setOnClickListener(v -> {

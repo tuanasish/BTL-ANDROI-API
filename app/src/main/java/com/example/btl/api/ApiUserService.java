@@ -2,6 +2,7 @@ package com.example.btl.api;
 
 import android.util.Log;
 
+import com.example.btl.models.ChangePasswordRequest;
 import com.example.btl.models.LoginResponse;
 import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
@@ -114,28 +115,7 @@ public class ApiUserService {
         });
     }
     // Thêm phương thức changePassword vào ApiUserService
-    public void changePassword(int userId, String currentPassword, String newPassword, final ApiCallback<Void> callback) {
-        Map<String, String> body = new HashMap<>();
-        body.put("current_password", currentPassword);
-        body.put("new_password", newPassword);
 
-        // Gửi yêu cầu PUT đến API
-        api.updatePassword(userId, body).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(null);  // Thành công, không cần trả về dữ liệu
-                } else {
-                    callback.onError(new Exception("Password update failed: " + response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
 
 
 
@@ -195,6 +175,27 @@ public class ApiUserService {
             }
         });
     }
+
+    public void changePassword(int userId, String oldPassword, String newPassword, ApiCallback<Void> callback) {
+        ChangePasswordRequest request = new ChangePasswordRequest(oldPassword, newPassword);
+        api.changePassword(userId, request).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(null);
+                } else {
+                    callback.onError(new Exception("Lỗi: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+
+
     // Interface callback để xử lý kết quả bất đồng bộ
     public interface ApiCallback<T> {
         void onSuccess(T result);

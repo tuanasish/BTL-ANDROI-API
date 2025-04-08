@@ -22,7 +22,9 @@ import com.example.btl.models.Field;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ListFieldsFragment extends Fragment {
 
@@ -33,7 +35,7 @@ public class ListFieldsFragment extends Fragment {
 
     private Chip chipTennis, chipBadminton, chipFootball, chipTableTennis, chipPickleball, chipSortByPrice;
     private boolean isPriceAsc = true; // Toggle sắp xếp giá
-
+    private final Map<String, String> typeMap = new HashMap<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,12 +60,15 @@ public class ListFieldsFragment extends Fragment {
         apiFieldService = new ApiFieldService(apiFieldInterface);
 
         loadFields(); // mặc định load toàn bộ sân
-
-        chipTennis.setOnClickListener(v -> filterByType("tennis"));
-        chipBadminton.setOnClickListener(v -> filterByType("badminton"));
-        chipFootball.setOnClickListener(v -> filterByType("football"));
+        typeMap.put("tennis", "Tenis");
+        typeMap.put("badminton", "Cầu lông");
+        typeMap.put("football", "Bóng đá");
+        typeMap.put("pickleball", "Pick");
+        chipTennis.setOnClickListener(v -> filterByType(typeMap.get("tennis")));
+        chipBadminton.setOnClickListener(v -> filterByType(typeMap.get("badminton")));
+        chipFootball.setOnClickListener(v -> filterByType(typeMap.get("football")));
         chipTableTennis.setOnClickListener(v -> filterByType("tabletennis"));
-        chipPickleball.setOnClickListener(v -> filterByType("pickleball"));
+        chipPickleball.setOnClickListener(v -> filterByType(typeMap.get("pickleball")));
 
         chipSortByPrice.setOnClickListener(v -> {
             String sortType = isPriceAsc ? "asc" : "desc";

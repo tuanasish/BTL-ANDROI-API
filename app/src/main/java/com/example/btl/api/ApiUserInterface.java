@@ -1,5 +1,6 @@
 package com.example.btl.api;
 
+import com.example.btl.models.ChangePasswordRequest;
 import com.example.btl.models.LoginResponse;
 import com.example.btl.models.RegisterResponse;
 import com.example.btl.models.User;
@@ -41,7 +42,7 @@ public interface ApiUserInterface {
     @PUT("api/auth/update/{id}")
     Call<User> update(@Path("id") int id, @Body User user);
 
-    @PUT("user/{id}/password")
-    Call<ResponseBody> updatePassword(@Path("id") int id, @Body Map<String, String> body);
+    @PUT("api/auth/{id}/pwd")
+    Call<Void> changePassword(@Path("id") int userId, @Body ChangePasswordRequest request);
 
 }
