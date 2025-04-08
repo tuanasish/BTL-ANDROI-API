@@ -1,75 +1,113 @@
 package com.example.btl.adapters;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.collection.ArraySet;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl.R;
 import com.example.btl.models.TimeSlot;
-import java.util.List;
 
-public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.ViewHolder> {
+public class TimeSlotAdapter extends ListAdapter<TimeSlot, TimeSlotAdapter.ViewHolder> {
 
-    private final List<TimeSlot> timeSlots;  // Danh sách các khung giờ của 1 sân
-    private final OnTimeSlotClickListener listener;
-    private ArraySet<TimeSlot> selectedSlots;
+    public interface OnSlotClickListener {
+        void onSlotClick(TimeSlot slot);
+    }
 
-    // Constructor nhận vào dữ liệu và listener để xử lý sự kiện click
-    public TimeSlotAdapter(List<TimeSlot> timeSlots, OnTimeSlotClickListener listener) {
-        this.timeSlots = timeSlots;
+    private final OnSlotClickListener listener;
+
+    public TimeSlotAdapter(OnSlotClickListener listener) {
+        super(DIFF_CALLBACK);
         this.listener = listener;
     }
+
+    private static final DiffUtil.ItemCallback<TimeSlot> DIFF_CALLBACK = new DiffUtil.ItemCallback<TimeSlot>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TimeSlot oldItem, @NonNull TimeSlot newItem) {
+            return oldItem.getSlotID() == newItem.getSlotID();
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        @Override
+        public boolean areContentsTheSame(@NonNull TimeSlot oldItem, @NonNull TimeSlot newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate layout cho mỗi khung giờ
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_time_slot, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_time_slot, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Lấy khung giờ tại vị trí này
-        TimeSlot timeSlot = timeSlots.get(position);
-        holder.timeTextView.setText(timeSlot.getStart_time().toString() + " - " + timeSlot.getEnd_time().toString());
+        TimeSlot slot = getItem(position);
 
-        // Set màu cho khung giờ đã đặt (màu đỏ) hoặc chưa đặt (màu xanh)
-        if ("booked".equals(timeSlot.getStatus())) {
-            holder.itemView.setBackgroundColor(0xFFFF0000); // Màu đỏ cho đã đặt
+        // Set time range
+        holder.tvTime.setText(slot.getTimeRange());
+
+        // Update UI state
+        updateSlotAppearance(holder, slot);
+
+        // Handle interactions
+        setupClickListeners(holder, slot);
+    }
+
+    private void updateSlotAppearance(ViewHolder holder, TimeSlot slot) {
+        Context context = holder.itemView.getContext();
+        int bgResId = R.drawable.bg_selected_time_slot;
+        int textColor = ContextCompat.getColor(context, R.color.default_color);
+
+        switch (slot.getStatus()) {
+            case TimeSlot.AVAILABLE:
+                bgResId = R.drawable.bg_available_time_slot;
+                textColor = ContextCompat.getColor(context, R.color.black);
+                break;
+            case TimeSlot.BOOKED:
+                bgResId = R.drawable.bg_selected_time_slot;
+                textColor = ContextCompat.getColor(context, R.color.default_color);
+                break;
+            case TimeSlot.LOCKED:
+                bgResId = R.drawable.bg_locked_time_slot;
+                break;
+        }
+
+        // Áp dụng background, màu chữ và hiệu ứng alpha cho trạng thái chọn
+        holder.itemView.setBackgroundResource(bgResId);
+        holder.tvTime.setTextColor(textColor);
+        holder.itemView.setAlpha(slot.isSelected() ? 1f : 0.5f);
+    }
+
+
+    private void setupClickListeners(ViewHolder holder, TimeSlot slot) {
+        if (slot.getStatus() == TimeSlot.AVAILABLE || slot.getStatus() == TimeSlot.BOOKED) {
+            holder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onSlotClick(slot);
+                    notifyItemChanged(holder.getBindingAdapterPosition());
+                }
+            });
         } else {
-            holder.itemView.setBackgroundColor(0xFF00FF00); // Màu xanh cho chưa đặt
+            holder.itemView.setOnClickListener(null);
+            holder.itemView.setClickable(false);
         }
-
-        // Xử lý sự kiện click vào khung giờ
-        holder.itemView.setOnClickListener(v -> listener.onTimeSlotClick(timeSlot));
     }
 
-    @Override
-    public int getItemCount() {
-        return timeSlots.size();  // Trả về số lượng khung giờ
-    }
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        final TextView tvTime;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView timeTextView;  // TextView hiển thị thời gian của khung giờ
-
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            timeTextView = itemView.findViewById(R.id.timeSlotText);  // Ánh xạ TextView
+            tvTime = itemView.findViewById(R.id.tvTime);
         }
     }
-
-    // Interface lắng nghe sự kiện click vào một khung giờ
-    public interface OnTimeSlotClickListener {
-        void onTimeSlotClick(TimeSlot timeSlot);  // Khi người dùng click vào khung giờ
-    }
-    public void updatePrice(TimeSlot timeSlot, boolean isSelected) {
-
-    }
-
 }

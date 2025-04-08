@@ -44,7 +44,8 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity android:name=".activities.FieldDetailActivity"/>
-        <activity android:name=".activities.BookingActivity"/>
+        <activity
+            android:name=".BookingActivity"/>
         <activity android:name=".activities.ConfirmBookingActivity"/>
         <activity android:name=".activities.SuccessActivity"/>
         <activity android:name=".EditInfoActivity" />

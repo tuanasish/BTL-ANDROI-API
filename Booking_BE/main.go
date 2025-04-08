@@ -16,7 +16,12 @@ import (
 )
 
 func main() {
+<<<<<<< HEAD
+	dsn := "root:abc123@tcp(127.0.0.1:3306)/Booking_BE?charset=utf8mb4&parseTime=True&loc=Local"
+
+=======
 	dsn := "root:root@tcp(127.0.0.1:3306)/Booking_BE?charset=utf8mb4&parseTime=True&loc=Local"
+>>>>>>> master
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Print("Failed to connect to database:", err)
@@ -53,7 +58,7 @@ func main() {
 		}
 		booking := v1.Group("/booking")
 		{
-			booking.POST("/create", bookingTransport.CreateBooking(db))
+			booking.POST("/create", bookingTransport.CreateBookingTimeslot(db))
 			booking.GET("/user/:user_id", bookingTransport.GetUserBookings(db)) // Thêm handler cụ thể
 			users.PUT("/update/:booking_id", bookingTransport.UpdateBooking(db))
 			// booking.GET("/:id", bookingTransport.GetBookingByID(db)) // Thêm endpoint cụ thể

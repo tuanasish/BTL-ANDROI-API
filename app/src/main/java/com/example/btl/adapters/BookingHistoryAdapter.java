@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btl.R;
-import com.example.btl.models.BookingResponse;
 import com.example.btl.models.TimeSlot;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
 public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<BookingResponse> bookings;
+    private final List<TimeSlot> bookings;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -29,7 +28,7 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
         this.listener = listener;
     }
 
-    public BookingHistoryAdapter(Context context, List<BookingResponse> bookings) {
+    public BookingHistoryAdapter(Context context, List<TimeSlot> bookings) {
         this.context = context;
         this.bookings = bookings;
     }
@@ -42,23 +41,22 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BookingResponse booking = bookings.get(position);
+    public void onBindViewHolder(@NonNull BookingHistoryAdapter.ViewHolder holder, int position) {
+        TimeSlot slot = bookings.get(position);
 
-        holder.txtFieldName.setText("Tên sân: " + booking.getField_name());
-        holder.txtBookedDate.setText("Ngày đặt: " + booking.getDate().substring(0, 10));
-        holder.txtTimeSlot.setText("Khung giờ: " + booking.getStart_time() + " - " + booking.getEnd_time());
+//        holder.txtFieldName.setText("Sân: " + slot.getFieldName());
+//        holder.txtFieldAddress.setText("Địa chỉ: " + slot.getFieldAddress());
+//        holder.txtFieldNumber.setText("SĐT: " + slot.getFieldNumber());
+//        holder.txtBookedDate.setText("Ngày đặt: " + slot.getBookedDate());
+//        holder.txtTimeSlot.setText("Khung giờ: " + slot.getTime());
+//        holder.txtTotalPrice.setText("Tổng tiền: " + slot.getTotalPrice() + " VND");
 
-        String status = booking.getStatus();
-        if (status == null || status.isEmpty()) {
-            status = "Chờ xác nhận";
-        }
-        holder.txtStatus.setText("Trạng thái: " + status);
-
-        holder.txtTotalPrice.setText("Tổng tiền: " + ((int) booking.getTotal_price()) + " đ");
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(slot);
+            }
+        });
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -66,16 +64,16 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtFieldName, txtBookedDate, txtTimeSlot, txtStatus, txtTotalPrice;
+        TextView txtFieldName, txtFieldAddress, txtFieldNumber, txtBookedDate, txtTimeSlot, txtTotalPrice;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtFieldName = itemView.findViewById(R.id.txtFieldName);
+            txtFieldAddress = itemView.findViewById(R.id.txtFieldAddress);
+            txtFieldNumber = itemView.findViewById(R.id.txtFieldNumber);
             txtBookedDate = itemView.findViewById(R.id.txtBookedDate);
             txtTimeSlot = itemView.findViewById(R.id.txtTimeSlot);
-            txtStatus = itemView.findViewById(R.id.txtStatus);
             txtTotalPrice = itemView.findViewById(R.id.txtTotalPrice);
         }
     }
-
 }

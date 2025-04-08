@@ -16,9 +16,17 @@ func NewBookingStorage(db *gorm.DB) *BookingStorage {
 }
 
 func (s *BookingStorage) CreateBookingCourt(data *model.Booking) error {
+	// var slot *modules.TimeSlotCreate
+	// slot.FieldID = data.FieldID
+	// slot.BookingDate = data.CreatedAt
+	// slot.StartTime = data.StartTime
+	// slot.EndTime = data.EndTime
 	if err := s.db.Create(data).Error; err != nil {
 		return err
 	}
+	// if err := s.db.Create(slot).Error; err != nil {
+	// 	return err
+	// }
 	return nil
 }
 
@@ -33,5 +41,5 @@ func (s *BookingStorage) IsCourtAvailable(fieldID, courtID uint, date string, st
 		return false, err
 	}
 
-	return count == 0, nil // Nếu count == 0, sân trống và có thể đặt
+	return count == 0, nil
 }

@@ -48,7 +48,7 @@ public class ApiFieldService {
             @Override
             public void onResponse(Call<FieldResponse> call, Response<FieldResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Field> fields = response.body().getData(); // Lấy danh sách Field từ FieldResponse
+                    List<Field> fields = response.body().getData();
                     Log.d("API_RESPONSE", "Data received: " + fields.toString());
                     callback.onSuccess(fields);
                 } else {

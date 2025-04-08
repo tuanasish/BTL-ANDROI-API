@@ -19,12 +19,12 @@ func NewGetFieldBiz(store GetFieldByID) *GetFieldBiz {
 }
 
 func (biz *GetFieldBiz) GetFieldByID(ctx context.Context, id int) (*model.Field, error) {
-	// Kiểm tra ID hợp lệ
+	// Kiểm tra tính hợp lệ của ID
 	if id <= 0 {
 		return nil, errors.New("id không hợp lệ")
 	}
 
-	// Gọi storage để lấy thông tin sân
+	// Gọi hàm lấy thông tin sân từ storage
 	field, err := biz.store.GetFieldByID(ctx, id)
 	if err != nil {
 		return nil, err

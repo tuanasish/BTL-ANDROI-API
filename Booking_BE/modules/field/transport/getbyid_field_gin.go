@@ -6,6 +6,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -13,7 +14,7 @@ import (
 
 func GetFieldByID(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Lấy ID từ param
+		// Lấy ID từ URL param
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "ID không hợp lệ"})
@@ -24,14 +25,19 @@ func GetFieldByID(db *gorm.DB) gin.HandlerFunc {
 		fieldStorage := storage.NewStorageField(db)
 		fieldBiz := biz.NewGetFieldBiz(fieldStorage)
 
-		// Lấy thông tin sân
+		// Gọi Biz để lấy thông tin sân
 		field, err := fieldBiz.GetFieldByID(context.Background(), id)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			// Nếu lỗi liên quan đến không tìm thấy field thì trả về 404
+			if strings.Contains(err.Error(), "field không tồn tại") {
+				c.JSON(http.StatusNotFound, gin.H{"error": "Field không tồn tại"})
+			} else {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			}
 			return
 		}
 
-		// Trả về JSON
+		// Trả về dữ liệu dạng JSON
 		c.JSON(http.StatusOK, gin.H{"data": field})
 	}
 }

@@ -50,7 +50,41 @@ public class BookingDatabaseHelper {
         }
     }
 
+    // ✅ Lưu đầy đủ thông tin booking
+    public long addBooking(TimeSlot slot, String bookedDate, int totalPrice) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FIELD_NAME, slot.getFieldID());
+//        values.put(COLUMN_FIELD_ADDRESS, slot.getFieldAddress());
+        values.put(COLUMN_FIELD_NUMBER, slot.getSlotID());
+        values.put(COLUMN_TIME, slot.getTimeRange());
+        values.put(COLUMN_TOTAL_PRICE, totalPrice);
+        values.put(COLUMN_BOOKED_DATE, bookedDate);
+        return db.insert(TABLE_BOOKINGS, null, values);
+    }
 
+    // ✅ Lấy toàn bộ danh sách đặt sân
+    public List<TimeSlot> getBookings() {
+        List<TimeSlot> bookings = new ArrayList<>();
+        Cursor cursor = db.query(TABLE_BOOKINGS, null, null, null, null, null, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                @SuppressLint("Range") String fieldName = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD_NAME));
+                @SuppressLint("Range") String fieldAddress = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD_ADDRESS));
+                @SuppressLint("Range") String fieldNumber = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD_NUMBER));
+                @SuppressLint("Range") String time = cursor.getString(cursor.getColumnIndex(COLUMN_TIME));
+                @SuppressLint("Range") int totalPrice = cursor.getInt(cursor.getColumnIndex(COLUMN_TOTAL_PRICE));
+                @SuppressLint("Range") String bookedDate = cursor.getString(cursor.getColumnIndex(COLUMN_BOOKED_DATE));
+
+//                TimeSlot slot = new TimeSlot(fieldName, time, TimeSlot.BOOKED, totalPrice, bookedDate);
+//                slot.setFieldAddress(fieldAddress);
+//                slot.setFieldNumber(fieldNumber);
+
+//                bookings.add(slot);
+            }
+            cursor.close();
+        }
+        return bookings;
+    }
 
     // ✅ Lấy tổng số tiền đã đặt
     public int getTotalPrice() {
