@@ -107,9 +107,6 @@ public class EditFieldActivity extends AppCompatActivity {
                         Toast.makeText(this, "Không thể đọc ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                } else {
-                    Toast.makeText(this, "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
                 ApiFieldInterface api = ApiClient.getClient().create(ApiFieldInterface.class);

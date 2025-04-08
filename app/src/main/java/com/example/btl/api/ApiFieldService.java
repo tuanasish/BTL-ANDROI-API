@@ -63,24 +63,6 @@ public class ApiFieldService {
         });
     }
 
-    // Tạo mới một Field
-    public void createField(Field field, final ApiCallback<Field> callback) {
-        api.createField(field).enqueue(new Callback<Field>() {
-            @Override
-            public void onResponse(Call<Field> call, Response<Field> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
-                } else {
-                    callback.onError(new Exception("Response error: " + response.code()));
-                }
-            }
-            @Override
-            public void onFailure(Call<Field> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
-
     // Xóa Field theo ID
     public void deleteField(int id, final ApiCallback<Void> callback) {
         api.deleteField(id).enqueue(new Callback<Void>() {

@@ -25,12 +25,9 @@ public interface ApiFieldInterface {
     // Lấy thông tin của Field theo ID
     @GET("field/{id}")
     Call<FieldSingleResponse> getById(@Path("id") int id);
-
-
     // Lấy danh sách tất cả các Field
     @GET("field/list")
     Call<FieldResponse> getAllFields();
-
 
     // them 1 field vao csdl
     @Multipart
@@ -43,10 +40,6 @@ public interface ApiFieldInterface {
             @Part("capacity") RequestBody capacity,
             @Part MultipartBody.Part image
     );
-
-    // Tạo mới một Field
-    @POST("field")
-    Call<Field> createField(@Body Field field);
 
     @Multipart
     @PUT("field/update/{id}")

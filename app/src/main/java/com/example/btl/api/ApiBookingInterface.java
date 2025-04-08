@@ -12,7 +12,6 @@ import retrofit2.http.Path;
 
 public interface ApiBookingInterface {
     @GET("bookings/user/{user_id}/with-field")
-
     Call<JsonObject> getBookingsWithField(@Path("user_id") int userId);
 
     Call<Booking> createBooking(Booking booking);

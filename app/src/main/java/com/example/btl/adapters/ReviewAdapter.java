@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.btl.R;
 import com.example.btl.models.Review;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
@@ -44,11 +45,27 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         Review review = reviewList.get(position);
         holder.tvUserName.setText(review.getUser_name());
         holder.tvComment.setText(review.getComment());
-        holder.tvDate.setText(review.getReview_date());
+        String formattedDate = formatDateTime(review.getReview_date());
+        holder.tvDate.setText(formattedDate);
     }
 
     @Override
     public int getItemCount() {
         return reviewList.size();
     }
+    private String formatDateTime(String isoDateTime) {
+        try {
+            // Format gốc từ backend: ISO 8601
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", java.util.Locale.getDefault());
+
+            // Format hiển thị ra giao diện
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault());
+
+            return outputFormat.format(inputFormat.parse(isoDateTime));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return isoDateTime; // fallback nếu lỗi
+        }
+    }
+
 }
